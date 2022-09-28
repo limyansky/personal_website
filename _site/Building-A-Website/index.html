@@ -4,35 +4,35 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<link rel="icon" href="/mediumish-theme-jekyll/assets/images/logo.png">
+<link rel="icon" href="/assets/images/logo.png">
 
-<title>Building a Website: A Physicist's Perspective | Mediumish</title>
+<title>Building a Website: A Physicist's Perspective | Brent Limyansky, PhD</title>
 
 <!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>Building a Website: A Physicist’s Perspective | Mediumish</title>
+<title>Building a Website: A Physicist’s Perspective | Brent Limyansky, PhD</title>
 <meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="Building a Website: A Physicist’s Perspective" />
 <meta name="author" content="brent" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="A common piece of advice for those transitioning from academia to industry is to build a personal portfolio of projects to show off your skills and talents. One of the first elements to building such a portfolio is deciding how to display it. In creating my own website, I sought something cheap and easy to write, but also over which I had a large degree of creative control. I also thought it would be fun if I could use my own domain name. These requirements pushed me towards Google Domains to manage my domain name, GitHub Pages to host my website, and jekyll for formatting. In this blog post, I will discuss how I came to this final setup, as well as various prior attempts at website generation. I consider this “A Physicist’s Perspective” because my ultimate decision makes use of skills I’ve acquired during my time in academia, specifically GitHub, Linux (optional, but command line is a must), and Markdown, as well as an existing Google account. I have opted not to make this post a specific tutorial, and will mostly focus on providing an overview of my setup. If you are interested in a tutorial, I recommend looking at GitHubs official documentation. This will walk you through everything I discuss below, including using jekyll to build web content and write blog posts. Building and Hosting a Website For amateur setups, the choice of tools used to build and host your website are intimately intertwined. Some hosting providers will require you to use a specific piece software to build your website, while others have certain technical requirements that won’t work with particular development software. If you have a strong preference in regards to software or web host, I recommend starting there and finding a complimentary service that will work well your choice. Hosting I knew almost immediately that I wanted to host my website on GitHub Pages. This is a free service provided by GitHub that will host any of your public repositories as websites. It even gives you the option of connecting a domain name that you already own! For someone already familiar with GitHub, selecting a repository branch to be served as a website involves changing only a single setting. Managing the website is done through exactly the same procedures as managing any other repository. However, in my personal experience, GitHub has a steep enough learning curve that getting it set up exclusively to host a website may not be the best option for everyone. My limited experience with WordPress.com showed it to be a more user-friendly experience, although this comes at the cost of, well, money. Building GitHub Pages limits you to hosting static websites. These are websites that provide identical content for all users, such as what one typically expects of a personal blog. Static websites are contrasted with dynamic websites, where content is generated via an app on a user-by-user basis. Most online retailers will use dynamic websites, which build their webpages by querying databases for the products most likely to appeal to each specific user. The WordPress software suite, although free and open source, natively generates dynamic websites that won’t work with GitHub Pages. There are some workarounds, such as the SimplyStatic plugin, but I had trouble getting these tools to work properly. I also considered the bare-bones option of writing the website in raw HTML and CSS. I found this to be the simplest path forward, as it doesn’t involve tinkering with any software other than a text editor. However, your website will inevitably end up looking like it is from the 90’s. My HTML/CSS attempt is still alive at limyansky.github.io (hey, its free!), for all those interested in taking a look. After this trial and error, I settled on using jekyll to build my website. This software is built with Ruby, and easily translates Markdown documents into decently looking websites. Like any good tool, the sky’s the limit! For examples of what the pros can build jekyll, take a look at Spotify for Developers and the website for the Freedom of Information Act. For my purposes, I’m already familiar with Markdown via my use of Obsidian as a note taking app in academia, which makes writing new blog posts a breeze. Jekyll is also explicitly mentioned by GitHub as working well with Pages, with the GitHub team going as far as including specific tutorials for certain aspects of its use. Although I have no prior experience with Ruby, which did cause some confusion during setup, jekyll is popular enough that tutorials and StackExchange questions are plentiful. A Note on Domain Names Registering a domain name is a comparatively simple process - you find a domain registrar (Google Domains and NameCheap are popular examples) and pay them a few dollars to claim your desired name. There may be a few settings to tweak when connecting your domain name to your hosting service, but tutorials are abundant from registrars and hosting providers. However, something very important to keep in mind is that missing a payment (although most services offer a grace period) on your domain name means you are likely to lose access to the name for a number of years. Rather than simply being de-listed, old domain names are often auctioned to investors looking either to resell them for a profit or make money from their existing user base. One organization I was previously involved with lost their domain in this manner, although it was eventually de-listed about two years later. All this is to say that I chose Google Domains not only because I found their pricing competitive ($12 at the time of writing), but because I knew I could keep up to date with the payments if I associated them with my existing google account. Conclusions I found the most challenging part of making this website to be selecting software and providers that would work well together. I hope that by going into detail on what I finally settled on, I can save you some time in designing your own website. Good luck!" />
 <meta property="og:description" content="A common piece of advice for those transitioning from academia to industry is to build a personal portfolio of projects to show off your skills and talents. One of the first elements to building such a portfolio is deciding how to display it. In creating my own website, I sought something cheap and easy to write, but also over which I had a large degree of creative control. I also thought it would be fun if I could use my own domain name. These requirements pushed me towards Google Domains to manage my domain name, GitHub Pages to host my website, and jekyll for formatting. In this blog post, I will discuss how I came to this final setup, as well as various prior attempts at website generation. I consider this “A Physicist’s Perspective” because my ultimate decision makes use of skills I’ve acquired during my time in academia, specifically GitHub, Linux (optional, but command line is a must), and Markdown, as well as an existing Google account. I have opted not to make this post a specific tutorial, and will mostly focus on providing an overview of my setup. If you are interested in a tutorial, I recommend looking at GitHubs official documentation. This will walk you through everything I discuss below, including using jekyll to build web content and write blog posts. Building and Hosting a Website For amateur setups, the choice of tools used to build and host your website are intimately intertwined. Some hosting providers will require you to use a specific piece software to build your website, while others have certain technical requirements that won’t work with particular development software. If you have a strong preference in regards to software or web host, I recommend starting there and finding a complimentary service that will work well your choice. Hosting I knew almost immediately that I wanted to host my website on GitHub Pages. This is a free service provided by GitHub that will host any of your public repositories as websites. It even gives you the option of connecting a domain name that you already own! For someone already familiar with GitHub, selecting a repository branch to be served as a website involves changing only a single setting. Managing the website is done through exactly the same procedures as managing any other repository. However, in my personal experience, GitHub has a steep enough learning curve that getting it set up exclusively to host a website may not be the best option for everyone. My limited experience with WordPress.com showed it to be a more user-friendly experience, although this comes at the cost of, well, money. Building GitHub Pages limits you to hosting static websites. These are websites that provide identical content for all users, such as what one typically expects of a personal blog. Static websites are contrasted with dynamic websites, where content is generated via an app on a user-by-user basis. Most online retailers will use dynamic websites, which build their webpages by querying databases for the products most likely to appeal to each specific user. The WordPress software suite, although free and open source, natively generates dynamic websites that won’t work with GitHub Pages. There are some workarounds, such as the SimplyStatic plugin, but I had trouble getting these tools to work properly. I also considered the bare-bones option of writing the website in raw HTML and CSS. I found this to be the simplest path forward, as it doesn’t involve tinkering with any software other than a text editor. However, your website will inevitably end up looking like it is from the 90’s. My HTML/CSS attempt is still alive at limyansky.github.io (hey, its free!), for all those interested in taking a look. After this trial and error, I settled on using jekyll to build my website. This software is built with Ruby, and easily translates Markdown documents into decently looking websites. Like any good tool, the sky’s the limit! For examples of what the pros can build jekyll, take a look at Spotify for Developers and the website for the Freedom of Information Act. For my purposes, I’m already familiar with Markdown via my use of Obsidian as a note taking app in academia, which makes writing new blog posts a breeze. Jekyll is also explicitly mentioned by GitHub as working well with Pages, with the GitHub team going as far as including specific tutorials for certain aspects of its use. Although I have no prior experience with Ruby, which did cause some confusion during setup, jekyll is popular enough that tutorials and StackExchange questions are plentiful. A Note on Domain Names Registering a domain name is a comparatively simple process - you find a domain registrar (Google Domains and NameCheap are popular examples) and pay them a few dollars to claim your desired name. There may be a few settings to tweak when connecting your domain name to your hosting service, but tutorials are abundant from registrars and hosting providers. However, something very important to keep in mind is that missing a payment (although most services offer a grace period) on your domain name means you are likely to lose access to the name for a number of years. Rather than simply being de-listed, old domain names are often auctioned to investors looking either to resell them for a profit or make money from their existing user base. One organization I was previously involved with lost their domain in this manner, although it was eventually de-listed about two years later. All this is to say that I chose Google Domains not only because I found their pricing competitive ($12 at the time of writing), but because I knew I could keep up to date with the payments if I associated them with my existing google account. Conclusions I found the most challenging part of making this website to be selecting software and providers that would work well together. I hope that by going into detail on what I finally settled on, I can save you some time in designing your own website. Good luck!" />
-<link rel="canonical" href="http://localhost:4000/mediumish-theme-jekyll/Building-A-Website/" />
-<meta property="og:url" content="http://localhost:4000/mediumish-theme-jekyll/Building-A-Website/" />
-<meta property="og:site_name" content="Mediumish" />
+<link rel="canonical" href="http://localhost:4000/Building-A-Website/" />
+<meta property="og:url" content="http://localhost:4000/Building-A-Website/" />
+<meta property="og:site_name" content="Brent Limyansky, PhD" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2022-09-27T00:00:00-07:00" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","url":"http://localhost:4000/mediumish-theme-jekyll/Building-A-Website/","headline":"Building a Website: A Physicist’s Perspective","dateModified":"2022-09-27T00:00:00-07:00","datePublished":"2022-09-27T00:00:00-07:00","author":{"@type":"Person","name":"brent"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/mediumish-theme-jekyll/Building-A-Website/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/mediumish-theme-jekyll/assets/images/logo.png"},"name":"brent"},"description":"A common piece of advice for those transitioning from academia to industry is to build a personal portfolio of projects to show off your skills and talents. One of the first elements to building such a portfolio is deciding how to display it. In creating my own website, I sought something cheap and easy to write, but also over which I had a large degree of creative control. I also thought it would be fun if I could use my own domain name. These requirements pushed me towards Google Domains to manage my domain name, GitHub Pages to host my website, and jekyll for formatting. In this blog post, I will discuss how I came to this final setup, as well as various prior attempts at website generation. I consider this “A Physicist’s Perspective” because my ultimate decision makes use of skills I’ve acquired during my time in academia, specifically GitHub, Linux (optional, but command line is a must), and Markdown, as well as an existing Google account. I have opted not to make this post a specific tutorial, and will mostly focus on providing an overview of my setup. If you are interested in a tutorial, I recommend looking at GitHubs official documentation. This will walk you through everything I discuss below, including using jekyll to build web content and write blog posts. Building and Hosting a Website For amateur setups, the choice of tools used to build and host your website are intimately intertwined. Some hosting providers will require you to use a specific piece software to build your website, while others have certain technical requirements that won’t work with particular development software. If you have a strong preference in regards to software or web host, I recommend starting there and finding a complimentary service that will work well your choice. Hosting I knew almost immediately that I wanted to host my website on GitHub Pages. This is a free service provided by GitHub that will host any of your public repositories as websites. It even gives you the option of connecting a domain name that you already own! For someone already familiar with GitHub, selecting a repository branch to be served as a website involves changing only a single setting. Managing the website is done through exactly the same procedures as managing any other repository. However, in my personal experience, GitHub has a steep enough learning curve that getting it set up exclusively to host a website may not be the best option for everyone. My limited experience with WordPress.com showed it to be a more user-friendly experience, although this comes at the cost of, well, money. Building GitHub Pages limits you to hosting static websites. These are websites that provide identical content for all users, such as what one typically expects of a personal blog. Static websites are contrasted with dynamic websites, where content is generated via an app on a user-by-user basis. Most online retailers will use dynamic websites, which build their webpages by querying databases for the products most likely to appeal to each specific user. The WordPress software suite, although free and open source, natively generates dynamic websites that won’t work with GitHub Pages. There are some workarounds, such as the SimplyStatic plugin, but I had trouble getting these tools to work properly. I also considered the bare-bones option of writing the website in raw HTML and CSS. I found this to be the simplest path forward, as it doesn’t involve tinkering with any software other than a text editor. However, your website will inevitably end up looking like it is from the 90’s. My HTML/CSS attempt is still alive at limyansky.github.io (hey, its free!), for all those interested in taking a look. After this trial and error, I settled on using jekyll to build my website. This software is built with Ruby, and easily translates Markdown documents into decently looking websites. Like any good tool, the sky’s the limit! For examples of what the pros can build jekyll, take a look at Spotify for Developers and the website for the Freedom of Information Act. For my purposes, I’m already familiar with Markdown via my use of Obsidian as a note taking app in academia, which makes writing new blog posts a breeze. Jekyll is also explicitly mentioned by GitHub as working well with Pages, with the GitHub team going as far as including specific tutorials for certain aspects of its use. Although I have no prior experience with Ruby, which did cause some confusion during setup, jekyll is popular enough that tutorials and StackExchange questions are plentiful. A Note on Domain Names Registering a domain name is a comparatively simple process - you find a domain registrar (Google Domains and NameCheap are popular examples) and pay them a few dollars to claim your desired name. There may be a few settings to tweak when connecting your domain name to your hosting service, but tutorials are abundant from registrars and hosting providers. However, something very important to keep in mind is that missing a payment (although most services offer a grace period) on your domain name means you are likely to lose access to the name for a number of years. Rather than simply being de-listed, old domain names are often auctioned to investors looking either to resell them for a profit or make money from their existing user base. One organization I was previously involved with lost their domain in this manner, although it was eventually de-listed about two years later. All this is to say that I chose Google Domains not only because I found their pricing competitive ($12 at the time of writing), but because I knew I could keep up to date with the payments if I associated them with my existing google account. Conclusions I found the most challenging part of making this website to be selecting software and providers that would work well together. I hope that by going into detail on what I finally settled on, I can save you some time in designing your own website. Good luck!","@context":"http://schema.org"}</script>
+{"@type":"BlogPosting","url":"http://localhost:4000/Building-A-Website/","headline":"Building a Website: A Physicist’s Perspective","dateModified":"2022-09-27T00:00:00-07:00","datePublished":"2022-09-27T00:00:00-07:00","author":{"@type":"Person","name":"brent"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/Building-A-Website/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/images/logo.png"},"name":"brent"},"description":"A common piece of advice for those transitioning from academia to industry is to build a personal portfolio of projects to show off your skills and talents. One of the first elements to building such a portfolio is deciding how to display it. In creating my own website, I sought something cheap and easy to write, but also over which I had a large degree of creative control. I also thought it would be fun if I could use my own domain name. These requirements pushed me towards Google Domains to manage my domain name, GitHub Pages to host my website, and jekyll for formatting. In this blog post, I will discuss how I came to this final setup, as well as various prior attempts at website generation. I consider this “A Physicist’s Perspective” because my ultimate decision makes use of skills I’ve acquired during my time in academia, specifically GitHub, Linux (optional, but command line is a must), and Markdown, as well as an existing Google account. I have opted not to make this post a specific tutorial, and will mostly focus on providing an overview of my setup. If you are interested in a tutorial, I recommend looking at GitHubs official documentation. This will walk you through everything I discuss below, including using jekyll to build web content and write blog posts. Building and Hosting a Website For amateur setups, the choice of tools used to build and host your website are intimately intertwined. Some hosting providers will require you to use a specific piece software to build your website, while others have certain technical requirements that won’t work with particular development software. If you have a strong preference in regards to software or web host, I recommend starting there and finding a complimentary service that will work well your choice. Hosting I knew almost immediately that I wanted to host my website on GitHub Pages. This is a free service provided by GitHub that will host any of your public repositories as websites. It even gives you the option of connecting a domain name that you already own! For someone already familiar with GitHub, selecting a repository branch to be served as a website involves changing only a single setting. Managing the website is done through exactly the same procedures as managing any other repository. However, in my personal experience, GitHub has a steep enough learning curve that getting it set up exclusively to host a website may not be the best option for everyone. My limited experience with WordPress.com showed it to be a more user-friendly experience, although this comes at the cost of, well, money. Building GitHub Pages limits you to hosting static websites. These are websites that provide identical content for all users, such as what one typically expects of a personal blog. Static websites are contrasted with dynamic websites, where content is generated via an app on a user-by-user basis. Most online retailers will use dynamic websites, which build their webpages by querying databases for the products most likely to appeal to each specific user. The WordPress software suite, although free and open source, natively generates dynamic websites that won’t work with GitHub Pages. There are some workarounds, such as the SimplyStatic plugin, but I had trouble getting these tools to work properly. I also considered the bare-bones option of writing the website in raw HTML and CSS. I found this to be the simplest path forward, as it doesn’t involve tinkering with any software other than a text editor. However, your website will inevitably end up looking like it is from the 90’s. My HTML/CSS attempt is still alive at limyansky.github.io (hey, its free!), for all those interested in taking a look. After this trial and error, I settled on using jekyll to build my website. This software is built with Ruby, and easily translates Markdown documents into decently looking websites. Like any good tool, the sky’s the limit! For examples of what the pros can build jekyll, take a look at Spotify for Developers and the website for the Freedom of Information Act. For my purposes, I’m already familiar with Markdown via my use of Obsidian as a note taking app in academia, which makes writing new blog posts a breeze. Jekyll is also explicitly mentioned by GitHub as working well with Pages, with the GitHub team going as far as including specific tutorials for certain aspects of its use. Although I have no prior experience with Ruby, which did cause some confusion during setup, jekyll is popular enough that tutorials and StackExchange questions are plentiful. A Note on Domain Names Registering a domain name is a comparatively simple process - you find a domain registrar (Google Domains and NameCheap are popular examples) and pay them a few dollars to claim your desired name. There may be a few settings to tweak when connecting your domain name to your hosting service, but tutorials are abundant from registrars and hosting providers. However, something very important to keep in mind is that missing a payment (although most services offer a grace period) on your domain name means you are likely to lose access to the name for a number of years. Rather than simply being de-listed, old domain names are often auctioned to investors looking either to resell them for a profit or make money from their existing user base. One organization I was previously involved with lost their domain in this manner, although it was eventually de-listed about two years later. All this is to say that I chose Google Domains not only because I found their pricing competitive ($12 at the time of writing), but because I knew I could keep up to date with the payments if I associated them with my existing google account. Conclusions I found the most challenging part of making this website to be selecting software and providers that would work well together. I hope that by going into detail on what I finally settled on, I can save you some time in designing your own website. Good luck!","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     
-<link href="/mediumish-theme-jekyll/assets/css/screen.css" rel="stylesheet">
+<link href="/assets/css/screen.css" rel="stylesheet">
 
-<link href="/mediumish-theme-jekyll/assets/css/main.css" rel="stylesheet">
+<link href="/assets/css/main.css" rel="stylesheet">
 
-<script src="/mediumish-theme-jekyll/assets/js/jquery.min.js"></script>
+<script src="/assets/js/jquery.min.js"></script>
 
 </head>
 
@@ -54,8 +54,8 @@
     <div class="container pr-0">
 
     <!-- Begin Logo -->
-    <a class="navbar-brand" href="/mediumish-theme-jekyll/">
-    <img src="/mediumish-theme-jekyll/assets/images/logo.png" alt="Mediumish">
+    <a class="navbar-brand" href="/">
+    <img src="/assets/images/logo.png" alt="Brent Limyansky, PhD">
     </a>
     <!-- End Logo -->
 
@@ -72,11 +72,11 @@
                 
                 <li class="nav-item">
                 
-                <a class="nav-link" href="/mediumish-theme-jekyll/index.html">Blog</a>
+                <a class="nav-link" href="/index.html">Blog</a>
                 </li>
 
                 <li class="nav-item">
-                <a class="nav-link" href="/mediumish-theme-jekyll/about">About</a>
+                <a class="nav-link" href="/about">About</a>
                 </li>
 
                 <li class="nav-item">
@@ -95,7 +95,7 @@
                 <a target="_blank" class="nav-link" href="https://github.com/wowthemesnet/mediumish-theme-jekyll"><i class="fab fa-github"></i> Fork on Github</a>
                 </li>
 
-                <script src="/mediumish-theme-jekyll/assets/js/lunr.js"></script>
+                <script src="/assets/js/lunr.js"></script>
 
 
 <style>
@@ -115,7 +115,7 @@
     <ul></ul>
 </div>
 
-<script src="/mediumish-theme-jekyll/assets/js/lunrsearchengine.js"></script>
+<script src="/assets/js/lunrsearchengine.js"></script>
 
             </ul>
 
@@ -135,9 +135,9 @@
 <!-- Site Title
 ================================================== -->
 <div class="mainheading">
-    <h1 class="sitetitle">Mediumish</h1>
+    <h1 class="sitetitle">Brent Limyansky, PhD</h1>
     <p class="lead">
-        Jekyll template, Medium styled, free for bloggers.
+        A website to showcase my personal projects.
     </p>
 </div>
 
@@ -157,19 +157,19 @@
     </p>
     <ul>
         <li class="ml-1 mr-1">
-            <a target="_blank" href="https://twitter.com/intent/tweet?text=Building a Website: A Physicist's Perspective&url=http://localhost:4000/mediumish-theme-jekyll/Building-A-Website/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+            <a target="_blank" href="https://twitter.com/intent/tweet?text=Building a Website: A Physicist's Perspective&url=http://localhost:4000/Building-A-Website/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                 <i class="fab fa-twitter"></i>
             </a>
         </li>
 
         <li class="ml-1 mr-1">
-            <a target="_blank" href="https://facebook.com/sharer.php?u=http://localhost:4000/mediumish-theme-jekyll/Building-A-Website/" onclick="window.open(this.href, 'facebook-share', 'width=550,height=435');return false;">
+            <a target="_blank" href="https://facebook.com/sharer.php?u=http://localhost:4000/Building-A-Website/" onclick="window.open(this.href, 'facebook-share', 'width=550,height=435');return false;">
                 <i class="fab fa-facebook-f"></i>
             </a>
         </li>
 
         <li class="ml-1 mr-1">
-            <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/mediumish-theme-jekyll/Building-A-Website/" onclick="window.open(this.href, 'width=550,height=435');return false;">
+            <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/Building-A-Website/" onclick="window.open(this.href, 'width=550,height=435');return false;">
                 <i class="fab fa-linkedin-in"></i>
             </a>
         </li>
@@ -191,12 +191,12 @@
                 <div class="row post-top-meta">
                     <div class="col-xs-12 col-md-3 col-lg-2 text-center text-md-left mb-4 mb-md-0">
                         
-                        <img class="author-thumb" src="https://www.gravatar.com/avatar/?s=250&d=mm&r=x" alt="">
+                        <img class="author-thumb" src="https://www.gravatar.com/avatar/?s=250&d=mm&r=x" alt="Brent">
                         
                     </div>
                     <div class="col-xs-12 col-md-9 col-lg-10 text-center text-md-left">
-                        <a target="_blank" class="link-dark" href=""></a><a target="_blank" href="" class="btn follow">Follow</a>
-                        <span class="author-description"></span>
+                        <a target="_blank" class="link-dark" href="">Brent</a><a target="_blank" href="" class="btn follow">Follow</a>
+                        <span class="author-description">Aspiring data scientist and author of limyansky.com</span>
                     </div>
                 </div>
                 
@@ -304,11 +304,11 @@ Good luck!</p>
                     
                     
                     <li>
-                        <a class="smoothscroll" href="/mediumish-theme-jekyll/categories#github">github</a>
+                        <a class="smoothscroll" href="/categories#github">github</a>
                     </li>
                     
                     <li>
-                        <a class="smoothscroll" href="/mediumish-theme-jekyll/categories#project">project</a>
+                        <a class="smoothscroll" href="/categories#project">project</a>
                     </li>
                     
                 </ul>
@@ -327,7 +327,7 @@ Good luck!</p>
             <!-- Prev/Next -->
             <div class="row PageNavigation d-flex justify-content-between font-weight-bold">
             
-            <a class="prev d-block col-md-6" href="/mediumish-theme-jekyll//quick-start-guide/"> &laquo; Let's test spoilers</a>
+            <a class="prev d-block col-md-6" href="//quick-start-guide/"> &laquo; Let's test spoilers</a>
             
             
             <div class="clearfix"></div>
@@ -355,20 +355,6 @@ https://search.google.com/structured-data/testing-tool/u/0/
 </div>
 
 
-<!-- Bottom Alert Bar
-================================================== -->
-<div class="alertbar">
-	<div class="container text-center">
-		<span><img src="/mediumish-theme-jekyll/assets/images/logo.png" alt="Mediumish"> &nbsp; Never miss a <b>story</b> from us, subscribe to our newsletter</span>
-        <form action="https://wowthemes.us11.list-manage.com/subscribe/post?u=8aeb20a530e124561927d3bd8&amp;id=8c3d2d214b" method="post" name="mc-embedded-subscribe-form" class="wj-contact-form validate" target="_blank" novalidate>
-            <div class="mc-field-group">
-            <input type="email" placeholder="Email" name="EMAIL" class="required email" id="mce-EMAIL" autocomplete="on" required>
-            <input type="submit" value="Subscribe" name="subscribe" class="heart">
-            </div>
-        </form>
-	</div>
-</div>
-
     
 </div>
 
@@ -385,13 +371,13 @@ https://search.google.com/structured-data/testing-tool/u/0/
             
             
                 
-                    <a class="mt-1 mb-1" href="/mediumish-theme-jekyll/categories#Jekyll">Jekyll (1)</a>
+                    <a class="mt-1 mb-1" href="/categories#Jekyll">Jekyll (1)</a>
                 
-                    <a class="mt-1 mb-1" href="/mediumish-theme-jekyll/categories#tutorial">tutorial (1)</a>
+                    <a class="mt-1 mb-1" href="/categories#tutorial">tutorial (1)</a>
                 
-                    <a class="mt-1 mb-1" href="/mediumish-theme-jekyll/categories#project">project (1)</a>
+                    <a class="mt-1 mb-1" href="/categories#project">project (1)</a>
                 
-                    <a class="mt-1 mb-1" href="/mediumish-theme-jekyll/categories#github">github (1)</a>
+                    <a class="mt-1 mb-1" href="/categories#github">github (1)</a>
                 
             
             
@@ -405,7 +391,7 @@ https://search.google.com/structured-data/testing-tool/u/0/
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-sm-6 text-center text-lg-left">
-                Copyright © 2022 Mediumish 
+                Copyright © 2022 Brent Limyansky, PhD 
             </div>
             <div class="col-md-6 col-sm-6 text-center text-lg-right">    
                 <a target="_blank" href="https://www.wowthemes.net/mediumish-free-jekyll-template/">Mediumish Jekyll Theme</a> by WowThemes.net
@@ -425,14 +411,14 @@ https://search.google.com/structured-data/testing-tool/u/0/
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
-<script src="/mediumish-theme-jekyll/assets/js/mediumish.js"></script>
+<script src="/assets/js/mediumish.js"></script>
 
 
 
-<script src="/mediumish-theme-jekyll/assets/js/ie10-viewport-bug-workaround.js"></script> 
+<script src="/assets/js/ie10-viewport-bug-workaround.js"></script> 
 
 
-<script id="dsq-count-scr" src="//demowebsite.disqus.com/count.js"></script>
+<script id="dsq-count-scr" src="//limyansky.disqus.com/count.js"></script>
 
 
 </body>
