@@ -5,6 +5,7 @@ description: "A website to showcase my personal projects."
 logo: 'assets/images/logo.png'
 favicon: 'assets/images/logo.png'
 
+relative_url: ""
 domain: limyansky.com      # if you want to force HTTPS, specify the domain without the http at the start, e.g. example.com
 url: https://limyansky.com # the base hostname and protocol for your site, e.g. http://example.com
 
