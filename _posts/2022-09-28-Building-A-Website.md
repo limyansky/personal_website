@@ -2,6 +2,7 @@
 layout: post
 author: brent
 title:  "Building a Website: A Physicist's Perspective"
+image: assets/images/building_website.png
 date:   2022-09-27
 categories: [project, github]
 comments: false

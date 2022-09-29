@@ -5,8 +5,8 @@
     <description>A website to showcase my personal projects.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 28 Sep 2022 16:43:24 -0700</pubDate>
-    <lastBuildDate>Wed, 28 Sep 2022 16:43:24 -0700</lastBuildDate>
+    <pubDate>Wed, 28 Sep 2022 17:10:54 -0700</pubDate>
+    <lastBuildDate>Wed, 28 Sep 2022 17:10:54 -0700</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
