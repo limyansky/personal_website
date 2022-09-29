@@ -18,7 +18,7 @@ var documents = [{
     "id": 3,
     "url": "http://localhost:4000/",
     "title": "Home",
-    "body": "      Featured:                           All Stories:                                                             Building a Website: A Physicist's Perspective              :       A common piece of advice for those transitioning from academia to industry is to build a personal portfolio of projects to show off your skills and talents. One of the. . . :                                                                               Brent                27 Sep 2022                                            "
+    "body": "      Featured:                           All Stories:                                                                                                     Building a Website: A Physicist's Perspective              :       A common piece of advice for those transitioning from academia to industry is to build a personal portfolio of projects to show off your skills and talents. One of the. . . :                                                                               Brent                27 Sep 2022                                            "
     }, {
     "id": 4,
     "url": "http://localhost:4000/robots.txt",
