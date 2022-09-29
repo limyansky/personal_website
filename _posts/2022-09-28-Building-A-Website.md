@@ -5,7 +5,7 @@ title:  "Building a Website: A Physicist's Perspective"
 image: assets/images/building_website.png
 date:   2022-09-27
 categories: [project, github]
-comments: false
+comments: true
 ---
 
 A common piece of advice for those transitioning from academia to industry is to build a personal portfolio of projects to show off your skills and talents.
