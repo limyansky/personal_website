@@ -20,6 +20,7 @@ authors:
   brent:
     name: Brent Limyansky, PhD
     display_name: Brent
+    avatar: 'assets/images/avatar.jpg'
     email: Brent.Limyansky@ucsc.edu
     linkedin: limyansky
     github: limyansky
