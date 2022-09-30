@@ -5,8 +5,8 @@
     <description>A website to showcase my personal projects.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 30 Sep 2022 15:03:20 -0700</pubDate>
-    <lastBuildDate>Fri, 30 Sep 2022 15:03:20 -0700</lastBuildDate>
+    <pubDate>Fri, 30 Sep 2022 15:20:03 -0700</pubDate>
+    <lastBuildDate>Fri, 30 Sep 2022 15:20:03 -0700</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -54,6 +54,19 @@ Anaconda python package&lt;/p&gt;
         <category>Studying</category>
         
         <category>SQL</category>
+        
+      </item>
+    
+      <item>
+        <title>My Thesis: Six Years in Six Minutes</title>
+        <description>
+</description>
+        <pubDate>Fri, 30 Sep 2022 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/My-Thesis-Six-Years-in-Six-Minutes/</link>
+        <guid isPermaLink="true">http://localhost:4000/My-Thesis-Six-Years-in-Six-Minutes/</guid>
+        
+        
+        <category>Projects</category>
         
       </item>
     
