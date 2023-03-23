@@ -5,70 +5,9 @@
     <description>A website to showcase my personal projects.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 30 Sep 2022 15:20:03 -0700</pubDate>
-    <lastBuildDate>Fri, 30 Sep 2022 15:20:03 -0700</lastBuildDate>
+    <pubDate>Thu, 23 Mar 2023 16:46:59 -0700</pubDate>
+    <lastBuildDate>Thu, 23 Mar 2023 16:46:59 -0700</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
-    
-      <item>
-        <title>Using MySQL while Studying Data Science</title>
-        <description>&lt;!-- 
-SQL puts the &quot;Data&quot; in &quot;Data Science&quot;.
-Can you do science without data?
-Sure, but we call those people &quot;Theorists&quot;, and if you're reading this you're either not interested in, or fleeing from, such a destitute lifestyle. --&gt;
-
-&lt;p&gt;SQL is a programming language used to access information stored on a special type of database called a &lt;em&gt;relational&lt;/em&gt; database.
-In a nutshell, relational databases offer an easy way to tie together clusters of information.
-For example, a school database may consist of three tables: “Student Information”, “Skydiving Club”, and “Flying Club”.
-SQL provides an easy way to, say, find students in “Skydiving Club” with over 100 jumps, cross reference that with students having over 100 flight hours in “Flying Club”, and look up their emails in “Student Information” so that they can be congratulated.
-Data science makes heavy use of relational databases, and thus SQL.&lt;/p&gt;
-
-&lt;p&gt;Using SQL to query a database isn’t a particularly arduous task, but it does involve a specific syntax that is best studied through repetition.
-As such, I thought it best to set up a database early in my studies.
-By using this to store my practice data, I’ll be getting SQL experience as I follow along with other portions of my study material.&lt;/p&gt;
-
-&lt;h2 id=&quot;installation&quot;&gt;Installation&lt;/h2&gt;
-&lt;p&gt;To practice with SQL, you will need&lt;/p&gt;
-
-&lt;p&gt;My SQL website
-Anaconda python package&lt;/p&gt;
-
-&lt;h2 id=&quot;making-a-new-database&quot;&gt;Making a New Database&lt;/h2&gt;
-
-&lt;h2 id=&quot;accessing-with-python&quot;&gt;Accessing with Python&lt;/h2&gt;
-
-&lt;h2 id=&quot;getting-started&quot;&gt;Getting Started&lt;/h2&gt;
-&lt;p&gt;W3, or a cheat sheet&lt;/p&gt;
-
-&lt;h2 id=&quot;my-databases&quot;&gt;My Databases&lt;/h2&gt;
-
-&lt;h2 id=&quot;insights-from-astrophysics&quot;&gt;Insights from Astrophysics&lt;/h2&gt;
-&lt;p&gt;Similarities to fselect and&lt;/p&gt;
-</description>
-        <pubDate>Fri, 30 Sep 2022 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/Studying-with-MySQL/</link>
-        <guid isPermaLink="true">http://localhost:4000/Studying-with-MySQL/</guid>
-        
-        
-        <category>Data Science</category>
-        
-        <category>Studying</category>
-        
-        <category>SQL</category>
-        
-      </item>
-    
-      <item>
-        <title>My Thesis: Six Years in Six Minutes</title>
-        <description>
-</description>
-        <pubDate>Fri, 30 Sep 2022 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/My-Thesis-Six-Years-in-Six-Minutes/</link>
-        <guid isPermaLink="true">http://localhost:4000/My-Thesis-Six-Years-in-Six-Minutes/</guid>
-        
-        
-        <category>Projects</category>
-        
-      </item>
     
       <item>
         <title>Building a Website: A Physicist's Perspective</title>

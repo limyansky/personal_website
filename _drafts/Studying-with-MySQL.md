@@ -23,6 +23,9 @@ As such, I thought it best to set up a database early in my studies.
 By using this to store my practice data, I'll be getting SQL experience as I follow along with other portions of my study material.
 
 ## Installation
+SQL comes in many different [dialects](https://towardsdatascience.com/how-to-find-your-way-through-the-different-types-of-sql-26e3d3c20aab), which are slight variations of the language.
+I have selected MySQL, as it seems reasonably popular, has a nice GUI that I find helpful for learning, and is one of the dialects available on [HackerRank](hackerrank.com) (a website often used to test programming skills in job interviews).
+
 To practice with SQL, you will need 
 
 My SQL website
