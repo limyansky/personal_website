@@ -194,6 +194,10 @@ The joy comes from the nonsense!
 I hope you enjoyed reading about this project as much as I enjoyed working on it.
 I'm open to any and all feedback!
 
+## Edits
+I may occasionally update this page.
+For the full version history, please refer to [GitHub](https://github.com/limyansky/personal_website/commits/main/_posts/2023-03-23-A-Guessing-Game-with-GPT2.md).
+
 ## Resources
 <https://huggingface.co/blog/how-to-generate>  
 <https://www.modeldifferently.com/en/2021/12/generaci%C3%B3n-de-fake-news-con-gpt-2/#3-text-generation-with-gpt-2>  

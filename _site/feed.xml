@@ -5,8 +5,8 @@
     <description>A website to showcase my personal projects.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 23 Mar 2023 23:54:13 -0700</pubDate>
-    <lastBuildDate>Thu, 23 Mar 2023 23:54:13 -0700</lastBuildDate>
+    <pubDate>Thu, 23 Mar 2023 23:58:40 -0700</pubDate>
+    <lastBuildDate>Thu, 23 Mar 2023 23:58:40 -0700</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -276,6 +276,10 @@ The joy comes from the nonsense!&lt;/p&gt;
 &lt;h2 id=&quot;thanks&quot;&gt;Thanks!&lt;/h2&gt;
 &lt;p&gt;I hope you enjoyed reading about this project as much as I enjoyed working on it.
 I’m open to any and all feedback!&lt;/p&gt;
+
+&lt;h2 id=&quot;edits&quot;&gt;Edits&lt;/h2&gt;
+&lt;p&gt;I may occasionally update this page.
+For the full version history, please refer to &lt;a href=&quot;https://github.com/limyansky/personal_website/commits/main/_posts/2023-03-23-A-Guessing-Game-with-GPT2.md&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;resources&quot;&gt;Resources&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&quot;https://huggingface.co/blog/how-to-generate&quot;&gt;https://huggingface.co/blog/how-to-generate&lt;/a&gt;&lt;br /&gt;
