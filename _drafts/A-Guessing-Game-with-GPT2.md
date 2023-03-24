@@ -18,15 +18,15 @@ I have not encountered any instances of this for this use case, but it is possib
 
 ## Inspiration
 During social hour in the physics department, we would occasionally play a guessing game called [ArXiv vs SnarXiv](http://snarxiv.org/vs-arxiv/). 
-ArXiv is an open access website where scientists post pre-print copies of their papers, while SnarXiv is a parody of website which generates fake paper titles, abstracts, and authors.
-In this game, players are tasked with discerning which source, ArXiv or SnarXiv, each title originates from.
-Although a fun way to pass the time, but I never felt I could really give it an honest shot, as theoretical physics is not my area of expertise. 
-Enter, GPT2.
+ArXiv is an open access website where scientists post pre-print copies of their papers, while SnarXiv is a parody website which generates fake paper titles, abstracts, and authors.
+In this game, players are tasked with discerning which source (ArXiv or SnarXiv) each title originates from.
+Although a fun way to pass the time, I never felt I could really give it an honest shot, as theoretical physics is not my area of expertise. 
+Enter: GPT2.
 
 GPT stands for _Generative Pre-Trained Transformer_. _Generative_, because it auto-completes text, _pre-trained_ because this auto-complete task can be easily leveraged to perform other tasks, and finally _transformer_ refers to the underlying structure of the model.
 I first heard of the GPT family of LLMs in relation to OpenAI's [ChatGPT](https://chat.openai.com/chat), an online chat-bot powered by the GPT3 model.
-GPT2 is a bit older, but it is the most recent member of the family released as open-source. 
-Through tweaking the GPT2 model in a process called "fine-tuning", I thought I could get to to generate realistic sounding paper titles in a subject area that I am more familiar with. 
+GPT2 is a bit older, but it is the most recent member of the family to be released as open-source. 
+Through tweaking the GPT2 model in a process called "fine-tuning", I thought I could get it to generate realistic sounding paper titles in a subject area that I am more familiar with. 
 
 ## The Data
 
@@ -44,7 +44,7 @@ Then, using prompts of the format:
 ```
 category: High Energy Astrophysical Phenomena title: 
 ```
-in attempting to auto-complete the statement, GPT2 would end up generating a fake paper title.
+GPT2 would end up generating a fake paper title.
 By changing what occurred after the "category" statement, I could use this technique to generate titles from any given category, as well as from a combination of categories.
 
 Unfortunately, this approach led to me quickly surpassing the GPU usage limits in Google's (free) Colaboratory notebooks.
@@ -58,20 +58,21 @@ I decided to simplify the task by picking a few categories of interest, selectin
 | High Energy Physics - Experiment   | 49,629 |
 | High Energy Astrophysical Phenomena| 50,447 |  
 
+<br/>
+
 While it took ~1 hr to perform a single epoch of training on the original 2+ million papers, training on 10's of thousands of papers took only ~10-15 minutes per epoch, with "Tissues and Organs" being much faster.
 
-Data preparation was rather simple.
-I pulled the title, and removed characters other than letters and numbers, and removed multiple spaces.
+Data preparation was rather simple: I pulled the title, removed characters other than letters and numbers, and removed multiple spaces.
 
 ## The Model
 Due to computational limitations, I opted to use the smallest version of [GPT2](https://huggingface.co/gpt2), with 124 million trainable parameters. 
 For comparison, [GPT2-XL](https://huggingface.co/gpt2-xl) has 1.5 billion, and [GPT3](https://github.com/openai/gpt-3) has 175 billion (GPT4 does not have a [disclosed number of parameters](https://www.mlyearning.org/gpt-4-parameters/)).
 
 LLM's (and neural netowks in general) work with numbers, not raw text.
-The process of converting text to numbers is called _tokenization_, with each resultant token typically representing a few letters (meaning that a single word may be translated into multiple tokens).
+The process of converting text to numbers is called _tokenization_, with each resultant token typically representing a few letters (a single word may be translated into multiple tokens).
 An easy way to get a handle on this is to try out the online interface for the [GPT3 tokenizer](https://platform.openai.com/tokenizer).
 
-There are a handful of special tokens which may exist in a tokenizer, such as _start of sequence_(SOS), _end of sequence_(EOS), and _padding_(PAD).
+There are a handful of special tokens which may exist in a tokenizer, such as _start of sequence_ (SOS), _end of sequence_ (EOS), and _padding_ (PAD).
 The SOS and EOS tokens denote when an input starts and ends.
 PAD tokens add extra characters to a set of sentences used in training, such that all sentences have the same length.
 Through the use of an _attention mask_, PAD tokens they are typically ignored during model training.
@@ -83,13 +84,12 @@ as opposed to just an empty string.
 The addition of a PAD token was necessary to ensure that GPT2 truncated the fake titles at a reasonable point, and without it (or by setting the EOS token to be the PAD token), GPT2 will generate text until it reaches a hard-coded limit.
 
 ## Training
-As I mentioned earlier in this article, I used the free version of [Google Colaboratory](https://colab.research.google.com/) for this project, which offers free GPU and TPU time if resources are available.
+As I mentioned earlier in this article, I used the free version of [Google Colaboratory](https://colab.research.google.com/) (a.k.a. Colab) for this project, which offers free GPU and TPU time if resources are available.
 Colab is meant for interactive tasks, meaning it has relatively conservative timeouts and usage restrictions.
 As such, I opted to terminate training for most of my datasets after inspection showed that a single training epoch produced satisfactory results.
 The exception to this was "Tissues and Organs", which had much fewer examples. 
 For this dataset, I performed multiple epochs of training, which included the implementation of early stopping. 
-
-Test Loss: 
+The final loss (cross-entropy with masking) of these models is shown in the table below. 
 
 | Category    | Test Loss|
 | ----------- | ---------------: |
@@ -98,10 +98,10 @@ Test Loss:
 | High Energy Physics - Experiment   | 3.16 |
 | High Energy Astrophysical Phenomena| 3.37 |
 
-The default GPT2 loss function, which is a masked cross-entropy loss. 
+<br/>
 
 I didn't perform hyperparameter tuning for this project.
-I used optimizer settings from [here](https://blog.tensorflow.org/2019/11/hugging-face-state-of-art-natural.html), worked well enough for my purposes.
+I used optimizer settings from [here](https://blog.tensorflow.org/2019/11/hugging-face-state-of-art-natural.html), which worked well enough for my purposes.
 
 ## Results
 
@@ -134,7 +134,7 @@ A short time scale model for gamma-ray bursts
 ```
 
 Overall, I was really pleased with these fake titles.
-Here is a rough measure of my guessing performance, after 20 rounds of each category:
+Here is a rough measure of my guessing performance after 20 rounds of each category:
 
 | Test | My Performance |
 |------|---------------:|
@@ -143,6 +143,8 @@ Here is a rough measure of my guessing performance, after 20 rounds of each cate
 | Materials Science                  | 65% |
 | High Energy Physics - Experiment   | 55% |
 | High Energy Astrophysical Phenomena| 75% |  
+
+<br/>
 
 Not awful, considering my prior experiences with the base ArXiv vs SnarXiv game. 
 Based off of this small sample, the "Tissues and Organs" category had the most poorly trained model, producing strange or grammatically incorrect titles: 
@@ -153,7 +155,7 @@ s a monozygotic deletion of chromosome 7 deletion in the cretylovus
 ```
 
 To be honest, I'm somewhat embarrassed with my performance in the astrophysics category, and think I should have been able to score much better if I was a bit more careful.
-However, this was the last category I tried, meaning I'd already read 160 real and fake titles by the time I'd gotten here. 
+However, this was the last category I tried, meaning I'd already read 160 real and fake titles by the time I'd gotten there. 
 I think I was a little tired out by that point...
 
 ## Reflections on Humor
@@ -186,17 +188,18 @@ Googling the first of these titles proves that it is, in fact, made up.
 But, take at look at the very-real "[Gamma-ray emission from young radio galaxies and quasars](https://academic.oup.com/mnras/article/507/3/4564/6353538)" or "[Missing Halos in the High-Energy Sky](https://aasnova.org/2019/03/18/missing-halos-in-the-high-energy-sky/)".
 The generated title "Exploring the High-Energy Gamma-Ray Emission from AGN Jets" could conceivably be an alternate title for these works.
 Where's the fun in that?
+The joy comes from the nonsense! 
 
 ## Thanks!
 I hope you enjoyed reading about this project as much as I enjoyed working on it.
 I'm open to any and all feedback!
 
 ## Resources
-https://huggingface.co/blog/how-to-generate  
-https://www.modeldifferently.com/en/2021/12/generaci%C3%B3n-de-fake-news-con-gpt-2/#3-text-generation-with-gpt-2
-https://www.kaggle.com/code/ysthehurricane/text-generation-with-gpt2-huggingface#GPT2-Tokenizer  
-https://hyunjoonlee70.github.io/Blog_Post_3/  
-https://towardsdatascience.com/conditional-text-generation-by-fine-tuning-gpt-2-11c1a9fc639d  
-https://towardsdatascience.com/teaching-gpt-2-a-sense-of-humor-fine-tuning-large-transformer-models-on-a-single-gpu-in-pytorch-59e8cec40912#:~:text=GPT%2D2%20comes%20in%204,and%201.5B%20parameters%2C%20respectively  
-https://huggingface.co/course/chapter7/
-https://huggingface.co/course/chapter3/
+<https://huggingface.co/blog/how-to-generate>  
+<https://www.modeldifferently.com/en/2021/12/generaci%C3%B3n-de-fake-news-con-gpt-2/#3-text-generation-with-gpt-2>  
+<https://www.kaggle.com/code/ysthehurricane/text-generation-with-gpt2-huggingface#GPT2-Tokenizer>  
+<https://hyunjoonlee70.github.io/Blog_Post_3/>  
+<https://towardsdatascience.com/conditional-text-generation-by-fine-tuning-gpt-2-11c1a9fc639d>  
+<https://towardsdatascience.com/teaching-gpt-2-a-sense-of-humor-fine-tuning-large-transformer-models-on-a-single-gpu-in-pytorch-59e8cec40912#:~:text=GPT%2D2%20comes%20in%204,and%201.5B%20parameters%2C%20respectively>  
+<https://huggingface.co/course/chapter7/>  
+<https://huggingface.co/course/chapter3/>  

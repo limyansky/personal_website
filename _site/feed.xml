@@ -5,8 +5,8 @@
     <description>A website to showcase my personal projects.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 23 Mar 2023 17:55:40 -0700</pubDate>
-    <lastBuildDate>Thu, 23 Mar 2023 17:55:40 -0700</lastBuildDate>
+    <pubDate>Thu, 23 Mar 2023 18:21:50 -0700</pubDate>
+    <lastBuildDate>Thu, 23 Mar 2023 18:21:50 -0700</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -21,15 +21,15 @@ I have not encountered any instances of this for this use case, but it is possib
 
 &lt;h2 id=&quot;inspiration&quot;&gt;Inspiration&lt;/h2&gt;
 &lt;p&gt;During social hour in the physics department, we would occasionally play a guessing game called &lt;a href=&quot;http://snarxiv.org/vs-arxiv/&quot;&gt;ArXiv vs SnarXiv&lt;/a&gt;. 
-ArXiv is an open access website where scientists post pre-print copies of their papers, while SnarXiv is a parody of website which generates fake paper titles, abstracts, and authors.
-In this game, players are tasked with discerning which source, ArXiv or SnarXiv, each title originates from.
-Although a fun way to pass the time, but I never felt I could really give it an honest shot, as theoretical physics is not my area of expertise. 
-Enter, GPT2.&lt;/p&gt;
+ArXiv is an open access website where scientists post pre-print copies of their papers, while SnarXiv is a parody website which generates fake paper titles, abstracts, and authors.
+In this game, players are tasked with discerning which source (ArXiv or SnarXiv) each title originates from.
+Although a fun way to pass the time, I never felt I could really give it an honest shot, as theoretical physics is not my area of expertise. 
+Enter: GPT2.&lt;/p&gt;
 
 &lt;p&gt;GPT stands for &lt;em&gt;Generative Pre-Trained Transformer&lt;/em&gt;. &lt;em&gt;Generative&lt;/em&gt;, because it auto-completes text, &lt;em&gt;pre-trained&lt;/em&gt; because this auto-complete task can be easily leveraged to perform other tasks, and finally &lt;em&gt;transformer&lt;/em&gt; refers to the underlying structure of the model.
 I first heard of the GPT family of LLMs in relation to OpenAI’s &lt;a href=&quot;https://chat.openai.com/chat&quot;&gt;ChatGPT&lt;/a&gt;, an online chat-bot powered by the GPT3 model.
-GPT2 is a bit older, but it is the most recent member of the family released as open-source. 
-Through tweaking the GPT2 model in a process called “fine-tuning”, I thought I could get to to generate realistic sounding paper titles in a subject area that I am more familiar with.&lt;/p&gt;
+GPT2 is a bit older, but it is the most recent member of the family to be released as open-source. 
+Through tweaking the GPT2 model in a process called “fine-tuning”, I thought I could get it to generate realistic sounding paper titles in a subject area that I am more familiar with.&lt;/p&gt;
 
 &lt;h2 id=&quot;the-data&quot;&gt;The Data&lt;/h2&gt;
 
@@ -47,7 +47,7 @@ Then, using prompts of the format:&lt;/p&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
 &lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;category: High Energy Astrophysical Phenomena title: 
 &lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;in attempting to auto-complete the statement, GPT2 would end up generating a fake paper title.
+&lt;p&gt;GPT2 would end up generating a fake paper title.
 By changing what occurred after the “category” statement, I could use this technique to generate titles from any given category, as well as from a combination of categories.&lt;/p&gt;
 
 &lt;p&gt;Unfortunately, this approach led to me quickly surpassing the GPU usage limits in Google’s (free) Colaboratory notebooks.
@@ -80,20 +80,21 @@ I decided to simplify the task by picking a few categories of interest, selectin
   &lt;/tbody&gt;
 &lt;/table&gt;
 
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
 &lt;p&gt;While it took ~1 hr to perform a single epoch of training on the original 2+ million papers, training on 10’s of thousands of papers took only ~10-15 minutes per epoch, with “Tissues and Organs” being much faster.&lt;/p&gt;
 
-&lt;p&gt;Data preparation was rather simple.
-I pulled the title, and removed characters other than letters and numbers, and removed multiple spaces.&lt;/p&gt;
+&lt;p&gt;Data preparation was rather simple: I pulled the title, removed characters other than letters and numbers, and removed multiple spaces.&lt;/p&gt;
 
 &lt;h2 id=&quot;the-model&quot;&gt;The Model&lt;/h2&gt;
 &lt;p&gt;Due to computational limitations, I opted to use the smallest version of &lt;a href=&quot;https://huggingface.co/gpt2&quot;&gt;GPT2&lt;/a&gt;, with 124 million trainable parameters. 
 For comparison, &lt;a href=&quot;https://huggingface.co/gpt2-xl&quot;&gt;GPT2-XL&lt;/a&gt; has 1.5 billion, and &lt;a href=&quot;https://github.com/openai/gpt-3&quot;&gt;GPT3&lt;/a&gt; has 175 billion (GPT4 does not have a &lt;a href=&quot;https://www.mlyearning.org/gpt-4-parameters/&quot;&gt;disclosed number of parameters&lt;/a&gt;).&lt;/p&gt;
 
 &lt;p&gt;LLM’s (and neural netowks in general) work with numbers, not raw text.
-The process of converting text to numbers is called &lt;em&gt;tokenization&lt;/em&gt;, with each resultant token typically representing a few letters (meaning that a single word may be translated into multiple tokens).
+The process of converting text to numbers is called &lt;em&gt;tokenization&lt;/em&gt;, with each resultant token typically representing a few letters (a single word may be translated into multiple tokens).
 An easy way to get a handle on this is to try out the online interface for the &lt;a href=&quot;https://platform.openai.com/tokenizer&quot;&gt;GPT3 tokenizer&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;There are a handful of special tokens which may exist in a tokenizer, such as &lt;em&gt;start of sequence&lt;/em&gt;(SOS), &lt;em&gt;end of sequence&lt;/em&gt;(EOS), and &lt;em&gt;padding&lt;/em&gt;(PAD).
+&lt;p&gt;There are a handful of special tokens which may exist in a tokenizer, such as &lt;em&gt;start of sequence&lt;/em&gt; (SOS), &lt;em&gt;end of sequence&lt;/em&gt; (EOS), and &lt;em&gt;padding&lt;/em&gt; (PAD).
 The SOS and EOS tokens denote when an input starts and ends.
 PAD tokens add extra characters to a set of sentences used in training, such that all sentences have the same length.
 Through the use of an &lt;em&gt;attention mask&lt;/em&gt;, PAD tokens they are typically ignored during model training.&lt;/p&gt;
@@ -105,13 +106,12 @@ as opposed to just an empty string.
 The addition of a PAD token was necessary to ensure that GPT2 truncated the fake titles at a reasonable point, and without it (or by setting the EOS token to be the PAD token), GPT2 will generate text until it reaches a hard-coded limit.&lt;/p&gt;
 
 &lt;h2 id=&quot;training&quot;&gt;Training&lt;/h2&gt;
-&lt;p&gt;As I mentioned earlier in this article, I used the free version of &lt;a href=&quot;https://colab.research.google.com/&quot;&gt;Google Colaboratory&lt;/a&gt; for this project, which offers free GPU and TPU time if resources are available.
+&lt;p&gt;As I mentioned earlier in this article, I used the free version of &lt;a href=&quot;https://colab.research.google.com/&quot;&gt;Google Colaboratory&lt;/a&gt; (a.k.a. Colab) for this project, which offers free GPU and TPU time if resources are available.
 Colab is meant for interactive tasks, meaning it has relatively conservative timeouts and usage restrictions.
 As such, I opted to terminate training for most of my datasets after inspection showed that a single training epoch produced satisfactory results.
 The exception to this was “Tissues and Organs”, which had much fewer examples. 
-For this dataset, I performed multiple epochs of training, which included the implementation of early stopping.&lt;/p&gt;
-
-&lt;p&gt;Test Loss:&lt;/p&gt;
+For this dataset, I performed multiple epochs of training, which included the implementation of early stopping. 
+The final loss (cross-entropy with masking) of these models is shown in the table below.&lt;/p&gt;
 
 &lt;table&gt;
   &lt;thead&gt;
@@ -140,10 +140,10 @@ For this dataset, I performed multiple epochs of training, which included the im
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;The default GPT2 loss function, which is a masked cross-entropy loss.&lt;/p&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;p&gt;I didn’t perform hyperparameter tuning for this project.
-I used optimizer settings from &lt;a href=&quot;https://blog.tensorflow.org/2019/11/hugging-face-state-of-art-natural.html&quot;&gt;here&lt;/a&gt;, worked well enough for my purposes.&lt;/p&gt;
+I used optimizer settings from &lt;a href=&quot;https://blog.tensorflow.org/2019/11/hugging-face-state-of-art-natural.html&quot;&gt;here&lt;/a&gt;, which worked well enough for my purposes.&lt;/p&gt;
 
 &lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
 
@@ -188,7 +188,7 @@ A short time scale model for gamma-ray bursts
 &lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Overall, I was really pleased with these fake titles.
-Here is a rough measure of my guessing performance, after 20 rounds of each category:&lt;/p&gt;
+Here is a rough measure of my guessing performance after 20 rounds of each category:&lt;/p&gt;
 
 &lt;table&gt;
   &lt;thead&gt;
@@ -221,6 +221,8 @@ Here is a rough measure of my guessing performance, after 20 rounds of each cate
   &lt;/tbody&gt;
 &lt;/table&gt;
 
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
 &lt;p&gt;Not awful, considering my prior experiences with the base ArXiv vs SnarXiv game. 
 Based off of this small sample, the “Tissues and Organs” category had the most poorly trained model, producing strange or grammatically incorrect titles:&lt;/p&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
@@ -232,7 +234,7 @@ s a monozygotic deletion of chromosome 7 deletion in the cretylovus
 &lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;To be honest, I’m somewhat embarrassed with my performance in the astrophysics category, and think I should have been able to score much better if I was a bit more careful.
-However, this was the last category I tried, meaning I’d already read 160 real and fake titles by the time I’d gotten here. 
+However, this was the last category I tried, meaning I’d already read 160 real and fake titles by the time I’d gotten there. 
 I think I was a little tired out by that point…&lt;/p&gt;
 
 &lt;h2 id=&quot;reflections-on-humor&quot;&gt;Reflections on Humor&lt;/h2&gt;
@@ -268,21 +270,22 @@ Take this example from chatGPT:&lt;br /&gt;
 &lt;p&gt;Googling the first of these titles proves that it is, in fact, made up.
 But, take at look at the very-real “&lt;a href=&quot;https://academic.oup.com/mnras/article/507/3/4564/6353538&quot;&gt;Gamma-ray emission from young radio galaxies and quasars&lt;/a&gt;” or “&lt;a href=&quot;https://aasnova.org/2019/03/18/missing-halos-in-the-high-energy-sky/&quot;&gt;Missing Halos in the High-Energy Sky&lt;/a&gt;”.
 The generated title “Exploring the High-Energy Gamma-Ray Emission from AGN Jets” could conceivably be an alternate title for these works.
-Where’s the fun in that?&lt;/p&gt;
+Where’s the fun in that?
+The joy comes from the nonsense!&lt;/p&gt;
 
 &lt;h2 id=&quot;thanks&quot;&gt;Thanks!&lt;/h2&gt;
 &lt;p&gt;I hope you enjoyed reading about this project as much as I enjoyed working on it.
 I’m open to any and all feedback!&lt;/p&gt;
 
 &lt;h2 id=&quot;resources&quot;&gt;Resources&lt;/h2&gt;
-&lt;p&gt;https://huggingface.co/blog/how-to-generate&lt;br /&gt;
-https://www.modeldifferently.com/en/2021/12/generaci%C3%B3n-de-fake-news-con-gpt-2/#3-text-generation-with-gpt-2
-https://www.kaggle.com/code/ysthehurricane/text-generation-with-gpt2-huggingface#GPT2-Tokenizer&lt;br /&gt;
-https://hyunjoonlee70.github.io/Blog_Post_3/&lt;br /&gt;
-https://towardsdatascience.com/conditional-text-generation-by-fine-tuning-gpt-2-11c1a9fc639d&lt;br /&gt;
-https://towardsdatascience.com/teaching-gpt-2-a-sense-of-humor-fine-tuning-large-transformer-models-on-a-single-gpu-in-pytorch-59e8cec40912#:~:text=GPT%2D2%20comes%20in%204,and%201.5B%20parameters%2C%20respectively&lt;br /&gt;
-https://huggingface.co/course/chapter7/
-https://huggingface.co/course/chapter3/&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://huggingface.co/blog/how-to-generate&quot;&gt;https://huggingface.co/blog/how-to-generate&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://www.modeldifferently.com/en/2021/12/generaci%C3%B3n-de-fake-news-con-gpt-2/#3-text-generation-with-gpt-2&quot;&gt;https://www.modeldifferently.com/en/2021/12/generaci%C3%B3n-de-fake-news-con-gpt-2/#3-text-generation-with-gpt-2&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://www.kaggle.com/code/ysthehurricane/text-generation-with-gpt2-huggingface#GPT2-Tokenizer&quot;&gt;https://www.kaggle.com/code/ysthehurricane/text-generation-with-gpt2-huggingface#GPT2-Tokenizer&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://hyunjoonlee70.github.io/Blog_Post_3/&quot;&gt;https://hyunjoonlee70.github.io/Blog_Post_3/&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://towardsdatascience.com/conditional-text-generation-by-fine-tuning-gpt-2-11c1a9fc639d&quot;&gt;https://towardsdatascience.com/conditional-text-generation-by-fine-tuning-gpt-2-11c1a9fc639d&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://towardsdatascience.com/teaching-gpt-2-a-sense-of-humor-fine-tuning-large-transformer-models-on-a-single-gpu-in-pytorch-59e8cec40912#:~:text=GPT%2D2%20comes%20in%204,and%201.5B%20parameters%2C%20respectively&quot;&gt;https://towardsdatascience.com/teaching-gpt-2-a-sense-of-humor-fine-tuning-large-transformer-models-on-a-single-gpu-in-pytorch-59e8cec40912#:~:text=GPT%2D2%20comes%20in%204,and%201.5B%20parameters%2C%20respectively&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://huggingface.co/course/chapter7/&quot;&gt;https://huggingface.co/course/chapter7/&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://huggingface.co/course/chapter3/&quot;&gt;https://huggingface.co/course/chapter3/&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 23 Mar 2023 00:00:00 -0700</pubDate>
         <link>http://localhost:4000/A-Guessing-Game-with-GPT2/</link>
