@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="icon" href="/assets/images/logo.png">
+
+<title>A Guessing Game with GPT2 and TensorFlow | Brent Limyansky, PhD</title>
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>A Guessing Game with GPT2 and TensorFlow | Brent Limyansky, PhD</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="A Guessing Game with GPT2 and TensorFlow" />
+<meta name="author" content="brent" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In this project, I fine-tuned the GPT2 large language model (LLM) with TensorFlow so that it generates scientific-sounding paper titles for a real-or-fake guessing game. You can view the project notebook (and run it in Google Colaboratory) here, and you can play the game by running this interactive notebook. The fake titles are generally realistic enough to pass cursory review, with the player needing subject-matter knowledge to determine real from fake. Disclaimer LLMs in general, including the GPT family, are known to be biased, and occasionally generate offensive material. I have not encountered any instances of this for this use case, but it is possible something has evaded my review. Inspiration During social hour in the physics department, we would occasionally play a guessing game called ArXiv vs SnarXiv. ArXiv is an open access website where scientists post pre-print copies of their papers, while SnarXiv is a parody of website which generates fake paper titles, abstracts, and authors. In this game, players are tasked with discerning which source, ArXiv or SnarXiv, each title originates from. Although a fun way to pass the time, but I never felt I could really give it an honest shot, as theoretical physics is not my area of expertise. Enter, GPT2. GPT stands for Generative Pre-Trained Transformer. Generative, because it auto-completes text, pre-trained because this auto-complete task can be easily leveraged to perform other tasks, and finally transformer refers to the underlying structure of the model. I first heard of the GPT family of LLMs in relation to OpenAI’s ChatGPT, an online chat-bot powered by the GPT3 model. GPT2 is a bit older, but it is the most recent member of the family released as open-source. Through tweaking the GPT2 model in a process called “fine-tuning”, I thought I could get to to generate realistic sounding paper titles in a subject area that I am more familiar with. The Data The underlying data for this project comes from ArXiv.org. ArXiv offers a place for scientists to upload their papers where they can be accessed by anyone, for free, without needing a university affiliation or publisher subscription. It is ubiquitous in physics, with most recent papers also appearing on ArXiv. Rather than scrape ArXiv myself, I used a Kaggle dataset containing the relevant information in a .json file. Originally, my plan was to create training sentences of the format: 1 category: High Energy Physics - Experiment title: Building the LHC for all 2+ million papers on ArXiv. Then, using prompts of the format: 1 category: High Energy Astrophysical Phenomena title: in attempting to auto-complete the statement, GPT2 would end up generating a fake paper title. By changing what occurred after the “category” statement, I could use this technique to generate titles from any given category, as well as from a combination of categories. Unfortunately, this approach led to me quickly surpassing the GPU usage limits in Google’s (free) Colaboratory notebooks. I decided to simplify the task by picking a few categories of interest, selecting papers from only one category at a time, and fine-tuning a different model for each categorical selection. Category Number of Papers Tissues and Organs 1,992 Materials Science 82,412 High Energy Physics - Experiment 49,629 High Energy Astrophysical Phenomena 50,447 While it took ~1 hr to perform a single epoch of training on the original 2+ million papers, training on 10’s of thousands of papers took only ~10-15 minutes per epoch, with “Tissues and Organs” being much faster. Data preparation was rather simple. I pulled the title, and removed characters other than letters and numbers, and removed multiple spaces. The Model Due to computational limitations, I opted to use the smallest version of GPT2, with 124 million trainable parameters. For comparison, GPT2-XL has 1.5 billion, and GPT3 has 175 billion (GPT4 does not have a disclosed number of parameters). LLM’s (and neural netowks in general) work with numbers, not raw text. The process of converting text to numbers is called tokenization, with each resultant token typically representing a few letters (meaning that a single word may be translated into multiple tokens). An easy way to get a handle on this is to try out the online interface for the GPT3 tokenizer. There are a handful of special tokens which may exist in a tokenizer, such as start of sequence(SOS), end of sequence(EOS), and padding(PAD). The SOS and EOS tokens denote when an input starts and ends. PAD tokens add extra characters to a set of sentences used in training, such that all sentences have the same length. Through the use of an attention mask, PAD tokens they are typically ignored during model training. GPT2 was only trained using EOS tokens, but I elected to add SOS and PAD tokens as well. The addition of an SOS token was purely aesthetic - I prefer to ask GPT2 to auto-complete a sentence of the form &lt;|startoftext|&gt; as opposed to just an empty string. The addition of a PAD token was necessary to ensure that GPT2 truncated the fake titles at a reasonable point, and without it (or by setting the EOS token to be the PAD token), GPT2 will generate text until it reaches a hard-coded limit. Training As I mentioned earlier in this article, I used the free version of Google Colaboratory for this project, which offers free GPU and TPU time if resources are available. Colab is meant for interactive tasks, meaning it has relatively conservative timeouts and usage restrictions. As such, I opted to terminate training for most of my datasets after inspection showed that a single training epoch produced satisfactory results. The exception to this was “Tissues and Organs”, which had much fewer examples. For this dataset, I performed multiple epochs of training, which included the implementation of early stopping. Test Loss: Category Test Loss Tissues and Organs 4.16 Materials Science 3.42 High Energy Physics - Experiment 3.16 High Energy Astrophysical Phenomena 3.37 The default GPT2 loss function, which is a masked cross-entropy loss. I didn’t perform hyperparameter tuning for this project. I used optimizer settings from here, worked well enough for my purposes. Results Note: I passed the real titles through the same text filtering as the training set, and lowercased all words. I found that GPT2 would only capitalize the first letter of the title, while real authors had a variety of capitalization schemes. It is also apparent where colons should be used, although the text filter removed them. Some Real Titles 1 2 3 4 5 6 7 Modeling Tumor Angiogenesis with Cellular Automata Single photon detection performance of highly disordered NbTiN thin films Multiboson production in W decays Resonant micro-instabilities at quasi-parallel collisionless shocks cause or consequence of shock reformation Some Fake Titles 1 2 3 4 5 6 7 A computational model of neural activity in mammalian brainstem structures All-electron spin oscillations at bulk FeMgO interfaces Long-lived proton-proton fusion particles of Pb-Pb collisions A short time scale model for gamma-ray bursts Overall, I was really pleased with these fake titles. Here is a rough measure of my guessing performance, after 20 rounds of each category: Test My Performance ArXiv vs SnarXiv 55% Tissues and Organs 75% Materials Science 65% High Energy Physics - Experiment 55% High Energy Astrophysical Phenomena 75% Not awful, considering my prior experiences with the base ArXiv vs SnarXiv game. Based off of this small sample, the “Tissues and Organs” category had the most poorly trained model, producing strange or grammatically incorrect titles: 1 2 3 all patients with chronic liver disease s a monozygotic deletion of chromosome 7 deletion in the cretylovus To be honest, I’m somewhat embarrassed with my performance in the astrophysics category, and think I should have been able to score much better if I was a bit more careful. However, this was the last category I tried, meaning I’d already read 160 real and fake titles by the time I’d gotten here. I think I was a little tired out by that point… Reflections on Humor I think this excerpt from The Onion’s amicus brief explaining their motto Tu stultus es does an excellent job explaining why I had so much fun with this project (if you only read one Amicus brief in your life, I highly suggest it be this one.) …the phrase “you are dumb” captures the very heart of parody: tricking readers into believing that they’re seeing a serious rendering of some specific form—a pop song lyric, a newspaper article, a police beat—and then allowing them to laugh at their own gullibility when they realize that they’ve fallen victim to one of the oldest tricks in the history of rhetoric. One of parody’s most powerful capacities is rhetorical: It gives people the ability to mimic the voice of a serious authority—whether that’s the dry news-speak of the Associated Press or the legalese of a court’s majority opinion—and thereby kneecap the authority from within. Of course, I’m not fighting against any authority here, but I got a lot of enjoyment from watching this model poke fun of my field/knowledge. For example, consider: J1305-4420-4533 a strange globular cluster I an enigmatic low-mass black hole mass hadrons and spin oscillations Astronomy does use a naming convention that looks like PSR J1846-0285, where ‘PSR’ refers to the object type, ‘J’ refers to a particular coordinate system, and ‘1846-0285’ are the coordinates in that system. Adding a third set of coordinates to that a title like this is gibberish - but, then again, this naming scheme certainly look like gibberish to a lot of people anyways. Interestingly, I also realized it was possible for GPT to do too good a job of generating fake paper titles. Take this example from chatGPT: Googling the first of these titles proves that it is, in fact, made up. But, take at look at the very-real “Gamma-ray emission from young radio galaxies and quasars” or “Missing Halos in the High-Energy Sky”. The generated title “Exploring the High-Energy Gamma-Ray Emission from AGN Jets” could conceivably be an alternate title for these works. Where’s the fun in that? Thanks! I hope you enjoyed reading about this project as much as I enjoyed working on it. I’m open to any and all feedback! Resources https://huggingface.co/blog/how-to-generate https://www.modeldifferently.com/en/2021/12/generaci%C3%B3n-de-fake-news-con-gpt-2/#3-text-generation-with-gpt-2 https://www.kaggle.com/code/ysthehurricane/text-generation-with-gpt2-huggingface#GPT2-Tokenizer https://hyunjoonlee70.github.io/Blog_Post_3/ https://towardsdatascience.com/conditional-text-generation-by-fine-tuning-gpt-2-11c1a9fc639d https://towardsdatascience.com/teaching-gpt-2-a-sense-of-humor-fine-tuning-large-transformer-models-on-a-single-gpu-in-pytorch-59e8cec40912#:~:text=GPT%2D2%20comes%20in%204,and%201.5B%20parameters%2C%20respectively https://huggingface.co/course/chapter7/ https://huggingface.co/course/chapter3/" />
+<meta property="og:description" content="In this project, I fine-tuned the GPT2 large language model (LLM) with TensorFlow so that it generates scientific-sounding paper titles for a real-or-fake guessing game. You can view the project notebook (and run it in Google Colaboratory) here, and you can play the game by running this interactive notebook. The fake titles are generally realistic enough to pass cursory review, with the player needing subject-matter knowledge to determine real from fake. Disclaimer LLMs in general, including the GPT family, are known to be biased, and occasionally generate offensive material. I have not encountered any instances of this for this use case, but it is possible something has evaded my review. Inspiration During social hour in the physics department, we would occasionally play a guessing game called ArXiv vs SnarXiv. ArXiv is an open access website where scientists post pre-print copies of their papers, while SnarXiv is a parody of website which generates fake paper titles, abstracts, and authors. In this game, players are tasked with discerning which source, ArXiv or SnarXiv, each title originates from. Although a fun way to pass the time, but I never felt I could really give it an honest shot, as theoretical physics is not my area of expertise. Enter, GPT2. GPT stands for Generative Pre-Trained Transformer. Generative, because it auto-completes text, pre-trained because this auto-complete task can be easily leveraged to perform other tasks, and finally transformer refers to the underlying structure of the model. I first heard of the GPT family of LLMs in relation to OpenAI’s ChatGPT, an online chat-bot powered by the GPT3 model. GPT2 is a bit older, but it is the most recent member of the family released as open-source. Through tweaking the GPT2 model in a process called “fine-tuning”, I thought I could get to to generate realistic sounding paper titles in a subject area that I am more familiar with. The Data The underlying data for this project comes from ArXiv.org. ArXiv offers a place for scientists to upload their papers where they can be accessed by anyone, for free, without needing a university affiliation or publisher subscription. It is ubiquitous in physics, with most recent papers also appearing on ArXiv. Rather than scrape ArXiv myself, I used a Kaggle dataset containing the relevant information in a .json file. Originally, my plan was to create training sentences of the format: 1 category: High Energy Physics - Experiment title: Building the LHC for all 2+ million papers on ArXiv. Then, using prompts of the format: 1 category: High Energy Astrophysical Phenomena title: in attempting to auto-complete the statement, GPT2 would end up generating a fake paper title. By changing what occurred after the “category” statement, I could use this technique to generate titles from any given category, as well as from a combination of categories. Unfortunately, this approach led to me quickly surpassing the GPU usage limits in Google’s (free) Colaboratory notebooks. I decided to simplify the task by picking a few categories of interest, selecting papers from only one category at a time, and fine-tuning a different model for each categorical selection. Category Number of Papers Tissues and Organs 1,992 Materials Science 82,412 High Energy Physics - Experiment 49,629 High Energy Astrophysical Phenomena 50,447 While it took ~1 hr to perform a single epoch of training on the original 2+ million papers, training on 10’s of thousands of papers took only ~10-15 minutes per epoch, with “Tissues and Organs” being much faster. Data preparation was rather simple. I pulled the title, and removed characters other than letters and numbers, and removed multiple spaces. The Model Due to computational limitations, I opted to use the smallest version of GPT2, with 124 million trainable parameters. For comparison, GPT2-XL has 1.5 billion, and GPT3 has 175 billion (GPT4 does not have a disclosed number of parameters). LLM’s (and neural netowks in general) work with numbers, not raw text. The process of converting text to numbers is called tokenization, with each resultant token typically representing a few letters (meaning that a single word may be translated into multiple tokens). An easy way to get a handle on this is to try out the online interface for the GPT3 tokenizer. There are a handful of special tokens which may exist in a tokenizer, such as start of sequence(SOS), end of sequence(EOS), and padding(PAD). The SOS and EOS tokens denote when an input starts and ends. PAD tokens add extra characters to a set of sentences used in training, such that all sentences have the same length. Through the use of an attention mask, PAD tokens they are typically ignored during model training. GPT2 was only trained using EOS tokens, but I elected to add SOS and PAD tokens as well. The addition of an SOS token was purely aesthetic - I prefer to ask GPT2 to auto-complete a sentence of the form &lt;|startoftext|&gt; as opposed to just an empty string. The addition of a PAD token was necessary to ensure that GPT2 truncated the fake titles at a reasonable point, and without it (or by setting the EOS token to be the PAD token), GPT2 will generate text until it reaches a hard-coded limit. Training As I mentioned earlier in this article, I used the free version of Google Colaboratory for this project, which offers free GPU and TPU time if resources are available. Colab is meant for interactive tasks, meaning it has relatively conservative timeouts and usage restrictions. As such, I opted to terminate training for most of my datasets after inspection showed that a single training epoch produced satisfactory results. The exception to this was “Tissues and Organs”, which had much fewer examples. For this dataset, I performed multiple epochs of training, which included the implementation of early stopping. Test Loss: Category Test Loss Tissues and Organs 4.16 Materials Science 3.42 High Energy Physics - Experiment 3.16 High Energy Astrophysical Phenomena 3.37 The default GPT2 loss function, which is a masked cross-entropy loss. I didn’t perform hyperparameter tuning for this project. I used optimizer settings from here, worked well enough for my purposes. Results Note: I passed the real titles through the same text filtering as the training set, and lowercased all words. I found that GPT2 would only capitalize the first letter of the title, while real authors had a variety of capitalization schemes. It is also apparent where colons should be used, although the text filter removed them. Some Real Titles 1 2 3 4 5 6 7 Modeling Tumor Angiogenesis with Cellular Automata Single photon detection performance of highly disordered NbTiN thin films Multiboson production in W decays Resonant micro-instabilities at quasi-parallel collisionless shocks cause or consequence of shock reformation Some Fake Titles 1 2 3 4 5 6 7 A computational model of neural activity in mammalian brainstem structures All-electron spin oscillations at bulk FeMgO interfaces Long-lived proton-proton fusion particles of Pb-Pb collisions A short time scale model for gamma-ray bursts Overall, I was really pleased with these fake titles. Here is a rough measure of my guessing performance, after 20 rounds of each category: Test My Performance ArXiv vs SnarXiv 55% Tissues and Organs 75% Materials Science 65% High Energy Physics - Experiment 55% High Energy Astrophysical Phenomena 75% Not awful, considering my prior experiences with the base ArXiv vs SnarXiv game. Based off of this small sample, the “Tissues and Organs” category had the most poorly trained model, producing strange or grammatically incorrect titles: 1 2 3 all patients with chronic liver disease s a monozygotic deletion of chromosome 7 deletion in the cretylovus To be honest, I’m somewhat embarrassed with my performance in the astrophysics category, and think I should have been able to score much better if I was a bit more careful. However, this was the last category I tried, meaning I’d already read 160 real and fake titles by the time I’d gotten here. I think I was a little tired out by that point… Reflections on Humor I think this excerpt from The Onion’s amicus brief explaining their motto Tu stultus es does an excellent job explaining why I had so much fun with this project (if you only read one Amicus brief in your life, I highly suggest it be this one.) …the phrase “you are dumb” captures the very heart of parody: tricking readers into believing that they’re seeing a serious rendering of some specific form—a pop song lyric, a newspaper article, a police beat—and then allowing them to laugh at their own gullibility when they realize that they’ve fallen victim to one of the oldest tricks in the history of rhetoric. One of parody’s most powerful capacities is rhetorical: It gives people the ability to mimic the voice of a serious authority—whether that’s the dry news-speak of the Associated Press or the legalese of a court’s majority opinion—and thereby kneecap the authority from within. Of course, I’m not fighting against any authority here, but I got a lot of enjoyment from watching this model poke fun of my field/knowledge. For example, consider: J1305-4420-4533 a strange globular cluster I an enigmatic low-mass black hole mass hadrons and spin oscillations Astronomy does use a naming convention that looks like PSR J1846-0285, where ‘PSR’ refers to the object type, ‘J’ refers to a particular coordinate system, and ‘1846-0285’ are the coordinates in that system. Adding a third set of coordinates to that a title like this is gibberish - but, then again, this naming scheme certainly look like gibberish to a lot of people anyways. Interestingly, I also realized it was possible for GPT to do too good a job of generating fake paper titles. Take this example from chatGPT: Googling the first of these titles proves that it is, in fact, made up. But, take at look at the very-real “Gamma-ray emission from young radio galaxies and quasars” or “Missing Halos in the High-Energy Sky”. The generated title “Exploring the High-Energy Gamma-Ray Emission from AGN Jets” could conceivably be an alternate title for these works. Where’s the fun in that? Thanks! I hope you enjoyed reading about this project as much as I enjoyed working on it. I’m open to any and all feedback! Resources https://huggingface.co/blog/how-to-generate https://www.modeldifferently.com/en/2021/12/generaci%C3%B3n-de-fake-news-con-gpt-2/#3-text-generation-with-gpt-2 https://www.kaggle.com/code/ysthehurricane/text-generation-with-gpt2-huggingface#GPT2-Tokenizer https://hyunjoonlee70.github.io/Blog_Post_3/ https://towardsdatascience.com/conditional-text-generation-by-fine-tuning-gpt-2-11c1a9fc639d https://towardsdatascience.com/teaching-gpt-2-a-sense-of-humor-fine-tuning-large-transformer-models-on-a-single-gpu-in-pytorch-59e8cec40912#:~:text=GPT%2D2%20comes%20in%204,and%201.5B%20parameters%2C%20respectively https://huggingface.co/course/chapter7/ https://huggingface.co/course/chapter3/" />
+<link rel="canonical" href="http://localhost:4000/A-Guessing-Game-with-GPT2/" />
+<meta property="og:url" content="http://localhost:4000/A-Guessing-Game-with-GPT2/" />
+<meta property="og:site_name" content="Brent Limyansky, PhD" />
+<meta property="og:image" content="http://localhost:4000/assets/images/scientist.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-03-23T00:00:00-07:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/A-Guessing-Game-with-GPT2/","image":"http://localhost:4000/assets/images/scientist.jpg","datePublished":"2023-03-23T00:00:00-07:00","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/images/logo.png"},"name":"brent"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/A-Guessing-Game-with-GPT2/"},"author":{"@type":"Person","name":"brent"},"description":"In this project, I fine-tuned the GPT2 large language model (LLM) with TensorFlow so that it generates scientific-sounding paper titles for a real-or-fake guessing game. You can view the project notebook (and run it in Google Colaboratory) here, and you can play the game by running this interactive notebook. The fake titles are generally realistic enough to pass cursory review, with the player needing subject-matter knowledge to determine real from fake. Disclaimer LLMs in general, including the GPT family, are known to be biased, and occasionally generate offensive material. I have not encountered any instances of this for this use case, but it is possible something has evaded my review. Inspiration During social hour in the physics department, we would occasionally play a guessing game called ArXiv vs SnarXiv. ArXiv is an open access website where scientists post pre-print copies of their papers, while SnarXiv is a parody of website which generates fake paper titles, abstracts, and authors. In this game, players are tasked with discerning which source, ArXiv or SnarXiv, each title originates from. Although a fun way to pass the time, but I never felt I could really give it an honest shot, as theoretical physics is not my area of expertise. Enter, GPT2. GPT stands for Generative Pre-Trained Transformer. Generative, because it auto-completes text, pre-trained because this auto-complete task can be easily leveraged to perform other tasks, and finally transformer refers to the underlying structure of the model. I first heard of the GPT family of LLMs in relation to OpenAI’s ChatGPT, an online chat-bot powered by the GPT3 model. GPT2 is a bit older, but it is the most recent member of the family released as open-source. Through tweaking the GPT2 model in a process called “fine-tuning”, I thought I could get to to generate realistic sounding paper titles in a subject area that I am more familiar with. The Data The underlying data for this project comes from ArXiv.org. ArXiv offers a place for scientists to upload their papers where they can be accessed by anyone, for free, without needing a university affiliation or publisher subscription. It is ubiquitous in physics, with most recent papers also appearing on ArXiv. Rather than scrape ArXiv myself, I used a Kaggle dataset containing the relevant information in a .json file. Originally, my plan was to create training sentences of the format: 1 category: High Energy Physics - Experiment title: Building the LHC for all 2+ million papers on ArXiv. Then, using prompts of the format: 1 category: High Energy Astrophysical Phenomena title: in attempting to auto-complete the statement, GPT2 would end up generating a fake paper title. By changing what occurred after the “category” statement, I could use this technique to generate titles from any given category, as well as from a combination of categories. Unfortunately, this approach led to me quickly surpassing the GPU usage limits in Google’s (free) Colaboratory notebooks. I decided to simplify the task by picking a few categories of interest, selecting papers from only one category at a time, and fine-tuning a different model for each categorical selection. Category Number of Papers Tissues and Organs 1,992 Materials Science 82,412 High Energy Physics - Experiment 49,629 High Energy Astrophysical Phenomena 50,447 While it took ~1 hr to perform a single epoch of training on the original 2+ million papers, training on 10’s of thousands of papers took only ~10-15 minutes per epoch, with “Tissues and Organs” being much faster. Data preparation was rather simple. I pulled the title, and removed characters other than letters and numbers, and removed multiple spaces. The Model Due to computational limitations, I opted to use the smallest version of GPT2, with 124 million trainable parameters. For comparison, GPT2-XL has 1.5 billion, and GPT3 has 175 billion (GPT4 does not have a disclosed number of parameters). LLM’s (and neural netowks in general) work with numbers, not raw text. The process of converting text to numbers is called tokenization, with each resultant token typically representing a few letters (meaning that a single word may be translated into multiple tokens). An easy way to get a handle on this is to try out the online interface for the GPT3 tokenizer. There are a handful of special tokens which may exist in a tokenizer, such as start of sequence(SOS), end of sequence(EOS), and padding(PAD). The SOS and EOS tokens denote when an input starts and ends. PAD tokens add extra characters to a set of sentences used in training, such that all sentences have the same length. Through the use of an attention mask, PAD tokens they are typically ignored during model training. GPT2 was only trained using EOS tokens, but I elected to add SOS and PAD tokens as well. The addition of an SOS token was purely aesthetic - I prefer to ask GPT2 to auto-complete a sentence of the form &lt;|startoftext|&gt; as opposed to just an empty string. The addition of a PAD token was necessary to ensure that GPT2 truncated the fake titles at a reasonable point, and without it (or by setting the EOS token to be the PAD token), GPT2 will generate text until it reaches a hard-coded limit. Training As I mentioned earlier in this article, I used the free version of Google Colaboratory for this project, which offers free GPU and TPU time if resources are available. Colab is meant for interactive tasks, meaning it has relatively conservative timeouts and usage restrictions. As such, I opted to terminate training for most of my datasets after inspection showed that a single training epoch produced satisfactory results. The exception to this was “Tissues and Organs”, which had much fewer examples. For this dataset, I performed multiple epochs of training, which included the implementation of early stopping. Test Loss: Category Test Loss Tissues and Organs 4.16 Materials Science 3.42 High Energy Physics - Experiment 3.16 High Energy Astrophysical Phenomena 3.37 The default GPT2 loss function, which is a masked cross-entropy loss. I didn’t perform hyperparameter tuning for this project. I used optimizer settings from here, worked well enough for my purposes. Results Note: I passed the real titles through the same text filtering as the training set, and lowercased all words. I found that GPT2 would only capitalize the first letter of the title, while real authors had a variety of capitalization schemes. It is also apparent where colons should be used, although the text filter removed them. Some Real Titles 1 2 3 4 5 6 7 Modeling Tumor Angiogenesis with Cellular Automata Single photon detection performance of highly disordered NbTiN thin films Multiboson production in W decays Resonant micro-instabilities at quasi-parallel collisionless shocks cause or consequence of shock reformation Some Fake Titles 1 2 3 4 5 6 7 A computational model of neural activity in mammalian brainstem structures All-electron spin oscillations at bulk FeMgO interfaces Long-lived proton-proton fusion particles of Pb-Pb collisions A short time scale model for gamma-ray bursts Overall, I was really pleased with these fake titles. Here is a rough measure of my guessing performance, after 20 rounds of each category: Test My Performance ArXiv vs SnarXiv 55% Tissues and Organs 75% Materials Science 65% High Energy Physics - Experiment 55% High Energy Astrophysical Phenomena 75% Not awful, considering my prior experiences with the base ArXiv vs SnarXiv game. Based off of this small sample, the “Tissues and Organs” category had the most poorly trained model, producing strange or grammatically incorrect titles: 1 2 3 all patients with chronic liver disease s a monozygotic deletion of chromosome 7 deletion in the cretylovus To be honest, I’m somewhat embarrassed with my performance in the astrophysics category, and think I should have been able to score much better if I was a bit more careful. However, this was the last category I tried, meaning I’d already read 160 real and fake titles by the time I’d gotten here. I think I was a little tired out by that point… Reflections on Humor I think this excerpt from The Onion’s amicus brief explaining their motto Tu stultus es does an excellent job explaining why I had so much fun with this project (if you only read one Amicus brief in your life, I highly suggest it be this one.) …the phrase “you are dumb” captures the very heart of parody: tricking readers into believing that they’re seeing a serious rendering of some specific form—a pop song lyric, a newspaper article, a police beat—and then allowing them to laugh at their own gullibility when they realize that they’ve fallen victim to one of the oldest tricks in the history of rhetoric. One of parody’s most powerful capacities is rhetorical: It gives people the ability to mimic the voice of a serious authority—whether that’s the dry news-speak of the Associated Press or the legalese of a court’s majority opinion—and thereby kneecap the authority from within. Of course, I’m not fighting against any authority here, but I got a lot of enjoyment from watching this model poke fun of my field/knowledge. For example, consider: J1305-4420-4533 a strange globular cluster I an enigmatic low-mass black hole mass hadrons and spin oscillations Astronomy does use a naming convention that looks like PSR J1846-0285, where ‘PSR’ refers to the object type, ‘J’ refers to a particular coordinate system, and ‘1846-0285’ are the coordinates in that system. Adding a third set of coordinates to that a title like this is gibberish - but, then again, this naming scheme certainly look like gibberish to a lot of people anyways. Interestingly, I also realized it was possible for GPT to do too good a job of generating fake paper titles. Take this example from chatGPT: Googling the first of these titles proves that it is, in fact, made up. But, take at look at the very-real “Gamma-ray emission from young radio galaxies and quasars” or “Missing Halos in the High-Energy Sky”. The generated title “Exploring the High-Energy Gamma-Ray Emission from AGN Jets” could conceivably be an alternate title for these works. Where’s the fun in that? Thanks! I hope you enjoyed reading about this project as much as I enjoyed working on it. I’m open to any and all feedback! Resources https://huggingface.co/blog/how-to-generate https://www.modeldifferently.com/en/2021/12/generaci%C3%B3n-de-fake-news-con-gpt-2/#3-text-generation-with-gpt-2 https://www.kaggle.com/code/ysthehurricane/text-generation-with-gpt2-huggingface#GPT2-Tokenizer https://hyunjoonlee70.github.io/Blog_Post_3/ https://towardsdatascience.com/conditional-text-generation-by-fine-tuning-gpt-2-11c1a9fc639d https://towardsdatascience.com/teaching-gpt-2-a-sense-of-humor-fine-tuning-large-transformer-models-on-a-single-gpu-in-pytorch-59e8cec40912#:~:text=GPT%2D2%20comes%20in%204,and%201.5B%20parameters%2C%20respectively https://huggingface.co/course/chapter7/ https://huggingface.co/course/chapter3/","headline":"A Guessing Game with GPT2 and TensorFlow","dateModified":"2023-03-23T00:00:00-07:00","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
+<link href="/assets/css/screen.css" rel="stylesheet">
+
+<link href="/assets/css/main.css" rel="stylesheet">
+
+<script src="/assets/js/jquery.min.js"></script>
+
+</head>
+
+
+
+
+<body class="layout-post">
+	<!-- defer loading of font and font awesome -->
+	<noscript id="deferred-styles">
+		<link href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i" rel="stylesheet">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	</noscript>
+
+
+<!-- Begin Menu Navigation
+================================================== -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top mediumnavigation nav-down">
+
+    <div class="container pr-0">
+
+    <!-- Begin Logo -->
+    <a class="navbar-brand" href="/">
+    <img src="/assets/images/logo.png" alt="Brent Limyansky, PhD">
+    </a>
+    <!-- End Logo -->
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMediumish" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarMediumish">
+
+        <!-- Begin Menu -->
+
+            <ul class="navbar-nav ml-auto">
+
+                
+                <li class="nav-item">
+                
+                <a class="nav-link" href="/index.html">Blog</a>
+                </li>
+
+                <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+                </li>
+
+                <script src="/assets/js/lunr.js"></script>
+
+
+<style>
+    .lunrsearchresult .title {color: #d9230f;}
+    .lunrsearchresult .url {color: silver;}
+    .lunrsearchresult a {display: block; color: #777;}
+    .lunrsearchresult a:hover, .lunrsearchresult a:focus {text-decoration: none;}
+    .lunrsearchresult a:hover .title {text-decoration: underline;}
+</style>
+
+
+<form class="bd-search" onSubmit="return lunr_search(document.getElementById('lunrsearch').value);">
+    <input type="text" class="form-control text-small launch-modal-search" id="lunrsearch" name="q" maxlength="255" value="" placeholder="Type and enter..."/>
+</form>
+
+<div id="lunrsearchresults">
+    <ul></ul>
+</div>
+
+<script src="/assets/js/lunrsearchengine.js"></script>
+
+            </ul>
+
+        <!-- End Menu -->
+
+    </div>
+
+    </div>
+</nav>
+<!-- End Navigation
+================================================== -->
+
+<div class="site-content">
+
+<div class="container">
+
+<!-- Site Title
+================================================== -->
+<div class="mainheading">
+    <h1 class="sitetitle">Brent Limyansky, PhD</h1>
+    <p class="lead">
+        A website to showcase my personal projects.
+    </p>
+</div>
+
+<!-- Content
+================================================== -->
+<div class="main-content">
+    <!-- Begin Article
+================================================== -->
+<div class="container">
+    <div class="row">
+
+        <!-- Post Share -->
+        <div class="col-md-2 pl-0">
+            <div class="share sticky-top sticky-top-offset">
+    <p>
+        Share
+    </p>
+    <ul>
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://twitter.com/intent/tweet?text=A Guessing Game with GPT2 and TensorFlow&url=http://localhost:4000/A-Guessing-Game-with-GPT2/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://facebook.com/sharer.php?u=http://localhost:4000/A-Guessing-Game-with-GPT2/" onclick="window.open(this.href, 'facebook-share', 'width=550,height=435');return false;">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/A-Guessing-Game-with-GPT2/" onclick="window.open(this.href, 'width=550,height=435');return false;">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+        </li>
+
+    </ul>
+    
+    <div class="sep">
+    </div>
+    <ul>
+        <li>
+        <a class="small smoothscroll" href="#disqus_thread"></a>
+        </li>
+    </ul>
+    
+</div>
+
+        </div>
+
+        <!-- Post -->
+        
+
+        <div class="col-md-9 flex-first flex-md-unordered">
+            <div class="mainheading">
+
+                <!-- Author Box -->
+                
+                <div class="row post-top-meta">
+                    <div class="col-xs-12 col-md-3 col-lg-2 text-center text-md-left mb-4 mb-md-0">
+                        
+                        <img class="author-thumb" src="/assets/images/avatar.jpg" alt="Brent">
+                        
+                    </div>
+                    <div class="col-xs-12 col-md-9 col-lg-10 text-center text-md-left">
+                        <a target="_blank" class="link-dark" href="">Brent</a><a target="_blank" href="" class="btn follow">Follow</a>
+                        <span class="author-description">Aspiring data scientist and author of limyansky.com</span>
+                    </div>
+                </div>
+                
+
+                <!-- Post Title -->
+                <h1 class="posttitle">A Guessing Game with GPT2 and TensorFlow</h1>
+
+            </div>
+
+            <!-- Adsense if enabled from _config.yml (change your pub id and slot) -->
+            
+            <!-- End Adsense -->
+
+            <!-- Post Featured Image -->
+            
+
+            
+            <img class="featured-image img-fluid" src="/assets/images/scientist.jpg" alt="A Guessing Game with GPT2 and TensorFlow">
+            
+
+            
+            <!-- End Featured Image -->
+
+            <!-- Post Content -->
+            <div class="article-post">
+                <!-- Toc if any -->
+                
+                <!-- End Toc -->
+                <p>In this project, I fine-tuned the GPT2 large language model (LLM) with TensorFlow so that it generates scientific-sounding paper titles for a real-or-fake guessing game.
+You can view the project notebook (and run it in Google Colaboratory) <a href="https://github.com/limyansky/GPT2_ArXiv_SnarXiv/blob/main/ArXiv_Any.ipynb">here</a>, and you can play the game by running this <a href="https://github.com/limyansky/GPT2_ArXiv_SnarXiv/blob/main/ArXiv_Play.ipynb">interactive notebook</a>.
+The fake titles are generally realistic enough to pass cursory review, with the player needing subject-matter knowledge to determine real from fake.</p>
+
+<h2 id="disclaimer">Disclaimer</h2>
+<p>LLMs in general, including the GPT family, are known to be <a href="https://huggingface.co/gpt2">biased</a>, and occasionally generate offensive material.
+I have not encountered any instances of this for this use case, but it is possible something has evaded my review.</p>
+
+<h2 id="inspiration">Inspiration</h2>
+<p>During social hour in the physics department, we would occasionally play a guessing game called <a href="http://snarxiv.org/vs-arxiv/">ArXiv vs SnarXiv</a>. 
+ArXiv is an open access website where scientists post pre-print copies of their papers, while SnarXiv is a parody of website which generates fake paper titles, abstracts, and authors.
+In this game, players are tasked with discerning which source, ArXiv or SnarXiv, each title originates from.
+Although a fun way to pass the time, but I never felt I could really give it an honest shot, as theoretical physics is not my area of expertise. 
+Enter, GPT2.</p>
+
+<p>GPT stands for <em>Generative Pre-Trained Transformer</em>. <em>Generative</em>, because it auto-completes text, <em>pre-trained</em> because this auto-complete task can be easily leveraged to perform other tasks, and finally <em>transformer</em> refers to the underlying structure of the model.
+I first heard of the GPT family of LLMs in relation to OpenAI’s <a href="https://chat.openai.com/chat">ChatGPT</a>, an online chat-bot powered by the GPT3 model.
+GPT2 is a bit older, but it is the most recent member of the family released as open-source. 
+Through tweaking the GPT2 model in a process called “fine-tuning”, I thought I could get to to generate realistic sounding paper titles in a subject area that I am more familiar with.</p>
+
+<h2 id="the-data">The Data</h2>
+
+<p>The underlying data for this project comes from <a href="https://arxiv.org/">ArXiv.org</a>.
+ArXiv offers a place for scientists to upload their papers where they can be accessed by anyone, for free, without needing a university affiliation or publisher subscription.
+It is ubiquitous in physics, with most recent papers also appearing on ArXiv.
+Rather than scrape ArXiv myself, I used a <a href="https://www.kaggle.com/datasets/Cornell-University/arxiv?resource=download">Kaggle dataset</a> containing the relevant information in a .json file.</p>
+
+<p>Originally, my plan was to create training sentences of the format:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>category: High Energy Physics - Experiment title: Building the LHC
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>for all 2+ million papers on ArXiv.
+Then, using prompts of the format:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>category: High Energy Astrophysical Phenomena title: 
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>in attempting to auto-complete the statement, GPT2 would end up generating a fake paper title.
+By changing what occurred after the “category” statement, I could use this technique to generate titles from any given category, as well as from a combination of categories.</p>
+
+<p>Unfortunately, this approach led to me quickly surpassing the GPU usage limits in Google’s (free) Colaboratory notebooks.
+I decided to simplify the task by picking a few categories of interest, selecting papers from only one category at a time, and fine-tuning a different model for each categorical selection.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th style="text-align: right">Number of Papers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Tissues and Organs</td>
+      <td style="text-align: right">1,992</td>
+    </tr>
+    <tr>
+      <td>Materials Science</td>
+      <td style="text-align: right">82,412</td>
+    </tr>
+    <tr>
+      <td>High Energy Physics - Experiment</td>
+      <td style="text-align: right">49,629</td>
+    </tr>
+    <tr>
+      <td>High Energy Astrophysical Phenomena</td>
+      <td style="text-align: right">50,447</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>While it took ~1 hr to perform a single epoch of training on the original 2+ million papers, training on 10’s of thousands of papers took only ~10-15 minutes per epoch, with “Tissues and Organs” being much faster.</p>
+
+<p>Data preparation was rather simple.
+I pulled the title, and removed characters other than letters and numbers, and removed multiple spaces.</p>
+
+<h2 id="the-model">The Model</h2>
+<p>Due to computational limitations, I opted to use the smallest version of <a href="https://huggingface.co/gpt2">GPT2</a>, with 124 million trainable parameters. 
+For comparison, <a href="https://huggingface.co/gpt2-xl">GPT2-XL</a> has 1.5 billion, and <a href="https://github.com/openai/gpt-3">GPT3</a> has 175 billion (GPT4 does not have a <a href="https://www.mlyearning.org/gpt-4-parameters/">disclosed number of parameters</a>).</p>
+
+<p>LLM’s (and neural netowks in general) work with numbers, not raw text.
+The process of converting text to numbers is called <em>tokenization</em>, with each resultant token typically representing a few letters (meaning that a single word may be translated into multiple tokens).
+An easy way to get a handle on this is to try out the online interface for the <a href="https://platform.openai.com/tokenizer">GPT3 tokenizer</a>.</p>
+
+<p>There are a handful of special tokens which may exist in a tokenizer, such as <em>start of sequence</em>(SOS), <em>end of sequence</em>(EOS), and <em>padding</em>(PAD).
+The SOS and EOS tokens denote when an input starts and ends.
+PAD tokens add extra characters to a set of sentences used in training, such that all sentences have the same length.
+Through the use of an <em>attention mask</em>, PAD tokens they are typically ignored during model training.</p>
+
+<p>GPT2 was only trained using EOS tokens, but I elected to add SOS and PAD tokens as well.
+The addition of an SOS token was purely aesthetic - I prefer to ask GPT2 to auto-complete a sentence of the form
+<code class="highlighter-rouge">&lt;|startoftext|&gt;</code>
+as opposed to just an empty string.
+The addition of a PAD token was necessary to ensure that GPT2 truncated the fake titles at a reasonable point, and without it (or by setting the EOS token to be the PAD token), GPT2 will generate text until it reaches a hard-coded limit.</p>
+
+<h2 id="training">Training</h2>
+<p>As I mentioned earlier in this article, I used the free version of <a href="https://colab.research.google.com/">Google Colaboratory</a> for this project, which offers free GPU and TPU time if resources are available.
+Colab is meant for interactive tasks, meaning it has relatively conservative timeouts and usage restrictions.
+As such, I opted to terminate training for most of my datasets after inspection showed that a single training epoch produced satisfactory results.
+The exception to this was “Tissues and Organs”, which had much fewer examples. 
+For this dataset, I performed multiple epochs of training, which included the implementation of early stopping.</p>
+
+<p>Test Loss:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th style="text-align: right">Test Loss</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Tissues and Organs</td>
+      <td style="text-align: right">4.16</td>
+    </tr>
+    <tr>
+      <td>Materials Science</td>
+      <td style="text-align: right">3.42</td>
+    </tr>
+    <tr>
+      <td>High Energy Physics - Experiment</td>
+      <td style="text-align: right">3.16</td>
+    </tr>
+    <tr>
+      <td>High Energy Astrophysical Phenomena</td>
+      <td style="text-align: right">3.37</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The default GPT2 loss function, which is a masked cross-entropy loss.</p>
+
+<p>I didn’t perform hyperparameter tuning for this project.
+I used optimizer settings from <a href="https://blog.tensorflow.org/2019/11/hugging-face-state-of-art-natural.html">here</a>, worked well enough for my purposes.</p>
+
+<h2 id="results">Results</h2>
+
+<p>Note: I passed the real titles through the same text filtering as the training set, and lowercased all words.
+I found that GPT2 would only capitalize the first letter of the title, while real authors had a variety of capitalization schemes.
+It is also apparent where colons should be used, although the text filter removed them.</p>
+
+<p><strong>Some Real Titles</strong></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre> Modeling Tumor Angiogenesis with Cellular Automata  
+
+ Single photon detection performance of highly disordered NbTiN thin films  
+
+ Multiboson production in W decays  
+
+ Resonant micro-instabilities at quasi-parallel collisionless shocks cause or consequence of shock reformation  
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><strong>Some Fake Titles</strong></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>A computational model of neural activity in mammalian brainstem structures  
+
+All-electron spin oscillations at bulk FeMgO interfaces  
+
+Long-lived proton-proton fusion particles of Pb-Pb collisions  
+
+A short time scale model for gamma-ray bursts
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Overall, I was really pleased with these fake titles.
+Here is a rough measure of my guessing performance, after 20 rounds of each category:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Test</th>
+      <th style="text-align: right">My Performance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ArXiv vs SnarXiv</td>
+      <td style="text-align: right">55%</td>
+    </tr>
+    <tr>
+      <td>Tissues and Organs</td>
+      <td style="text-align: right">75%</td>
+    </tr>
+    <tr>
+      <td>Materials Science</td>
+      <td style="text-align: right">65%</td>
+    </tr>
+    <tr>
+      <td>High Energy Physics - Experiment</td>
+      <td style="text-align: right">55%</td>
+    </tr>
+    <tr>
+      <td>High Energy Astrophysical Phenomena</td>
+      <td style="text-align: right">75%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Not awful, considering my prior experiences with the base ArXiv vs SnarXiv game. 
+Based off of this small sample, the “Tissues and Organs” category had the most poorly trained model, producing strange or grammatically incorrect titles:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>all patients with chronic liver disease
+
+s a monozygotic deletion of chromosome 7 deletion in the cretylovus
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>To be honest, I’m somewhat embarrassed with my performance in the astrophysics category, and think I should have been able to score much better if I was a bit more careful.
+However, this was the last category I tried, meaning I’d already read 160 real and fake titles by the time I’d gotten here. 
+I think I was a little tired out by that point…</p>
+
+<h2 id="reflections-on-humor">Reflections on Humor</h2>
+
+<p>I think this excerpt from <em>The Onion</em>’s <a href="https://www.supremecourt.gov/DocketPDF/22/22-293/242292/20221003125252896_35295545_1-22.10.03%20-%20Novak-Parma%20-%20Onion%20Amicus%20Brief.pdf">amicus brief</a> explaining their motto <em>Tu stultus es</em> does an excellent job explaining why I had so much fun with this project (if you only read one Amicus brief in your life, I highly suggest it be this one.)</p>
+
+<blockquote>
+  <p>…the phrase “you are dumb” captures
+the very heart of parody: tricking readers into believing that they’re seeing a serious rendering of some specific form—a pop song lyric, a newspaper article, a
+police beat—and then allowing them to laugh at their
+own gullibility when they realize that they’ve fallen
+victim to one of the oldest tricks in the history of rhetoric.</p>
+</blockquote>
+
+<blockquote>
+  <p>One of parody’s most powerful
+capacities is rhetorical: It gives people the ability to
+mimic the voice of a serious authority—whether that’s
+the dry news-speak of the Associated Press or the legalese of a court’s majority opinion—and thereby kneecap the authority from within.</p>
+</blockquote>
+
+<p>Of course, I’m not fighting against any authority here, but I got a lot of enjoyment from watching this model poke fun of my field/knowledge.
+For example, consider: 
+<code class="highlighter-rouge">J1305-4420-4533 a strange globular cluster I an enigmatic low-mass black hole mass hadrons and spin oscillations
+</code>
+Astronomy does use a naming convention that looks like <code class="highlighter-rouge">PSR J1846-0285</code>, where ‘PSR’ refers to the object type, ‘J’ refers to a particular coordinate system, and ‘1846-0285’ are the coordinates in that system.
+Adding a third set of coordinates to that a title like this is gibberish - but, then again, this naming scheme certainly look like gibberish to a lot of people anyways.</p>
+
+<p>Interestingly, I also realized it was possible for GPT to do <em>too good</em> a job of generating fake paper titles.
+Take this example from chatGPT:<br />
+<img src="/assets/images/chatGPT_SnarXiv.JPG" alt="Asking chatGPT to make some fake paper titles." /></p>
+
+<p>Googling the first of these titles proves that it is, in fact, made up.
+But, take at look at the very-real “<a href="https://academic.oup.com/mnras/article/507/3/4564/6353538">Gamma-ray emission from young radio galaxies and quasars</a>” or “<a href="https://aasnova.org/2019/03/18/missing-halos-in-the-high-energy-sky/">Missing Halos in the High-Energy Sky</a>”.
+The generated title “Exploring the High-Energy Gamma-Ray Emission from AGN Jets” could conceivably be an alternate title for these works.
+Where’s the fun in that?</p>
+
+<h2 id="thanks">Thanks!</h2>
+<p>I hope you enjoyed reading about this project as much as I enjoyed working on it.
+I’m open to any and all feedback!</p>
+
+<h2 id="resources">Resources</h2>
+<p>https://huggingface.co/blog/how-to-generate<br />
+https://www.modeldifferently.com/en/2021/12/generaci%C3%B3n-de-fake-news-con-gpt-2/#3-text-generation-with-gpt-2
+https://www.kaggle.com/code/ysthehurricane/text-generation-with-gpt2-huggingface#GPT2-Tokenizer<br />
+https://hyunjoonlee70.github.io/Blog_Post_3/<br />
+https://towardsdatascience.com/conditional-text-generation-by-fine-tuning-gpt-2-11c1a9fc639d<br />
+https://towardsdatascience.com/teaching-gpt-2-a-sense-of-humor-fine-tuning-large-transformer-models-on-a-single-gpu-in-pytorch-59e8cec40912#:~:text=GPT%2D2%20comes%20in%204,and%201.5B%20parameters%2C%20respectively<br />
+https://huggingface.co/course/chapter7/
+https://huggingface.co/course/chapter3/</p>
+
+            </div>
+
+            <!-- Rating -->
+            
+
+            <!-- Post Date -->
+            <p>
+            <small>
+                <span class="post-date"><time class="post-date" datetime="2023-03-23">23 Mar 2023</time></span>           
+                
+                </small>
+            </p>
+
+            <!-- Post Categories -->
+            <div class="after-post-cats">
+                <ul class="tags mb-4">
+                    
+                    
+                    <li>
+                        <a class="smoothscroll" href="/categories#GPT">GPT</a>
+                    </li>
+                    
+                    <li>
+                        <a class="smoothscroll" href="/categories#Machine-Learning">Machine Learning</a>
+                    </li>
+                    
+                    <li>
+                        <a class="smoothscroll" href="/categories#NLP">NLP</a>
+                    </li>
+                    
+                    <li>
+                        <a class="smoothscroll" href="/categories#TensorFlow">TensorFlow</a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- End Categories -->
+
+            <!-- Post Tags -->
+            <div class="after-post-tags">
+                <ul class="tags">
+                    
+                    
+                </ul>
+            </div>
+            <!-- End Tags -->
+
+            <!-- Prev/Next -->
+            <div class="row PageNavigation d-flex justify-content-between font-weight-bold">
+            
+            <a class="prev d-block col-md-6" href="//Studying-with-MySQL/"> &laquo; Using MySQL while Studying Data Science</a>
+            
+            
+            <div class="clearfix"></div>
+            </div>
+            <!-- End Categories -->
+
+        </div>
+        <!-- End Post -->
+
+    </div>
+</div>
+<!-- End Article
+================================================== -->
+
+<!-- Begin Comments
+================================================== -->
+
+    <div class="container">
+        <div id="comments" class="row justify-content-center mb-5">
+            <div class="col-md-8">
+                <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'limyansky'; 
+        var disqus_developer = 0;
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+            </div>
+        </div>
+    </div>
+
+<!--End Comments
+================================================== -->
+
+<!-- Review with LD-JSON, adapt it for your needs if you like, but make sure you test the generated HTML source code first: 
+https://search.google.com/structured-data/testing-tool/u/0/
+================================================== -->
+
+</div>
+
+
+    
+</div>
+
+<!-- Categories Jumbotron
+================================================== -->
+<div class="jumbotron fortags">
+	<div class="d-md-flex h-100">
+		<div class="col-md-4 transpdark align-self-center text-center h-100">
+            <div class="d-md-flex align-items-center justify-content-center h-100">
+                <h2 class="d-md-block align-self-center py-1 font-weight-light">Explore <span class="d-none d-md-inline">→</span></h2>
+            </div>
+		</div>
+		<div class="col-md-8 p-5 align-self-center text-center">
+            
+            
+                
+                    <a class="mt-1 mb-1" href="/categories#project">project (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#github">github (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Data-Science">Data Science (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Studying">Studying (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#SQL">SQL (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Projects">Projects (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Machine-Learning">Machine Learning (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#TensorFlow">TensorFlow (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#GPT">GPT (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#NLP">NLP (1)</a>
+                
+            
+            
+		</div>
+	</div>
+</div>
+
+<!-- Begin Footer
+================================================== -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 text-center text-lg-left">
+                Copyright © 2023 Brent Limyansky, PhD 
+            </div>
+            <div class="col-md-6 col-sm-6 text-center text-lg-right">    
+                <a target="_blank" href="https://www.wowthemes.net/mediumish-free-jekyll-template/">Mediumish Jekyll Theme</a> by WowThemes.net
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- End Footer
+================================================== -->
+
+</div> <!-- /.site-content -->
+
+<!-- Scripts
+================================================== -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+<script src="/assets/js/mediumish.js"></script>
+
+
+
+<script src="/assets/js/ie10-viewport-bug-workaround.js"></script> 
+
+
+<script id="dsq-count-scr" src="//limyansky.disqus.com/count.js"></script>
+
+
+</body>
+</html>

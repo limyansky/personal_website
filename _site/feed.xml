@@ -5,9 +5,429 @@
     <description>A website to showcase my personal projects.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 23 Mar 2023 16:46:59 -0700</pubDate>
-    <lastBuildDate>Thu, 23 Mar 2023 16:46:59 -0700</lastBuildDate>
+    <pubDate>Thu, 23 Mar 2023 17:55:40 -0700</pubDate>
+    <lastBuildDate>Thu, 23 Mar 2023 17:55:40 -0700</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>A Guessing Game with GPT2 and TensorFlow</title>
+        <description>&lt;p&gt;In this project, I fine-tuned the GPT2 large language model (LLM) with TensorFlow so that it generates scientific-sounding paper titles for a real-or-fake guessing game.
+You can view the project notebook (and run it in Google Colaboratory) &lt;a href=&quot;https://github.com/limyansky/GPT2_ArXiv_SnarXiv/blob/main/ArXiv_Any.ipynb&quot;&gt;here&lt;/a&gt;, and you can play the game by running this &lt;a href=&quot;https://github.com/limyansky/GPT2_ArXiv_SnarXiv/blob/main/ArXiv_Play.ipynb&quot;&gt;interactive notebook&lt;/a&gt;.
+The fake titles are generally realistic enough to pass cursory review, with the player needing subject-matter knowledge to determine real from fake.&lt;/p&gt;
+
+&lt;h2 id=&quot;disclaimer&quot;&gt;Disclaimer&lt;/h2&gt;
+&lt;p&gt;LLMs in general, including the GPT family, are known to be &lt;a href=&quot;https://huggingface.co/gpt2&quot;&gt;biased&lt;/a&gt;, and occasionally generate offensive material.
+I have not encountered any instances of this for this use case, but it is possible something has evaded my review.&lt;/p&gt;
+
+&lt;h2 id=&quot;inspiration&quot;&gt;Inspiration&lt;/h2&gt;
+&lt;p&gt;During social hour in the physics department, we would occasionally play a guessing game called &lt;a href=&quot;http://snarxiv.org/vs-arxiv/&quot;&gt;ArXiv vs SnarXiv&lt;/a&gt;. 
+ArXiv is an open access website where scientists post pre-print copies of their papers, while SnarXiv is a parody of website which generates fake paper titles, abstracts, and authors.
+In this game, players are tasked with discerning which source, ArXiv or SnarXiv, each title originates from.
+Although a fun way to pass the time, but I never felt I could really give it an honest shot, as theoretical physics is not my area of expertise. 
+Enter, GPT2.&lt;/p&gt;
+
+&lt;p&gt;GPT stands for &lt;em&gt;Generative Pre-Trained Transformer&lt;/em&gt;. &lt;em&gt;Generative&lt;/em&gt;, because it auto-completes text, &lt;em&gt;pre-trained&lt;/em&gt; because this auto-complete task can be easily leveraged to perform other tasks, and finally &lt;em&gt;transformer&lt;/em&gt; refers to the underlying structure of the model.
+I first heard of the GPT family of LLMs in relation to OpenAI’s &lt;a href=&quot;https://chat.openai.com/chat&quot;&gt;ChatGPT&lt;/a&gt;, an online chat-bot powered by the GPT3 model.
+GPT2 is a bit older, but it is the most recent member of the family released as open-source. 
+Through tweaking the GPT2 model in a process called “fine-tuning”, I thought I could get to to generate realistic sounding paper titles in a subject area that I am more familiar with.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-data&quot;&gt;The Data&lt;/h2&gt;
+
+&lt;p&gt;The underlying data for this project comes from &lt;a href=&quot;https://arxiv.org/&quot;&gt;ArXiv.org&lt;/a&gt;.
+ArXiv offers a place for scientists to upload their papers where they can be accessed by anyone, for free, without needing a university affiliation or publisher subscription.
+It is ubiquitous in physics, with most recent papers also appearing on ArXiv.
+Rather than scrape ArXiv myself, I used a &lt;a href=&quot;https://www.kaggle.com/datasets/Cornell-University/arxiv?resource=download&quot;&gt;Kaggle dataset&lt;/a&gt; containing the relevant information in a .json file.&lt;/p&gt;
+
+&lt;p&gt;Originally, my plan was to create training sentences of the format:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;category: High Energy Physics - Experiment title: Building the LHC
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;for all 2+ million papers on ArXiv.
+Then, using prompts of the format:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;category: High Energy Astrophysical Phenomena title: 
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;in attempting to auto-complete the statement, GPT2 would end up generating a fake paper title.
+By changing what occurred after the “category” statement, I could use this technique to generate titles from any given category, as well as from a combination of categories.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, this approach led to me quickly surpassing the GPU usage limits in Google’s (free) Colaboratory notebooks.
+I decided to simplify the task by picking a few categories of interest, selecting papers from only one category at a time, and fine-tuning a different model for each categorical selection.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Category&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;Number of Papers&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Tissues and Organs&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;1,992&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Materials Science&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;82,412&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;High Energy Physics - Experiment&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;49,629&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;High Energy Astrophysical Phenomena&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;50,447&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;While it took ~1 hr to perform a single epoch of training on the original 2+ million papers, training on 10’s of thousands of papers took only ~10-15 minutes per epoch, with “Tissues and Organs” being much faster.&lt;/p&gt;
+
+&lt;p&gt;Data preparation was rather simple.
+I pulled the title, and removed characters other than letters and numbers, and removed multiple spaces.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-model&quot;&gt;The Model&lt;/h2&gt;
+&lt;p&gt;Due to computational limitations, I opted to use the smallest version of &lt;a href=&quot;https://huggingface.co/gpt2&quot;&gt;GPT2&lt;/a&gt;, with 124 million trainable parameters. 
+For comparison, &lt;a href=&quot;https://huggingface.co/gpt2-xl&quot;&gt;GPT2-XL&lt;/a&gt; has 1.5 billion, and &lt;a href=&quot;https://github.com/openai/gpt-3&quot;&gt;GPT3&lt;/a&gt; has 175 billion (GPT4 does not have a &lt;a href=&quot;https://www.mlyearning.org/gpt-4-parameters/&quot;&gt;disclosed number of parameters&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;LLM’s (and neural netowks in general) work with numbers, not raw text.
+The process of converting text to numbers is called &lt;em&gt;tokenization&lt;/em&gt;, with each resultant token typically representing a few letters (meaning that a single word may be translated into multiple tokens).
+An easy way to get a handle on this is to try out the online interface for the &lt;a href=&quot;https://platform.openai.com/tokenizer&quot;&gt;GPT3 tokenizer&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;There are a handful of special tokens which may exist in a tokenizer, such as &lt;em&gt;start of sequence&lt;/em&gt;(SOS), &lt;em&gt;end of sequence&lt;/em&gt;(EOS), and &lt;em&gt;padding&lt;/em&gt;(PAD).
+The SOS and EOS tokens denote when an input starts and ends.
+PAD tokens add extra characters to a set of sentences used in training, such that all sentences have the same length.
+Through the use of an &lt;em&gt;attention mask&lt;/em&gt;, PAD tokens they are typically ignored during model training.&lt;/p&gt;
+
+&lt;p&gt;GPT2 was only trained using EOS tokens, but I elected to add SOS and PAD tokens as well.
+The addition of an SOS token was purely aesthetic - I prefer to ask GPT2 to auto-complete a sentence of the form
+&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;|startoftext|&amp;gt;&lt;/code&gt;
+as opposed to just an empty string.
+The addition of a PAD token was necessary to ensure that GPT2 truncated the fake titles at a reasonable point, and without it (or by setting the EOS token to be the PAD token), GPT2 will generate text until it reaches a hard-coded limit.&lt;/p&gt;
+
+&lt;h2 id=&quot;training&quot;&gt;Training&lt;/h2&gt;
+&lt;p&gt;As I mentioned earlier in this article, I used the free version of &lt;a href=&quot;https://colab.research.google.com/&quot;&gt;Google Colaboratory&lt;/a&gt; for this project, which offers free GPU and TPU time if resources are available.
+Colab is meant for interactive tasks, meaning it has relatively conservative timeouts and usage restrictions.
+As such, I opted to terminate training for most of my datasets after inspection showed that a single training epoch produced satisfactory results.
+The exception to this was “Tissues and Organs”, which had much fewer examples. 
+For this dataset, I performed multiple epochs of training, which included the implementation of early stopping.&lt;/p&gt;
+
+&lt;p&gt;Test Loss:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Category&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;Test Loss&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Tissues and Organs&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;4.16&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Materials Science&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;3.42&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;High Energy Physics - Experiment&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;3.16&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;High Energy Astrophysical Phenomena&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;3.37&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;The default GPT2 loss function, which is a masked cross-entropy loss.&lt;/p&gt;
+
+&lt;p&gt;I didn’t perform hyperparameter tuning for this project.
+I used optimizer settings from &lt;a href=&quot;https://blog.tensorflow.org/2019/11/hugging-face-state-of-art-natural.html&quot;&gt;here&lt;/a&gt;, worked well enough for my purposes.&lt;/p&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;p&gt;Note: I passed the real titles through the same text filtering as the training set, and lowercased all words.
+I found that GPT2 would only capitalize the first letter of the title, while real authors had a variety of capitalization schemes.
+It is also apparent where colons should be used, although the text filter removed them.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Some Real Titles&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt; Modeling Tumor Angiogenesis with Cellular Automata  
+
+ Single photon detection performance of highly disordered NbTiN thin films  
+
+ Multiboson production in W decays  
+
+ Resonant micro-instabilities at quasi-parallel collisionless shocks cause or consequence of shock reformation  
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Some Fake Titles&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;A computational model of neural activity in mammalian brainstem structures  
+
+All-electron spin oscillations at bulk FeMgO interfaces  
+
+Long-lived proton-proton fusion particles of Pb-Pb collisions  
+
+A short time scale model for gamma-ray bursts
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Overall, I was really pleased with these fake titles.
+Here is a rough measure of my guessing performance, after 20 rounds of each category:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Test&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;My Performance&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ArXiv vs SnarXiv&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;55%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Tissues and Organs&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;75%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Materials Science&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;65%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;High Energy Physics - Experiment&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;55%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;High Energy Astrophysical Phenomena&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;75%&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Not awful, considering my prior experiences with the base ArXiv vs SnarXiv game. 
+Based off of this small sample, the “Tissues and Organs” category had the most poorly trained model, producing strange or grammatically incorrect titles:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;all patients with chronic liver disease
+
+s a monozygotic deletion of chromosome 7 deletion in the cretylovus
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To be honest, I’m somewhat embarrassed with my performance in the astrophysics category, and think I should have been able to score much better if I was a bit more careful.
+However, this was the last category I tried, meaning I’d already read 160 real and fake titles by the time I’d gotten here. 
+I think I was a little tired out by that point…&lt;/p&gt;
+
+&lt;h2 id=&quot;reflections-on-humor&quot;&gt;Reflections on Humor&lt;/h2&gt;
+
+&lt;p&gt;I think this excerpt from &lt;em&gt;The Onion&lt;/em&gt;’s &lt;a href=&quot;https://www.supremecourt.gov/DocketPDF/22/22-293/242292/20221003125252896_35295545_1-22.10.03%20-%20Novak-Parma%20-%20Onion%20Amicus%20Brief.pdf&quot;&gt;amicus brief&lt;/a&gt; explaining their motto &lt;em&gt;Tu stultus es&lt;/em&gt; does an excellent job explaining why I had so much fun with this project (if you only read one Amicus brief in your life, I highly suggest it be this one.)&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;…the phrase “you are dumb” captures
+the very heart of parody: tricking readers into believing that they’re seeing a serious rendering of some specific form—a pop song lyric, a newspaper article, a
+police beat—and then allowing them to laugh at their
+own gullibility when they realize that they’ve fallen
+victim to one of the oldest tricks in the history of rhetoric.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;One of parody’s most powerful
+capacities is rhetorical: It gives people the ability to
+mimic the voice of a serious authority—whether that’s
+the dry news-speak of the Associated Press or the legalese of a court’s majority opinion—and thereby kneecap the authority from within.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Of course, I’m not fighting against any authority here, but I got a lot of enjoyment from watching this model poke fun of my field/knowledge.
+For example, consider: 
+&lt;code class=&quot;highlighter-rouge&quot;&gt;J1305-4420-4533 a strange globular cluster I an enigmatic low-mass black hole mass hadrons and spin oscillations
+&lt;/code&gt;
+Astronomy does use a naming convention that looks like &lt;code class=&quot;highlighter-rouge&quot;&gt;PSR J1846-0285&lt;/code&gt;, where ‘PSR’ refers to the object type, ‘J’ refers to a particular coordinate system, and ‘1846-0285’ are the coordinates in that system.
+Adding a third set of coordinates to that a title like this is gibberish - but, then again, this naming scheme certainly look like gibberish to a lot of people anyways.&lt;/p&gt;
+
+&lt;p&gt;Interestingly, I also realized it was possible for GPT to do &lt;em&gt;too good&lt;/em&gt; a job of generating fake paper titles.
+Take this example from chatGPT:&lt;br /&gt;
+&lt;img src=&quot;/assets/images/chatGPT_SnarXiv.JPG&quot; alt=&quot;Asking chatGPT to make some fake paper titles.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Googling the first of these titles proves that it is, in fact, made up.
+But, take at look at the very-real “&lt;a href=&quot;https://academic.oup.com/mnras/article/507/3/4564/6353538&quot;&gt;Gamma-ray emission from young radio galaxies and quasars&lt;/a&gt;” or “&lt;a href=&quot;https://aasnova.org/2019/03/18/missing-halos-in-the-high-energy-sky/&quot;&gt;Missing Halos in the High-Energy Sky&lt;/a&gt;”.
+The generated title “Exploring the High-Energy Gamma-Ray Emission from AGN Jets” could conceivably be an alternate title for these works.
+Where’s the fun in that?&lt;/p&gt;
+
+&lt;h2 id=&quot;thanks&quot;&gt;Thanks!&lt;/h2&gt;
+&lt;p&gt;I hope you enjoyed reading about this project as much as I enjoyed working on it.
+I’m open to any and all feedback!&lt;/p&gt;
+
+&lt;h2 id=&quot;resources&quot;&gt;Resources&lt;/h2&gt;
+&lt;p&gt;https://huggingface.co/blog/how-to-generate&lt;br /&gt;
+https://www.modeldifferently.com/en/2021/12/generaci%C3%B3n-de-fake-news-con-gpt-2/#3-text-generation-with-gpt-2
+https://www.kaggle.com/code/ysthehurricane/text-generation-with-gpt2-huggingface#GPT2-Tokenizer&lt;br /&gt;
+https://hyunjoonlee70.github.io/Blog_Post_3/&lt;br /&gt;
+https://towardsdatascience.com/conditional-text-generation-by-fine-tuning-gpt-2-11c1a9fc639d&lt;br /&gt;
+https://towardsdatascience.com/teaching-gpt-2-a-sense-of-humor-fine-tuning-large-transformer-models-on-a-single-gpu-in-pytorch-59e8cec40912#:~:text=GPT%2D2%20comes%20in%204,and%201.5B%20parameters%2C%20respectively&lt;br /&gt;
+https://huggingface.co/course/chapter7/
+https://huggingface.co/course/chapter3/&lt;/p&gt;
+</description>
+        <pubDate>Thu, 23 Mar 2023 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/A-Guessing-Game-with-GPT2/</link>
+        <guid isPermaLink="true">http://localhost:4000/A-Guessing-Game-with-GPT2/</guid>
+        
+        
+        <category>Machine Learning</category>
+        
+        <category>TensorFlow</category>
+        
+        <category>GPT</category>
+        
+        <category>NLP</category>
+        
+      </item>
+    
+      <item>
+        <title>Using MySQL while Studying Data Science</title>
+        <description>&lt;!-- 
+SQL puts the &quot;Data&quot; in &quot;Data Science&quot;.
+Can you do science without data?
+Sure, but we call those people &quot;Theorists&quot;, and if you're reading this you're either not interested in, or fleeing from, such a destitute lifestyle. --&gt;
+
+&lt;p&gt;SQL is a programming language used to access information stored on a special type of database called a &lt;em&gt;relational&lt;/em&gt; database.
+In a nutshell, relational databases offer an easy way to tie together clusters of information.
+For example, a school database may consist of three tables: “Student Information”, “Skydiving Club”, and “Flying Club”.
+SQL provides an easy way to, say, find students in “Skydiving Club” with over 100 jumps, cross reference that with students having over 100 flight hours in “Flying Club”, and look up their emails in “Student Information” so that they can be congratulated.
+Data science makes heavy use of relational databases, and thus SQL.&lt;/p&gt;
+
+&lt;p&gt;Using SQL to query a database isn’t a particularly arduous task, but it does involve a specific syntax that is best studied through repetition.
+As such, I thought it best to set up a database early in my studies.
+By using this to store my practice data, I’ll be getting SQL experience as I follow along with other portions of my study material.&lt;/p&gt;
+
+&lt;h2 id=&quot;installation&quot;&gt;Installation&lt;/h2&gt;
+&lt;p&gt;SQL comes in many different &lt;a href=&quot;https://towardsdatascience.com/how-to-find-your-way-through-the-different-types-of-sql-26e3d3c20aab&quot;&gt;dialects&lt;/a&gt;, which are slight variations of the language.
+I have selected MySQL, as it seems reasonably popular, has a nice GUI that I find helpful for learning, and is one of the dialects available on &lt;a href=&quot;hackerrank.com&quot;&gt;HackerRank&lt;/a&gt; (a website often used to test programming skills in job interviews).&lt;/p&gt;
+
+&lt;p&gt;To practice with SQL, you will need&lt;/p&gt;
+
+&lt;p&gt;My SQL website
+Anaconda python package&lt;/p&gt;
+
+&lt;h2 id=&quot;making-a-new-database&quot;&gt;Making a New Database&lt;/h2&gt;
+
+&lt;h2 id=&quot;accessing-with-python&quot;&gt;Accessing with Python&lt;/h2&gt;
+
+&lt;h2 id=&quot;getting-started&quot;&gt;Getting Started&lt;/h2&gt;
+&lt;p&gt;W3, or a cheat sheet&lt;/p&gt;
+
+&lt;h2 id=&quot;my-databases&quot;&gt;My Databases&lt;/h2&gt;
+
+&lt;h2 id=&quot;insights-from-astrophysics&quot;&gt;Insights from Astrophysics&lt;/h2&gt;
+&lt;p&gt;Similarities to fselect and&lt;/p&gt;
+</description>
+        <pubDate>Fri, 30 Sep 2022 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/Studying-with-MySQL/</link>
+        <guid isPermaLink="true">http://localhost:4000/Studying-with-MySQL/</guid>
+        
+        
+        <category>Data Science</category>
+        
+        <category>Studying</category>
+        
+        <category>SQL</category>
+        
+      </item>
+    
+      <item>
+        <title>My Thesis: Six Years in Six Minutes</title>
+        <description>
+</description>
+        <pubDate>Fri, 30 Sep 2022 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/My-Thesis-Six-Years-in-Six-Minutes/</link>
+        <guid isPermaLink="true">http://localhost:4000/My-Thesis-Six-Years-in-Six-Minutes/</guid>
+        
+        
+        <category>Projects</category>
+        
+      </item>
+    
+      <item>
+        <title>Exploring Aircraft Accidents</title>
+        <description>&lt;p&gt;After going through some tutorials on W3 to learn SQL, it quickly became apparent that the best way to learn this language would be to download some datasets I was interested in and have at it.
+As I have an interest in aviation, my thought immediately jumped to looking at aircraft accident statistics.
+Most serious or semi-serious accidents are reported to the National Transportation and Safety Board, or NTSB.
+Conveniently, the NTSB provides their database of accidents since 1982 as a ~400 MB Microsoft Access .mdb file.&lt;/p&gt;
+
+&lt;p&gt;Overview of how hours are often used as a proxy for experience&lt;/p&gt;
+
+&lt;p&gt;Originally, it was my hope to test anecdotal claims I’ve come across, such as “The accident rate decreases after a pilot gets 100 hours” and “The accident rate increases again at 200 hours due to overconfidence”.
+As we will see, these questions aren’t really answerable using this set of data.
+However, here’s some cool stuff I found.&lt;/p&gt;
+
+&lt;h2 id=&quot;population-domination-example&quot;&gt;Population Domination Example&lt;/h2&gt;
+&lt;p&gt;Simply put, this data set appears to be dominated by the relative population of pilots and aircraft.
+For example, consider the top 10 most accident-prone aircraft:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT acft_model, COUNT(acft_model) AS tot_incidents
+FROM aircraft
+GROUP BY acft_model
+ORDER BY tot_incidents DESC
+LIMIT 10;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Some output table here&lt;/p&gt;
+
+&lt;p&gt;It appears that the Cessna C-172 features strongly in this list, although it would be wise to consider all variations of the aircraft (The 172, 172S, and 172M should all be considered the same type of aircraft in this scenario)&lt;/p&gt;
+
+&lt;h2 id=&quot;cleaning-the-data&quot;&gt;Cleaning the Data&lt;/h2&gt;
+
+&lt;p&gt;Lets look at the top ten aircraft models with the most incident reports.&lt;/p&gt;
+
+&lt;p&gt;Immediately we run into issues.&lt;/p&gt;
+
+&lt;p&gt;Look at the Cessna 172&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT acft_model
+FROM `aircraft`
+WHERE acft_model LIKE '%172%'
+GROUP BY acft_model;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We have entries for “172 M” “CE-172M” “172 - M” which are are all referring to the same model of aircraft.&lt;/p&gt;
+
+&lt;p&gt;We have similar problems for aircraft make&lt;/p&gt;
+
+&lt;p&gt;Solve this problem using lookup tables&lt;/p&gt;
+
+&lt;p&gt;Every time I run this sql command, my gui crashers. But, when I reload, the table is there, so…&lt;/p&gt;
+
+&lt;p&gt;Congrats to Thomas C. Piper on their homebuilt Murphy Rebel&lt;/p&gt;
+
+&lt;p&gt;Boeing-Stearman: long history of purchases and sales&lt;/p&gt;
+</description>
+        <pubDate>Fri, 30 Sep 2022 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/Exploring-Aircraft-Accidents-with-SQL/</link>
+        <guid isPermaLink="true">http://localhost:4000/Exploring-Aircraft-Accidents-with-SQL/</guid>
+        
+        
+        <category>Data Science</category>
+        
+        <category>Studying</category>
+        
+        <category>SQL</category>
+        
+      </item>
     
       <item>
         <title>Building a Website: A Physicist's Perspective</title>
