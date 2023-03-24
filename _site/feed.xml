@@ -5,8 +5,8 @@
     <description>A website to showcase my personal projects.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 23 Mar 2023 23:49:36 -0700</pubDate>
-    <lastBuildDate>Thu, 23 Mar 2023 23:49:36 -0700</lastBuildDate>
+    <pubDate>Thu, 23 Mar 2023 23:54:13 -0700</pubDate>
+    <lastBuildDate>Thu, 23 Mar 2023 23:54:13 -0700</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -21,7 +21,7 @@ I have not encountered any instances of this for this use case, but it is possib
 
 &lt;h2 id=&quot;inspiration&quot;&gt;Inspiration&lt;/h2&gt;
 &lt;p&gt;During social hour in the physics department, we would occasionally play a guessing game called &lt;a href=&quot;http://snarxiv.org/vs-arxiv/&quot;&gt;ArXiv vs SnarXiv&lt;/a&gt;. 
-ArXiv is an open access website where scientists post pre-print copies of their papers, while SnarXiv is a parody website which generates fake paper titles, abstracts, and authors.
+ArXiv is an open access website where scientists post pre-print copies of their papers, while SnarXiv is a parody website which generates fake paper titles, abstracts, and authors for high-energy theory papers.
 In this game, players are tasked with discerning which source (ArXiv or SnarXiv) each title originates from.
 Although a fun way to pass the time, I never felt I could really give it an honest shot, as theoretical physics is not my area of expertise. 
 Enter: GPT2.&lt;/p&gt;

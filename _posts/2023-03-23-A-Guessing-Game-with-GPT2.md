@@ -18,7 +18,7 @@ I have not encountered any instances of this for this use case, but it is possib
 
 ## Inspiration
 During social hour in the physics department, we would occasionally play a guessing game called [ArXiv vs SnarXiv](http://snarxiv.org/vs-arxiv/). 
-ArXiv is an open access website where scientists post pre-print copies of their papers, while SnarXiv is a parody website which generates fake paper titles, abstracts, and authors.
+ArXiv is an open access website where scientists post pre-print copies of their papers, while SnarXiv is a parody website which generates fake paper titles, abstracts, and authors for high-energy theory papers.
 In this game, players are tasked with discerning which source (ArXiv or SnarXiv) each title originates from.
 Although a fun way to pass the time, I never felt I could really give it an honest shot, as theoretical physics is not my area of expertise. 
 Enter: GPT2.
