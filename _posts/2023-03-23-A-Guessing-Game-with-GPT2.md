@@ -63,6 +63,8 @@ I decided to simplify the task by picking a few categories of interest, selectin
 While it took ~1 hr to perform a single epoch of training on the original 2+ million papers, training on 10's of thousands of papers took only ~10-15 minutes per epoch, with "Tissues and Organs" being much faster.
 
 Data preparation was rather simple: I pulled the title, removed characters other than letters and numbers, and removed multiple spaces.
+In hindsight, this was too conservative - the GPT2 vocabulary includes various forms of punctuation and special characters.
+In particular, allowing the `:` symbol would really have improved the readability of my results.
 
 ## The Model
 Due to computational limitations, I opted to use the smallest version of [GPT2](https://huggingface.co/gpt2), with 124 million trainable parameters. 

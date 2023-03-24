@@ -5,8 +5,8 @@
     <description>A website to showcase my personal projects.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 24 Mar 2023 00:05:33 -0700</pubDate>
-    <lastBuildDate>Fri, 24 Mar 2023 00:05:33 -0700</lastBuildDate>
+    <pubDate>Fri, 24 Mar 2023 00:14:31 -0700</pubDate>
+    <lastBuildDate>Fri, 24 Mar 2023 00:14:31 -0700</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -84,7 +84,9 @@ I decided to simplify the task by picking a few categories of interest, selectin
 
 &lt;p&gt;While it took ~1 hr to perform a single epoch of training on the original 2+ million papers, training on 10’s of thousands of papers took only ~10-15 minutes per epoch, with “Tissues and Organs” being much faster.&lt;/p&gt;
 
-&lt;p&gt;Data preparation was rather simple: I pulled the title, removed characters other than letters and numbers, and removed multiple spaces.&lt;/p&gt;
+&lt;p&gt;Data preparation was rather simple: I pulled the title, removed characters other than letters and numbers, and removed multiple spaces.
+In hindsight, this was too conservative - the GPT2 vocabulary includes various forms of punctuation and special characters.
+In particular, allowing the &lt;code class=&quot;highlighter-rouge&quot;&gt;:&lt;/code&gt; symbol would really have improved the readability of my results.&lt;/p&gt;
 
 &lt;h2 id=&quot;the-model&quot;&gt;The Model&lt;/h2&gt;
 &lt;p&gt;Due to computational limitations, I opted to use the smallest version of &lt;a href=&quot;https://huggingface.co/gpt2&quot;&gt;GPT2&lt;/a&gt;, with 124 million trainable parameters. 
