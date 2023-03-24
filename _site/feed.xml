@@ -5,14 +5,14 @@
     <description>A website to showcase my personal projects.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 23 Mar 2023 18:24:56 -0700</pubDate>
-    <lastBuildDate>Thu, 23 Mar 2023 18:24:56 -0700</lastBuildDate>
+    <pubDate>Thu, 23 Mar 2023 23:49:36 -0700</pubDate>
+    <lastBuildDate>Thu, 23 Mar 2023 23:49:36 -0700</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
         <title>A Guessing Game with GPT2 and TensorFlow</title>
         <description>&lt;p&gt;In this project, I fine-tuned the GPT2 large language model (LLM) with TensorFlow so that it generates scientific-sounding paper titles for a real-or-fake guessing game.
-You can view the project notebook (and run it in Google Colaboratory) &lt;a href=&quot;https://github.com/limyansky/GPT2_ArXiv_SnarXiv/blob/main/ArXiv_Any.ipynb&quot;&gt;here&lt;/a&gt;, and you can play the game by running this &lt;a href=&quot;https://github.com/limyansky/GPT2_ArXiv_SnarXiv/blob/main/ArXiv_Play.ipynb&quot;&gt;interactive notebook&lt;/a&gt;.
+You can view the project notebook (and run it in Google Colaboratory) &lt;a href=&quot;https://github.com/limyansky/GPT2_ArXiv_SnarXiv/blob/main/ArXiv_Any.ipynb&quot;&gt;here&lt;/a&gt;, and you can play the game by running this &lt;a href=&quot;https://colab.research.google.com/github/limyansky/GPT2_ArXiv_SnarXiv/blob/main/ArXiv_Play.ipynb&quot;&gt;interactive notebook&lt;/a&gt;.
 The fake titles are generally realistic enough to pass cursory review, with the player needing subject-matter knowledge to determine real from fake.&lt;/p&gt;
 
 &lt;h2 id=&quot;disclaimer&quot;&gt;Disclaimer&lt;/h2&gt;

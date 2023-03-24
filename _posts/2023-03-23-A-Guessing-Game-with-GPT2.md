@@ -9,7 +9,7 @@ comments: true
 ---
 
 In this project, I fine-tuned the GPT2 large language model (LLM) with TensorFlow so that it generates scientific-sounding paper titles for a real-or-fake guessing game.
-You can view the project notebook (and run it in Google Colaboratory) [here](https://github.com/limyansky/GPT2_ArXiv_SnarXiv/blob/main/ArXiv_Any.ipynb), and you can play the game by running this [interactive notebook](https://github.com/limyansky/GPT2_ArXiv_SnarXiv/blob/main/ArXiv_Play.ipynb).
+You can view the project notebook (and run it in Google Colaboratory) [here](https://github.com/limyansky/GPT2_ArXiv_SnarXiv/blob/main/ArXiv_Any.ipynb), and you can play the game by running this [interactive notebook](https://colab.research.google.com/github/limyansky/GPT2_ArXiv_SnarXiv/blob/main/ArXiv_Play.ipynb).
 The fake titles are generally realistic enough to pass cursory review, with the player needing subject-matter knowledge to determine real from fake. 
 
 ## Disclaimer
