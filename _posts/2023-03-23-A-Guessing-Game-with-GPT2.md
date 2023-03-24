@@ -178,7 +178,7 @@ For example, consider:
 `J1305-4420-4533 a strange globular cluster I an enigmatic low-mass black hole mass hadrons and spin oscillations
 `
 Astronomy does use a naming convention that looks like `PSR J1846-0285`, where 'PSR' refers to the object type, 'J' refers to a particular coordinate system, and '1846-0285' are the coordinates in that system.
-Adding a third set of coordinates to that a title like this is gibberish - but, then again, this naming scheme certainly look like gibberish to a lot of people anyways.
+Adding a third set of coordinates to a title like this is gibberish - but, then again, this naming scheme certainly look like gibberish to a lot of people anyways.
 
 Interestingly, I also realized it was possible for GPT to do _too good_ a job of generating fake paper titles.
 Take this example from chatGPT:  

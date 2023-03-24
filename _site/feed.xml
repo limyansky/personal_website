@@ -5,8 +5,8 @@
     <description>A website to showcase my personal projects.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 23 Mar 2023 23:58:40 -0700</pubDate>
-    <lastBuildDate>Thu, 23 Mar 2023 23:58:40 -0700</lastBuildDate>
+    <pubDate>Fri, 24 Mar 2023 00:05:33 -0700</pubDate>
+    <lastBuildDate>Fri, 24 Mar 2023 00:05:33 -0700</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -261,7 +261,7 @@ For example, consider:
 &lt;code class=&quot;highlighter-rouge&quot;&gt;J1305-4420-4533 a strange globular cluster I an enigmatic low-mass black hole mass hadrons and spin oscillations
 &lt;/code&gt;
 Astronomy does use a naming convention that looks like &lt;code class=&quot;highlighter-rouge&quot;&gt;PSR J1846-0285&lt;/code&gt;, where ‘PSR’ refers to the object type, ‘J’ refers to a particular coordinate system, and ‘1846-0285’ are the coordinates in that system.
-Adding a third set of coordinates to that a title like this is gibberish - but, then again, this naming scheme certainly look like gibberish to a lot of people anyways.&lt;/p&gt;
+Adding a third set of coordinates to a title like this is gibberish - but, then again, this naming scheme certainly look like gibberish to a lot of people anyways.&lt;/p&gt;
 
 &lt;p&gt;Interestingly, I also realized it was possible for GPT to do &lt;em&gt;too good&lt;/em&gt; a job of generating fake paper titles.
 Take this example from chatGPT:&lt;br /&gt;
