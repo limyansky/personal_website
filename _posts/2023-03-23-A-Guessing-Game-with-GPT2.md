@@ -107,8 +107,8 @@ I used optimizer settings from [here](https://blog.tensorflow.org/2019/11/huggin
 
 ## Results
 
-Note: I passed the real titles through the same text filtering as the training set, and lowercased all words.
-I found that GPT2 would only capitalize the first letter of the title, while real authors had a variety of capitalization schemes.
+Note: I found that GPT2 would only capitalize the first letter of the title, while real authors had a variety of capitalization schemes.
+In the game, I pass the real titles through the same text filtering as the training set, and lowercase all words.
 It is also apparent where colons should be used, although the text filter removed them.
 
 **Some Real Titles**  
@@ -162,7 +162,7 @@ I think I was a little tired out by that point...
 
 ## Reflections on Humor
 
-I think this excerpt from _The Onion_'s [amicus brief](https://www.supremecourt.gov/DocketPDF/22/22-293/242292/20221003125252896_35295545_1-22.10.03%20-%20Novak-Parma%20-%20Onion%20Amicus%20Brief.pdf) explaining their motto _Tu stultus es_ does an excellent job explaining why I had so much fun with this project (if you only read one Amicus brief in your life, I highly suggest it be this one.)
+I think this excerpt from _The Onion_'s [amicus brief](https://www.supremecourt.gov/DocketPDF/22/22-293/242292/20221003125252896_35295545_1-22.10.03%20-%20Novak-Parma%20-%20Onion%20Amicus%20Brief.pdf) explaining their motto _Tu stultus es_ does an excellent job explaining why I had so much fun with this project (if you only read one Amicus brief in your life, I highly suggest it be this one):
 
 >...the phrase “you are dumb” captures
 >the very heart of parody: tricking readers into believing that they're seeing a serious rendering of some specific form—a pop song lyric, a newspaper article, a
