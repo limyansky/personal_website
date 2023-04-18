@@ -30,5 +30,10 @@ _Bidirectional Encoder Representations from Transformers_, or [BERT](https://arx
 BERT was originally trained to predict masked words in a sentence, and to tell if two sentences likely followed each other in a string of text (https://huggingface.co/bert-base-multilingual-cased).
 However, it was really created with the assumption that it would be fine-tuned to perform specific tasks, such as aiding [Google searches](https://blog.google/products/search/search-language-understanding-bert/).
 
+This project uses [Sentence-BERT](https://arxiv.org/abs/1908.10084), a variation of BERT trained for semantic text similarity tasks.
+Sentence-BERT takes a sentence or short paragraph as input, and outputs a 384-dimensional embedding of that text.
+Embeddings can be compared via cosine-similarity to determine if they convey a similar meaning.
+
+## My Method
 
 
