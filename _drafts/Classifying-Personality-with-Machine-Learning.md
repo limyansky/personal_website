@@ -18,6 +18,12 @@ While I present this work in the context of psychology, this is a substantial de
 This work has not been peer reviewed.
 If you'd like to use these results, I'd instead point you to [_Deep Learning Based Fusion Strategies for Personality Prediction_](https://www.sciencedirect.com/science/article/pii/S1110866521000311#b0225).
 
+## Background
+What are the big 5 personality types?
+What kind of work has been done on this before?
+What is the accuracy with which humans can infer personality type based off of these essays?
+
+
 ## The Data
 The dataset used in this project consists of 2,467 essays collected by [James Pennebaker et al.](https://psycnet.apa.org/doiLanding?doi=10.1037%2F0022-3514.77.6.1296).
 Students wrote down their stream of consciousnesses, then took a standardized personality test.
@@ -68,15 +74,50 @@ The neural network classifiers are composed of multiple dense layers. 1/2-NN con
 1/4-NN consists of four layers, with the structure 96-24-6-1 for a total of 39,445 trainable parameters.
 Both neural networks used the LeakyReLU activation function, and were initialized using [He Normal Initialization](https://arxiv.org/abs/1502.01852).
 The final output neuron of each network used a sigmoid activation function to output a probability between 0 and 1.
-I used the [Nadam](http://cs229.stanford.edu/proj2015/054_report.pdf) optimizer, with the step size determined by scanning a range of values, and choosing a size 1/10 the value where the minimum loss occurred (see the `find_learning_rate` function in [this](https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb) notebook, meant to accompany [_Hands-on Machine Learning with Scikit-Learn, Keras and TensorFlow](https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb)).
-This resulted in a step size $2 \times 10^{-4}$ of for 1/2-NN, and for $2 \times 10^{-3}$ for 1/4-NN.
+I used the [Nadam](http://cs229.stanford.edu/proj2015/054_report.pdf) optimizer, with the step size determined by scanning a range of values, and choosing a size 1/10 the value where the minimum loss occurred (see the `find_learning_rate` function in [this](https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb) notebook, meant to accompany [Hands-on Machine Learning with Scikit-Learn, Keras and TensorFlow](https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb)).
+This resulted in a step size $$2 \times 10^{-4}$$ of for 1/2-NN, and for $2 \times 10^{-3}$ for 1/4-NN.
 Both neural networks were trained with early stopping, with the model selected which ultimately performed best on the validation set.
 
 ## Results
-Basically a table? 
+
+| Model                | Openness | Conscientiousness | Extroversion | Agreeableness | Neuroticism | Average |
+|----------------------|----------|-------------------|--------------|---------------|-------------|---------|
+| Random Forest        | 61.94%   | 56.68%            | 59.11%       | 54.86%        | 55.87%      |57.69%   |
+| 1/4 Neural Network   | 64.78%   | 54.45%            | 59.11%       | 55.67%        | 56.88%      |58.18%   |
+| 1/2 Neural Network   | 63.36%   | 55.67%            | 59.11%       | 54.45%        | 56.28%      |57.77%   |
+| El-Demerdash et. al. | 64.30%   | 58.83%            | 59.95%       | 58.80%        | 60.16%      |60.43%   |
+
+The above table shows a comparison of the different classification techniques.
+The last row is from the "BERT" row of Table 5 in [El-Demerdash et. al.](https://www.sciencedirect.com/science/article/pii/S1110866521000311).
+El-Demerdash et. al. present a considerably more exhaustive study, and were eventually able to achieve an average accuracy of 61.85%.
+However, this involved more training data (fusing the Essays Dataset and myPersonality dataset), as well as an ensemble of three different classifiers, based on ELMo, ULMFiT, and BERT.
+The included row in this table shows their results from fine-tuning only BERT on just the Essays Dataset. 
+
+
+| Model               | Trainable Parameters |
+|---------------------|----------------------|
+| 1/4 Neural Network  | 39,445               |
+| 1/2 Neural Network  | 98,683               |
+| El-Demerdash et. al.| 110,000,000          |
+
+The above table shows the number of trainable parameters in each of the neural network approaches.
+These numbers represent a single classifier, and there is one classifier per personality type.
 
 
 ## Discussion
+My neural network classifiers are able to achieve an average accuracy <3% less than current state of the art classifiers, while reducing the number of trainable parameters by 1000x-2700x, depending on the model. 
+This reduction in complexity is an important step towards making these models more accessible and easier to distribute.
+As an anecdotal example, it is interesting to compare this project with my prior one on [fine-tuning GPT2 to generate scientific paper titles](https://limyansky.com/A-Guessing-Game-with-GPT2/).
+The version of GPT2 I used contained 124 million parameters, and fine-tuning took enough computational resources that I ran into the GPU usage limit on the free version of Google Collaboratory.
+Training these smaller classifiers was considerably faster, and I never ran into usage restrictions (although, there are other factors at play here as well, such as different dataset sizes and me being more experienced).
+
+Combining Sentence-BERT with these smaller classifiers has additional benefits over fine-tuning the entire BERT model.
+Because Sentence-BERT is standardized, the process of embedding a corpus of text can be more easily off-loaded to a remote, high-performing computing system, with the actual classification carried out on a local device.
+Further towards this goal, a single fine-tuned BERT model takes up 1.3 GB of disk space, meaning the full 5 classifiers would require 6.5 GB to store.
+In comparison, 1/2 NN requires up only 1.4 MB of disk space per model, and 1/4 NN requires a minuscule 644 kb per model. 
+
+Finally, this project demonstrates the power of Sentence-BERT embeddings.
+A model of BERT fine-tuned to classify "Openness" will only ever be able to classify openness, but the fact that this classification could so easily be pulled from Sentence-BERT embeddings implies that we are only just scratching the surface at what it is possible to achieve. 
 
 ## Ideas for the Future
 One idea which particularly intrigues me is to look at a more complex methods of the embeddings of individual sentences into paragraphs.

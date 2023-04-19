@@ -5,8 +5,8 @@
     <description>A website to showcase my personal projects.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 18 Apr 2023 17:02:13 -0700</pubDate>
-    <lastBuildDate>Tue, 18 Apr 2023 17:02:13 -0700</lastBuildDate>
+    <pubDate>Wed, 19 Apr 2023 16:40:33 -0700</pubDate>
+    <lastBuildDate>Wed, 19 Apr 2023 16:40:33 -0700</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -20,6 +20,11 @@ In addition to demonstrating the power of sentence-BERT, this reduction in compl
 &lt;p&gt;While I present this work in the context of psychology, this is a substantial deviation from the areas of research in which I have been formally trained.
 This work has not been peer reviewed.
 If you’d like to use these results, I’d instead point you to &lt;a href=&quot;https://www.sciencedirect.com/science/article/pii/S1110866521000311#b0225&quot;&gt;&lt;em&gt;Deep Learning Based Fusion Strategies for Personality Prediction&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;background&quot;&gt;Background&lt;/h2&gt;
+&lt;p&gt;What are the big 5 personality types?
+What kind of work has been done on this before?
+What is the accuracy with which humans can infer personality type based off of these essays?&lt;/p&gt;
 
 &lt;h2 id=&quot;the-data&quot;&gt;The Data&lt;/h2&gt;
 &lt;p&gt;The dataset used in this project consists of 2,467 essays collected by &lt;a href=&quot;https://psycnet.apa.org/doiLanding?doi=10.1037%2F0022-3514.77.6.1296&quot;&gt;James Pennebaker et al.&lt;/a&gt;.
@@ -70,14 +75,110 @@ I eventually settled on an ensemble of 800 trees, after which I trained the fina
 1/4-NN consists of four layers, with the structure 96-24-6-1 for a total of 39,445 trainable parameters.
 Both neural networks used the LeakyReLU activation function, and were initialized using &lt;a href=&quot;https://arxiv.org/abs/1502.01852&quot;&gt;He Normal Initialization&lt;/a&gt;.
 The final output neuron of each network used a sigmoid activation function to output a probability between 0 and 1.
-I used the &lt;a href=&quot;http://cs229.stanford.edu/proj2015/054_report.pdf&quot;&gt;Nadam&lt;/a&gt; optimizer, with the step size determined by scanning a range of values, and choosing a size 1/10 the value where the minimum loss occurred (see the &lt;code class=&quot;highlighter-rouge&quot;&gt;find_learning_rate&lt;/code&gt; function in &lt;a href=&quot;https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb&quot;&gt;this&lt;/a&gt; notebook, meant to accompany &lt;a href=&quot;https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb&quot;&gt;_Hands-on Machine Learning with Scikit-Learn, Keras and TensorFlow&lt;/a&gt;).
-This resulted in a step size $2 \times 10^{-4}$ of for 1/2-NN, and for $2 \times 10^{-3}$ for 1/4-NN.
+I used the &lt;a href=&quot;http://cs229.stanford.edu/proj2015/054_report.pdf&quot;&gt;Nadam&lt;/a&gt; optimizer, with the step size determined by scanning a range of values, and choosing a size 1/10 the value where the minimum loss occurred (see the &lt;code class=&quot;highlighter-rouge&quot;&gt;find_learning_rate&lt;/code&gt; function in &lt;a href=&quot;https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb&quot;&gt;this&lt;/a&gt; notebook, meant to accompany &lt;a href=&quot;https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb&quot;&gt;Hands-on Machine Learning with Scikit-Learn, Keras and TensorFlow&lt;/a&gt;).
+This resulted in a step size &lt;script type=&quot;math/tex&quot;&gt;2 \times 10^{-4}&lt;/script&gt; of for 1/2-NN, and for $2 \times 10^{-3}$ for 1/4-NN.
 Both neural networks were trained with early stopping, with the model selected which ultimately performed best on the validation set.&lt;/p&gt;
 
 &lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
-&lt;p&gt;Basically a table?&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Model&lt;/th&gt;
+      &lt;th&gt;Openness&lt;/th&gt;
+      &lt;th&gt;Conscientiousness&lt;/th&gt;
+      &lt;th&gt;Extroversion&lt;/th&gt;
+      &lt;th&gt;Agreeableness&lt;/th&gt;
+      &lt;th&gt;Neuroticism&lt;/th&gt;
+      &lt;th&gt;Average&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Random Forest&lt;/td&gt;
+      &lt;td&gt;61.94%&lt;/td&gt;
+      &lt;td&gt;56.68%&lt;/td&gt;
+      &lt;td&gt;59.11%&lt;/td&gt;
+      &lt;td&gt;54.86%&lt;/td&gt;
+      &lt;td&gt;55.87%&lt;/td&gt;
+      &lt;td&gt;57.69%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1/4 Neural Network&lt;/td&gt;
+      &lt;td&gt;64.78%&lt;/td&gt;
+      &lt;td&gt;54.45%&lt;/td&gt;
+      &lt;td&gt;59.11%&lt;/td&gt;
+      &lt;td&gt;55.67%&lt;/td&gt;
+      &lt;td&gt;56.88%&lt;/td&gt;
+      &lt;td&gt;58.18%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1/2 Neural Network&lt;/td&gt;
+      &lt;td&gt;63.36%&lt;/td&gt;
+      &lt;td&gt;55.67%&lt;/td&gt;
+      &lt;td&gt;59.11%&lt;/td&gt;
+      &lt;td&gt;54.45%&lt;/td&gt;
+      &lt;td&gt;56.28%&lt;/td&gt;
+      &lt;td&gt;57.77%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;El-Demerdash et. al.&lt;/td&gt;
+      &lt;td&gt;64.30%&lt;/td&gt;
+      &lt;td&gt;58.83%&lt;/td&gt;
+      &lt;td&gt;59.95%&lt;/td&gt;
+      &lt;td&gt;58.80%&lt;/td&gt;
+      &lt;td&gt;60.16%&lt;/td&gt;
+      &lt;td&gt;60.43%&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;The above table shows a comparison of the different classification techniques.
+The last row is from the “BERT” row of Table 5 in &lt;a href=&quot;https://www.sciencedirect.com/science/article/pii/S1110866521000311&quot;&gt;El-Demerdash et. al.&lt;/a&gt;.
+El-Demerdash et. al. present a considerably more exhaustive study, and were eventually able to achieve an average accuracy of 61.85%.
+However, this involved more training data (fusing the Essays Dataset and myPersonality dataset), as well as an ensemble of three different classifiers, based on ELMo, ULMFiT, and BERT.
+The included row in this table shows their results from fine-tuning only BERT on just the Essays Dataset.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Model&lt;/th&gt;
+      &lt;th&gt;Trainable Parameters&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1/4 Neural Network&lt;/td&gt;
+      &lt;td&gt;39,445&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1/2 Neural Network&lt;/td&gt;
+      &lt;td&gt;98,683&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;El-Demerdash et. al.&lt;/td&gt;
+      &lt;td&gt;110,000,000&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;The above table shows the number of trainable parameters in each of the neural network approaches.
+These numbers represent a single classifier, and there is one classifier per personality type.&lt;/p&gt;
 
 &lt;h2 id=&quot;discussion&quot;&gt;Discussion&lt;/h2&gt;
+&lt;p&gt;My neural network classifiers are able to achieve an average accuracy &amp;lt;3% less than current state of the art classifiers, while reducing the number of trainable parameters by 1000x-2700x, depending on the model. 
+This reduction in complexity is an important step towards making these models more accessible and easier to distribute.
+As an anecdotal example, it is interesting to compare this project with my prior one on &lt;a href=&quot;https://limyansky.com/A-Guessing-Game-with-GPT2/&quot;&gt;fine-tuning GPT2 to generate scientific paper titles&lt;/a&gt;.
+The version of GPT2 I used contained 124 million parameters, and fine-tuning took enough computational resources that I ran into the GPU usage limit on the free version of Google Collaboratory.
+Training these smaller classifiers was considerably faster, and I never ran into usage restrictions (although, there are other factors at play here as well, such as different dataset sizes and me being more experienced).&lt;/p&gt;
+
+&lt;p&gt;Combining Sentence-BERT with these smaller classifiers has additional benefits over fine-tuning the entire BERT model.
+Because Sentence-BERT is standardized, the process of embedding a corpus of text can be more easily off-loaded to a remote, high-performing computing system, with the actual classification carried out on a local device.
+Further towards this goal, a single fine-tuned BERT model takes up 1.3 GB of disk space, meaning the full 5 classifiers would require 6.5 GB to store.
+In comparison, 1/2 NN requires up only 1.4 MB of disk space per model, and 1/4 NN requires a minuscule 644 kb per model.&lt;/p&gt;
+
+&lt;p&gt;Finally, this project demonstrates the power of Sentence-BERT embeddings.
+A model of BERT fine-tuned to classify “Openness” will only ever be able to classify openness, but the fact that this classification could so easily be pulled from Sentence-BERT embeddings implies that we are only just scratching the surface at what it is possible to achieve.&lt;/p&gt;
 
 &lt;h2 id=&quot;ideas-for-the-future&quot;&gt;Ideas for the Future&lt;/h2&gt;
 &lt;p&gt;One idea which particularly intrigues me is to look at a more complex methods of the embeddings of individual sentences into paragraphs.
