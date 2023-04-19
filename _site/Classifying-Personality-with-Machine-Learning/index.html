@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="icon" href="/assets/images/logo.png">
+
+<title>Classifying Personality with Machine Learning | Brent Limyansky, PhD</title>
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Classifying Personality with Machine Learning | Brent Limyansky, PhD</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Classifying Personality with Machine Learning" />
+<meta name="author" content="brent" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In this project, I demonstrate a technique to classify a person’s Big 5 Personality Traits based off of 20 minute stream-of-consciousness essays. I achieved an average accuracy of 58% across the five personality categories by using sentence-BERT embeddings coupled with small neural network classifiers. Although this is slightly less than the 60% accuracy achieved by other BERT-based techniques, my model represents a 1000x reduction in complexity from these other methods. In addition to demonstrating the power of sentence-BERT, this reduction in complexity is an important step in making these types of models more distributable to end-users. Disclaimer While I present this work in the context of psychology, this is a substantial deviation from the areas of research in which I have been formally trained. This work has not been peer reviewed. If you’d like to use these results, I’d instead point you to Deep Learning Based Fusion Strategies for Personality Prediction. The Data The dataset used in this project consists of 2,467 essays collected by James Pennebaker et al.. Students wrote down their stream of consciousnesses, then took a standardized personality test. Often referred to as the Essays Dataset, this has become one of the most prominent datasets used to build and measure automated personality classification systems. myPersonality, a dataset consisting Facebook content coupled with the user’s personality type information, is also quite prominent. However, this dataset’s maintainers stopped sharing it in 2018, and I felt it best to respect their decision to withdraw it. Data Preparation With five binary personality labels, there are a total of 32 unique personality types. I used a stratified shuffle split on these 32 categories to implement an 80/20 train-test split. The training data was further divided, again using the stratified shuffle split, into an 80/20 train-valid datasets. My El-Demerdash et. al. used 90/10 splits, but given the small number of samples in this dataset, I felt 80/20 splits were justified. BERT Bidirectional Encoder Representations from Transformers, or BERT is a large language model (LLM) introduced by google in 2018. BERT was originally trained to predict masked words in a sentence, and to tell if two sentences likely followed each other in a string of text (https://huggingface.co/bert-base-multilingual-cased). However, it was really created with the assumption that it would be fine-tuned to perform specific tasks, such as aiding Google searches. This project uses Sentence-BERT, a variation of BERT trained for semantic text similarity tasks. Sentence-BERT takes a sentence or short paragraph as input, and outputs a 384-dimensional embedding of that text. Embeddings can be compared via cosine similarity to determine if they convey a similar meaning. My Method My classification technique was a two step process: embedding the paragraphs with Sentence-BERT, and then running these embeddings through binary classifiers. Embedding The version of Sentence-BERT I used, paraphrase-MiniLM-L6-v2, is limited to sequences of 128 tokens (each token typically represents a few letters). Concerned about running over this limit, I used Python’s Natural Language Toolkit to split the paragraphs into individual sentences, ran the sentences through Sentence-BERT, then took the average of the resultant embeddings. I experimented with principal component removal, in an analog SIF-embedding. While I find this technique very interesting, it ultimately did not improve the performance of my classifiers. I think this is consistent with the underlying justification for using SIF-embedding in the first place, but the topic is complex enough to warrant its own discussion. Keep an eye out for a companion article from me in the future! In the mean time, check out the accompanying notebook for further explanation. Classification After forming paragraph-level embeddings for each essay, I tested three different classification techniques: a random forest, a dense neural network with a 50% reduction in neurons at each level (which I will refer to as 1/2-NN), and a dense neural network with a 75% reduction in neurons at each level (1/4-NN). Random forests are my favorite starting point for classification tasks. They are able to work on data that hasn’t been transformed (such as to have zero mean and unit variance), are resistant to over fitting, and can provide estimates on the relative importance of different features in the dataset. I left most of the parameters at their Scikit-Learn default. Of particular importance, I drew with replacement the same number of samples which were in my training dataset, and randomly selected $\sqrt{384}$ features to generate each tree. Using bootstrapping and multiple cores to speed calculation, I scanned ensembles of up to n=1000 trees, and used the out-of-bag samples as an estimator of model performance (however, in this regime of many features and few examples, the out-of-bag error rate is extremely pessimistic). I eventually settled on an ensemble of 800 trees, after which I trained the final classifiers on a set of both the training and validation data. The neural network classifiers are composed of multiple dense layers. 1/2-NN consists of eight layers, with the structure 192-96-48-24-12-6-3-1 for a total of 98,683 trainable parameters. 1/4-NN consists of four layers, with the structure 96-24-6-1 for a total of 39,445 trainable parameters. Both neural networks used the LeakyReLU activation function, and were initialized using He Normal Initialization. The final output neuron of each network used a sigmoid activation function to output a probability between 0 and 1. I used the Nadam optimizer, with the step size determined by scanning a range of values, and choosing a size 1/10 the value where the minimum loss occurred (see the find_learning_rate function in this notebook, meant to accompany _Hands-on Machine Learning with Scikit-Learn, Keras and TensorFlow). This resulted in a step size $2 \times 10^{-4}$ of for 1/2-NN, and for $2 \times 10^{-3}$ for 1/4-NN. Both neural networks were trained with early stopping, with the model selected which ultimately performed best on the validation set. Results Basically a table? Discussion Ideas for the Future One idea which particularly intrigues me is to look at a more complex methods of the embeddings of individual sentences into paragraphs. For example, one could imagine building a model to classify individual sentences, then averaging the classification of each sentence in a paragraph to predict the personality type of the writer. This could be further combined with clustering techniques to either remove outlier sentences, or perhaps even remove non-outliers." />
+<meta property="og:description" content="In this project, I demonstrate a technique to classify a person’s Big 5 Personality Traits based off of 20 minute stream-of-consciousness essays. I achieved an average accuracy of 58% across the five personality categories by using sentence-BERT embeddings coupled with small neural network classifiers. Although this is slightly less than the 60% accuracy achieved by other BERT-based techniques, my model represents a 1000x reduction in complexity from these other methods. In addition to demonstrating the power of sentence-BERT, this reduction in complexity is an important step in making these types of models more distributable to end-users. Disclaimer While I present this work in the context of psychology, this is a substantial deviation from the areas of research in which I have been formally trained. This work has not been peer reviewed. If you’d like to use these results, I’d instead point you to Deep Learning Based Fusion Strategies for Personality Prediction. The Data The dataset used in this project consists of 2,467 essays collected by James Pennebaker et al.. Students wrote down their stream of consciousnesses, then took a standardized personality test. Often referred to as the Essays Dataset, this has become one of the most prominent datasets used to build and measure automated personality classification systems. myPersonality, a dataset consisting Facebook content coupled with the user’s personality type information, is also quite prominent. However, this dataset’s maintainers stopped sharing it in 2018, and I felt it best to respect their decision to withdraw it. Data Preparation With five binary personality labels, there are a total of 32 unique personality types. I used a stratified shuffle split on these 32 categories to implement an 80/20 train-test split. The training data was further divided, again using the stratified shuffle split, into an 80/20 train-valid datasets. My El-Demerdash et. al. used 90/10 splits, but given the small number of samples in this dataset, I felt 80/20 splits were justified. BERT Bidirectional Encoder Representations from Transformers, or BERT is a large language model (LLM) introduced by google in 2018. BERT was originally trained to predict masked words in a sentence, and to tell if two sentences likely followed each other in a string of text (https://huggingface.co/bert-base-multilingual-cased). However, it was really created with the assumption that it would be fine-tuned to perform specific tasks, such as aiding Google searches. This project uses Sentence-BERT, a variation of BERT trained for semantic text similarity tasks. Sentence-BERT takes a sentence or short paragraph as input, and outputs a 384-dimensional embedding of that text. Embeddings can be compared via cosine similarity to determine if they convey a similar meaning. My Method My classification technique was a two step process: embedding the paragraphs with Sentence-BERT, and then running these embeddings through binary classifiers. Embedding The version of Sentence-BERT I used, paraphrase-MiniLM-L6-v2, is limited to sequences of 128 tokens (each token typically represents a few letters). Concerned about running over this limit, I used Python’s Natural Language Toolkit to split the paragraphs into individual sentences, ran the sentences through Sentence-BERT, then took the average of the resultant embeddings. I experimented with principal component removal, in an analog SIF-embedding. While I find this technique very interesting, it ultimately did not improve the performance of my classifiers. I think this is consistent with the underlying justification for using SIF-embedding in the first place, but the topic is complex enough to warrant its own discussion. Keep an eye out for a companion article from me in the future! In the mean time, check out the accompanying notebook for further explanation. Classification After forming paragraph-level embeddings for each essay, I tested three different classification techniques: a random forest, a dense neural network with a 50% reduction in neurons at each level (which I will refer to as 1/2-NN), and a dense neural network with a 75% reduction in neurons at each level (1/4-NN). Random forests are my favorite starting point for classification tasks. They are able to work on data that hasn’t been transformed (such as to have zero mean and unit variance), are resistant to over fitting, and can provide estimates on the relative importance of different features in the dataset. I left most of the parameters at their Scikit-Learn default. Of particular importance, I drew with replacement the same number of samples which were in my training dataset, and randomly selected $\sqrt{384}$ features to generate each tree. Using bootstrapping and multiple cores to speed calculation, I scanned ensembles of up to n=1000 trees, and used the out-of-bag samples as an estimator of model performance (however, in this regime of many features and few examples, the out-of-bag error rate is extremely pessimistic). I eventually settled on an ensemble of 800 trees, after which I trained the final classifiers on a set of both the training and validation data. The neural network classifiers are composed of multiple dense layers. 1/2-NN consists of eight layers, with the structure 192-96-48-24-12-6-3-1 for a total of 98,683 trainable parameters. 1/4-NN consists of four layers, with the structure 96-24-6-1 for a total of 39,445 trainable parameters. Both neural networks used the LeakyReLU activation function, and were initialized using He Normal Initialization. The final output neuron of each network used a sigmoid activation function to output a probability between 0 and 1. I used the Nadam optimizer, with the step size determined by scanning a range of values, and choosing a size 1/10 the value where the minimum loss occurred (see the find_learning_rate function in this notebook, meant to accompany _Hands-on Machine Learning with Scikit-Learn, Keras and TensorFlow). This resulted in a step size $2 \times 10^{-4}$ of for 1/2-NN, and for $2 \times 10^{-3}$ for 1/4-NN. Both neural networks were trained with early stopping, with the model selected which ultimately performed best on the validation set. Results Basically a table? Discussion Ideas for the Future One idea which particularly intrigues me is to look at a more complex methods of the embeddings of individual sentences into paragraphs. For example, one could imagine building a model to classify individual sentences, then averaging the classification of each sentence in a paragraph to predict the personality type of the writer. This could be further combined with clustering techniques to either remove outlier sentences, or perhaps even remove non-outliers." />
+<link rel="canonical" href="http://localhost:4000/Classifying-Personality-with-Machine-Learning/" />
+<meta property="og:url" content="http://localhost:4000/Classifying-Personality-with-Machine-Learning/" />
+<meta property="og:site_name" content="Brent Limyansky, PhD" />
+<meta property="og:image" content="http://localhost:4000/assets/images/personality_classification.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-04-17T00:00:00-07:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/Classifying-Personality-with-Machine-Learning/","image":"http://localhost:4000/assets/images/personality_classification.png","datePublished":"2023-04-17T00:00:00-07:00","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/images/logo.png"},"name":"brent"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/Classifying-Personality-with-Machine-Learning/"},"author":{"@type":"Person","name":"brent"},"description":"In this project, I demonstrate a technique to classify a person’s Big 5 Personality Traits based off of 20 minute stream-of-consciousness essays. I achieved an average accuracy of 58% across the five personality categories by using sentence-BERT embeddings coupled with small neural network classifiers. Although this is slightly less than the 60% accuracy achieved by other BERT-based techniques, my model represents a 1000x reduction in complexity from these other methods. In addition to demonstrating the power of sentence-BERT, this reduction in complexity is an important step in making these types of models more distributable to end-users. Disclaimer While I present this work in the context of psychology, this is a substantial deviation from the areas of research in which I have been formally trained. This work has not been peer reviewed. If you’d like to use these results, I’d instead point you to Deep Learning Based Fusion Strategies for Personality Prediction. The Data The dataset used in this project consists of 2,467 essays collected by James Pennebaker et al.. Students wrote down their stream of consciousnesses, then took a standardized personality test. Often referred to as the Essays Dataset, this has become one of the most prominent datasets used to build and measure automated personality classification systems. myPersonality, a dataset consisting Facebook content coupled with the user’s personality type information, is also quite prominent. However, this dataset’s maintainers stopped sharing it in 2018, and I felt it best to respect their decision to withdraw it. Data Preparation With five binary personality labels, there are a total of 32 unique personality types. I used a stratified shuffle split on these 32 categories to implement an 80/20 train-test split. The training data was further divided, again using the stratified shuffle split, into an 80/20 train-valid datasets. My El-Demerdash et. al. used 90/10 splits, but given the small number of samples in this dataset, I felt 80/20 splits were justified. BERT Bidirectional Encoder Representations from Transformers, or BERT is a large language model (LLM) introduced by google in 2018. BERT was originally trained to predict masked words in a sentence, and to tell if two sentences likely followed each other in a string of text (https://huggingface.co/bert-base-multilingual-cased). However, it was really created with the assumption that it would be fine-tuned to perform specific tasks, such as aiding Google searches. This project uses Sentence-BERT, a variation of BERT trained for semantic text similarity tasks. Sentence-BERT takes a sentence or short paragraph as input, and outputs a 384-dimensional embedding of that text. Embeddings can be compared via cosine similarity to determine if they convey a similar meaning. My Method My classification technique was a two step process: embedding the paragraphs with Sentence-BERT, and then running these embeddings through binary classifiers. Embedding The version of Sentence-BERT I used, paraphrase-MiniLM-L6-v2, is limited to sequences of 128 tokens (each token typically represents a few letters). Concerned about running over this limit, I used Python’s Natural Language Toolkit to split the paragraphs into individual sentences, ran the sentences through Sentence-BERT, then took the average of the resultant embeddings. I experimented with principal component removal, in an analog SIF-embedding. While I find this technique very interesting, it ultimately did not improve the performance of my classifiers. I think this is consistent with the underlying justification for using SIF-embedding in the first place, but the topic is complex enough to warrant its own discussion. Keep an eye out for a companion article from me in the future! In the mean time, check out the accompanying notebook for further explanation. Classification After forming paragraph-level embeddings for each essay, I tested three different classification techniques: a random forest, a dense neural network with a 50% reduction in neurons at each level (which I will refer to as 1/2-NN), and a dense neural network with a 75% reduction in neurons at each level (1/4-NN). Random forests are my favorite starting point for classification tasks. They are able to work on data that hasn’t been transformed (such as to have zero mean and unit variance), are resistant to over fitting, and can provide estimates on the relative importance of different features in the dataset. I left most of the parameters at their Scikit-Learn default. Of particular importance, I drew with replacement the same number of samples which were in my training dataset, and randomly selected $\\sqrt{384}$ features to generate each tree. Using bootstrapping and multiple cores to speed calculation, I scanned ensembles of up to n=1000 trees, and used the out-of-bag samples as an estimator of model performance (however, in this regime of many features and few examples, the out-of-bag error rate is extremely pessimistic). I eventually settled on an ensemble of 800 trees, after which I trained the final classifiers on a set of both the training and validation data. The neural network classifiers are composed of multiple dense layers. 1/2-NN consists of eight layers, with the structure 192-96-48-24-12-6-3-1 for a total of 98,683 trainable parameters. 1/4-NN consists of four layers, with the structure 96-24-6-1 for a total of 39,445 trainable parameters. Both neural networks used the LeakyReLU activation function, and were initialized using He Normal Initialization. The final output neuron of each network used a sigmoid activation function to output a probability between 0 and 1. I used the Nadam optimizer, with the step size determined by scanning a range of values, and choosing a size 1/10 the value where the minimum loss occurred (see the find_learning_rate function in this notebook, meant to accompany _Hands-on Machine Learning with Scikit-Learn, Keras and TensorFlow). This resulted in a step size $2 \\times 10^{-4}$ of for 1/2-NN, and for $2 \\times 10^{-3}$ for 1/4-NN. Both neural networks were trained with early stopping, with the model selected which ultimately performed best on the validation set. Results Basically a table? Discussion Ideas for the Future One idea which particularly intrigues me is to look at a more complex methods of the embeddings of individual sentences into paragraphs. For example, one could imagine building a model to classify individual sentences, then averaging the classification of each sentence in a paragraph to predict the personality type of the writer. This could be further combined with clustering techniques to either remove outlier sentences, or perhaps even remove non-outliers.","headline":"Classifying Personality with Machine Learning","dateModified":"2023-04-17T00:00:00-07:00","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
+<link href="/assets/css/screen.css" rel="stylesheet">
+
+<link href="/assets/css/main.css" rel="stylesheet">
+
+<script src="/assets/js/jquery.min.js"></script>
+
+</head>
+
+
+
+
+<body class="layout-post">
+	<!-- defer loading of font and font awesome -->
+	<noscript id="deferred-styles">
+		<link href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i" rel="stylesheet">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	</noscript>
+
+
+<!-- Begin Menu Navigation
+================================================== -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top mediumnavigation nav-down">
+
+    <div class="container pr-0">
+
+    <!-- Begin Logo -->
+    <a class="navbar-brand" href="/">
+    <img src="/assets/images/logo.png" alt="Brent Limyansky, PhD">
+    </a>
+    <!-- End Logo -->
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMediumish" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarMediumish">
+
+        <!-- Begin Menu -->
+
+            <ul class="navbar-nav ml-auto">
+
+                
+                <li class="nav-item">
+                
+                <a class="nav-link" href="/index.html">Blog</a>
+                </li>
+
+                <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+                </li>
+
+                <script src="/assets/js/lunr.js"></script>
+
+
+<style>
+    .lunrsearchresult .title {color: #d9230f;}
+    .lunrsearchresult .url {color: silver;}
+    .lunrsearchresult a {display: block; color: #777;}
+    .lunrsearchresult a:hover, .lunrsearchresult a:focus {text-decoration: none;}
+    .lunrsearchresult a:hover .title {text-decoration: underline;}
+</style>
+
+
+<form class="bd-search" onSubmit="return lunr_search(document.getElementById('lunrsearch').value);">
+    <input type="text" class="form-control text-small launch-modal-search" id="lunrsearch" name="q" maxlength="255" value="" placeholder="Type and enter..."/>
+</form>
+
+<div id="lunrsearchresults">
+    <ul></ul>
+</div>
+
+<script src="/assets/js/lunrsearchengine.js"></script>
+
+            </ul>
+
+        <!-- End Menu -->
+
+    </div>
+
+    </div>
+</nav>
+<!-- End Navigation
+================================================== -->
+
+<div class="site-content">
+
+<div class="container">
+
+<!-- Site Title
+================================================== -->
+<div class="mainheading">
+    <h1 class="sitetitle">Brent Limyansky, PhD</h1>
+    <p class="lead">
+        A website to showcase my personal projects.
+    </p>
+</div>
+
+<!-- Content
+================================================== -->
+<div class="main-content">
+    <!-- Begin Article
+================================================== -->
+<div class="container">
+    <div class="row">
+
+        <!-- Post Share -->
+        <div class="col-md-2 pl-0">
+            <div class="share sticky-top sticky-top-offset">
+    <p>
+        Share
+    </p>
+    <ul>
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://twitter.com/intent/tweet?text=Classifying Personality with Machine Learning&url=http://localhost:4000/Classifying-Personality-with-Machine-Learning/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://facebook.com/sharer.php?u=http://localhost:4000/Classifying-Personality-with-Machine-Learning/" onclick="window.open(this.href, 'facebook-share', 'width=550,height=435');return false;">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/Classifying-Personality-with-Machine-Learning/" onclick="window.open(this.href, 'width=550,height=435');return false;">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+        </li>
+
+    </ul>
+    
+    <div class="sep">
+    </div>
+    <ul>
+        <li>
+        <a class="small smoothscroll" href="#disqus_thread"></a>
+        </li>
+    </ul>
+    
+</div>
+
+        </div>
+
+        <!-- Post -->
+        
+
+        <div class="col-md-9 flex-first flex-md-unordered">
+            <div class="mainheading">
+
+                <!-- Author Box -->
+                
+                <div class="row post-top-meta">
+                    <div class="col-xs-12 col-md-3 col-lg-2 text-center text-md-left mb-4 mb-md-0">
+                        
+                        <img class="author-thumb" src="/assets/images/avatar.jpg" alt="Brent">
+                        
+                    </div>
+                    <div class="col-xs-12 col-md-9 col-lg-10 text-center text-md-left">
+                        <a target="_blank" class="link-dark" href="">Brent</a><a target="_blank" href="" class="btn follow">Follow</a>
+                        <span class="author-description">Aspiring data scientist and author of limyansky.com</span>
+                    </div>
+                </div>
+                
+
+                <!-- Post Title -->
+                <h1 class="posttitle">Classifying Personality with Machine Learning</h1>
+
+            </div>
+
+            <!-- Adsense if enabled from _config.yml (change your pub id and slot) -->
+            
+            <!-- End Adsense -->
+
+            <!-- Post Featured Image -->
+            
+
+            
+            <img class="featured-image img-fluid" src="/assets/images/personality_classification.png" alt="Classifying Personality with Machine Learning">
+            
+
+            
+            <!-- End Featured Image -->
+
+            <!-- Post Content -->
+            <div class="article-post">
+                <!-- Toc if any -->
+                
+                <!-- End Toc -->
+                <p>In this project, I demonstrate a technique to classify a person’s Big 5 Personality Traits based off of 20 minute stream-of-consciousness essays.
+I achieved an average accuracy of 58% across the five personality categories by using sentence-BERT embeddings coupled with small neural network classifiers.
+Although this is slightly less than the 60% accuracy achieved by other BERT-based techniques, my model represents a 1000x reduction in complexity from these other methods.
+In addition to demonstrating the power of sentence-BERT, this reduction in complexity is an important step in making these types of models more distributable to end-users.</p>
+
+<h2 id="disclaimer">Disclaimer</h2>
+<p>While I present this work in the context of psychology, this is a substantial deviation from the areas of research in which I have been formally trained.
+This work has not been peer reviewed.
+If you’d like to use these results, I’d instead point you to <a href="https://www.sciencedirect.com/science/article/pii/S1110866521000311#b0225"><em>Deep Learning Based Fusion Strategies for Personality Prediction</em></a>.</p>
+
+<h2 id="the-data">The Data</h2>
+<p>The dataset used in this project consists of 2,467 essays collected by <a href="https://psycnet.apa.org/doiLanding?doi=10.1037%2F0022-3514.77.6.1296">James Pennebaker et al.</a>.
+Students wrote down their stream of consciousnesses, then took a standardized personality test.
+Often referred to as the <em>Essays Dataset</em>, this has become one of the most prominent datasets used to build and measure automated personality classification systems.
+<a href="https://sites.google.com/michalkosinski.com/mypersonality"><em>myPersonality</em></a>, a dataset consisting Facebook content coupled with the user’s personality type information, is also quite prominent. 
+However, this dataset’s maintainers stopped sharing it in 2018, and I felt it best to respect their decision to withdraw it.</p>
+
+<h3 id="data-preparation">Data Preparation</h3>
+<p>With five binary personality labels, there are a total of 32 unique personality types.
+I used a <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedShuffleSplit.html">stratified shuffle split</a> on these 32 categories to implement an 80/20 train-test split.
+The training data was further divided, again using the stratified shuffle split, into an 80/20 train-valid datasets.
+My El-Demerdash et. al. used 90/10 splits, but given the small number of samples in this dataset, I felt 80/20 splits were justified.</p>
+
+<h2 id="bert">BERT</h2>
+<p><em>Bidirectional Encoder Representations from Transformers</em>, or <a href="https://arxiv.org/abs/1810.04805v2">BERT</a> is a large language model (LLM) introduced by google in 2018.
+BERT was originally trained to predict masked words in a sentence, and to tell if two sentences likely followed each other in a string of text (https://huggingface.co/bert-base-multilingual-cased).
+However, it was really created with the assumption that it would be fine-tuned to perform specific tasks, such as aiding <a href="https://blog.google/products/search/search-language-understanding-bert/">Google searches</a>.</p>
+
+<p>This project uses <a href="https://arxiv.org/abs/1908.10084">Sentence-BERT</a>, a variation of BERT trained for semantic text similarity tasks.
+Sentence-BERT takes a sentence or short paragraph as input, and outputs a 384-dimensional embedding of that text.
+Embeddings can be compared via <a href="https://en.wikipedia.org/wiki/Cosine_similarity">cosine similarity</a> to determine if they convey a similar meaning.</p>
+
+<h2 id="my-method">My Method</h2>
+<p>My classification technique was a two step process: embedding the paragraphs with Sentence-BERT, and then running these embeddings through binary classifiers.</p>
+
+<h3 id="embedding">Embedding</h3>
+<p>The version of Sentence-BERT I used, <a href="https://huggingface.co/sentence-transformers/paraphrase-MiniLM-L6-v2">paraphrase-MiniLM-L6-v2</a>, is limited to sequences of 128 <a href="https://www.analyticsvidhya.com/blog/2021/09/an-explanatory-guide-to-bert-tokenizer/">tokens</a> (each token typically represents a few letters).
+Concerned about running over this limit, I used Python’s <a href="https://www.nltk.org/">Natural Language Toolkit</a> to split the paragraphs into individual sentences, ran the sentences through Sentence-BERT, then took the average of the resultant embeddings.</p>
+
+<p>I experimented with principal component removal, in an analog <a href="https://openreview.net/pdf?id=SyK00v5xx">SIF-embedding</a>.
+While I find this technique very interesting, it ultimately did not improve the performance of my classifiers.
+I think this is consistent with the underlying justification for using SIF-embedding in the first place, but the topic is complex enough to warrant its own discussion.
+Keep an eye out for a companion article from me in the future!
+In the mean time, check out the accompanying notebook for further explanation.</p>
+
+<h3 id="classification">Classification</h3>
+<p>After forming paragraph-level embeddings for each essay, I tested three different classification techniques: a random forest, a dense neural network with a 50% reduction in neurons at each level (which I will refer to as 1/2-NN), and a dense neural network with a 75% reduction in neurons at each level (1/4-NN).</p>
+
+<p>Random forests are my favorite starting point for classification tasks.
+They are able to work on data that hasn’t been transformed (such as to have zero mean and unit variance), are resistant to over fitting, and can provide estimates on the relative importance of different features in the dataset.
+I left most of the parameters at their <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html">Scikit-Learn default</a>.
+Of particular importance, I drew with replacement the same number of samples which were in my training dataset, and randomly selected $\sqrt{384}$ features to generate each tree.
+Using bootstrapping and multiple cores to speed calculation, I scanned ensembles of up to n=1000 trees, and used the out-of-bag samples as an estimator of model performance (however, in this regime of many features and few examples, the out-of-bag error rate is <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0201904">extremely pessimistic</a>).
+I eventually settled on an ensemble of 800 trees, after which I trained the final classifiers on a set of both the training and validation data.</p>
+
+<p>The neural network classifiers are composed of multiple dense layers. 1/2-NN consists of eight layers, with the structure 192-96-48-24-12-6-3-1 for a total of 98,683 trainable parameters.
+1/4-NN consists of four layers, with the structure 96-24-6-1 for a total of 39,445 trainable parameters.
+Both neural networks used the LeakyReLU activation function, and were initialized using <a href="https://arxiv.org/abs/1502.01852">He Normal Initialization</a>.
+The final output neuron of each network used a sigmoid activation function to output a probability between 0 and 1.
+I used the <a href="http://cs229.stanford.edu/proj2015/054_report.pdf">Nadam</a> optimizer, with the step size determined by scanning a range of values, and choosing a size 1/10 the value where the minimum loss occurred (see the <code class="highlighter-rouge">find_learning_rate</code> function in <a href="https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb">this</a> notebook, meant to accompany <a href="https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb">_Hands-on Machine Learning with Scikit-Learn, Keras and TensorFlow</a>).
+This resulted in a step size $2 \times 10^{-4}$ of for 1/2-NN, and for $2 \times 10^{-3}$ for 1/4-NN.
+Both neural networks were trained with early stopping, with the model selected which ultimately performed best on the validation set.</p>
+
+<h2 id="results">Results</h2>
+<p>Basically a table?</p>
+
+<h2 id="discussion">Discussion</h2>
+
+<h2 id="ideas-for-the-future">Ideas for the Future</h2>
+<p>One idea which particularly intrigues me is to look at a more complex methods of the embeddings of individual sentences into paragraphs.
+For example, one could imagine building a model to classify individual sentences, then averaging the classification of each sentence in a paragraph to predict the personality type of the writer.
+This could be further combined with clustering techniques to either remove outlier sentences, or perhaps even remove non-outliers.</p>
+
+
+            </div>
+
+            <!-- Rating -->
+            
+
+            <!-- Post Date -->
+            <p>
+            <small>
+                <span class="post-date"><time class="post-date" datetime="2023-04-17">17 Apr 2023</time></span>           
+                
+                </small>
+            </p>
+
+            <!-- Post Categories -->
+            <div class="after-post-cats">
+                <ul class="tags mb-4">
+                    
+                    
+                    <li>
+                        <a class="smoothscroll" href="/categories#Machine-Learning">Machine Learning</a>
+                    </li>
+                    
+                    <li>
+                        <a class="smoothscroll" href="/categories#NLP">NLP</a>
+                    </li>
+                    
+                    <li>
+                        <a class="smoothscroll" href="/categories#TensorFlow">TensorFlow</a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- End Categories -->
+
+            <!-- Post Tags -->
+            <div class="after-post-tags">
+                <ul class="tags">
+                    
+                    
+                </ul>
+            </div>
+            <!-- End Tags -->
+
+            <!-- Prev/Next -->
+            <div class="row PageNavigation d-flex justify-content-between font-weight-bold">
+            
+            <a class="prev d-block col-md-6" href="//A-Guessing-Game-with-GPT2/"> &laquo; A Guessing Game with GPT2 and TensorFlow</a>
+            
+            
+            <div class="clearfix"></div>
+            </div>
+            <!-- End Categories -->
+
+        </div>
+        <!-- End Post -->
+
+    </div>
+</div>
+<!-- End Article
+================================================== -->
+
+<!-- Begin Comments
+================================================== -->
+
+    <div class="container">
+        <div id="comments" class="row justify-content-center mb-5">
+            <div class="col-md-8">
+                <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'limyansky'; 
+        var disqus_developer = 0;
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+            </div>
+        </div>
+    </div>
+
+<!--End Comments
+================================================== -->
+
+<!-- Review with LD-JSON, adapt it for your needs if you like, but make sure you test the generated HTML source code first: 
+https://search.google.com/structured-data/testing-tool/u/0/
+================================================== -->
+
+</div>
+
+
+    
+</div>
+
+<!-- Categories Jumbotron
+================================================== -->
+<div class="jumbotron fortags">
+	<div class="d-md-flex h-100">
+		<div class="col-md-4 transpdark align-self-center text-center h-100">
+            <div class="d-md-flex align-items-center justify-content-center h-100">
+                <h2 class="d-md-block align-self-center py-1 font-weight-light">Explore <span class="d-none d-md-inline">→</span></h2>
+            </div>
+		</div>
+		<div class="col-md-8 p-5 align-self-center text-center">
+            
+            
+                
+                    <a class="mt-1 mb-1" href="/categories#project">project (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#github">github (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Data-Science">Data Science (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Studying">Studying (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#SQL">SQL (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Projects">Projects (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Machine-Learning">Machine Learning (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#TensorFlow">TensorFlow (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#GPT">GPT (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#NLP">NLP (2)</a>
+                
+            
+            
+		</div>
+	</div>
+</div>
+
+<!-- Begin Footer
+================================================== -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 text-center text-lg-left">
+                Copyright © 2023 Brent Limyansky, PhD 
+            </div>
+            <div class="col-md-6 col-sm-6 text-center text-lg-right">    
+                <a target="_blank" href="https://www.wowthemes.net/mediumish-free-jekyll-template/">Mediumish Jekyll Theme</a> by WowThemes.net
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- End Footer
+================================================== -->
+
+</div> <!-- /.site-content -->
+
+<!-- Scripts
+================================================== -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+<script src="/assets/js/mediumish.js"></script>
+
+
+
+<script src="/assets/js/ie10-viewport-bug-workaround.js"></script> 
+
+
+<script id="dsq-count-scr" src="//limyansky.disqus.com/count.js"></script>
+
+
+</body>
+</html>

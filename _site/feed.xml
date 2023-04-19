@@ -5,9 +5,98 @@
     <description>A website to showcase my personal projects.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 18 Apr 2023 15:46:39 -0700</pubDate>
-    <lastBuildDate>Tue, 18 Apr 2023 15:46:39 -0700</lastBuildDate>
+    <pubDate>Tue, 18 Apr 2023 17:02:13 -0700</pubDate>
+    <lastBuildDate>Tue, 18 Apr 2023 17:02:13 -0700</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>Classifying Personality with Machine Learning</title>
+        <description>&lt;p&gt;In this project, I demonstrate a technique to classify a person’s Big 5 Personality Traits based off of 20 minute stream-of-consciousness essays.
+I achieved an average accuracy of 58% across the five personality categories by using sentence-BERT embeddings coupled with small neural network classifiers.
+Although this is slightly less than the 60% accuracy achieved by other BERT-based techniques, my model represents a 1000x reduction in complexity from these other methods.
+In addition to demonstrating the power of sentence-BERT, this reduction in complexity is an important step in making these types of models more distributable to end-users.&lt;/p&gt;
+
+&lt;h2 id=&quot;disclaimer&quot;&gt;Disclaimer&lt;/h2&gt;
+&lt;p&gt;While I present this work in the context of psychology, this is a substantial deviation from the areas of research in which I have been formally trained.
+This work has not been peer reviewed.
+If you’d like to use these results, I’d instead point you to &lt;a href=&quot;https://www.sciencedirect.com/science/article/pii/S1110866521000311#b0225&quot;&gt;&lt;em&gt;Deep Learning Based Fusion Strategies for Personality Prediction&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-data&quot;&gt;The Data&lt;/h2&gt;
+&lt;p&gt;The dataset used in this project consists of 2,467 essays collected by &lt;a href=&quot;https://psycnet.apa.org/doiLanding?doi=10.1037%2F0022-3514.77.6.1296&quot;&gt;James Pennebaker et al.&lt;/a&gt;.
+Students wrote down their stream of consciousnesses, then took a standardized personality test.
+Often referred to as the &lt;em&gt;Essays Dataset&lt;/em&gt;, this has become one of the most prominent datasets used to build and measure automated personality classification systems.
+&lt;a href=&quot;https://sites.google.com/michalkosinski.com/mypersonality&quot;&gt;&lt;em&gt;myPersonality&lt;/em&gt;&lt;/a&gt;, a dataset consisting Facebook content coupled with the user’s personality type information, is also quite prominent. 
+However, this dataset’s maintainers stopped sharing it in 2018, and I felt it best to respect their decision to withdraw it.&lt;/p&gt;
+
+&lt;h3 id=&quot;data-preparation&quot;&gt;Data Preparation&lt;/h3&gt;
+&lt;p&gt;With five binary personality labels, there are a total of 32 unique personality types.
+I used a &lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedShuffleSplit.html&quot;&gt;stratified shuffle split&lt;/a&gt; on these 32 categories to implement an 80/20 train-test split.
+The training data was further divided, again using the stratified shuffle split, into an 80/20 train-valid datasets.
+My El-Demerdash et. al. used 90/10 splits, but given the small number of samples in this dataset, I felt 80/20 splits were justified.&lt;/p&gt;
+
+&lt;h2 id=&quot;bert&quot;&gt;BERT&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Bidirectional Encoder Representations from Transformers&lt;/em&gt;, or &lt;a href=&quot;https://arxiv.org/abs/1810.04805v2&quot;&gt;BERT&lt;/a&gt; is a large language model (LLM) introduced by google in 2018.
+BERT was originally trained to predict masked words in a sentence, and to tell if two sentences likely followed each other in a string of text (https://huggingface.co/bert-base-multilingual-cased).
+However, it was really created with the assumption that it would be fine-tuned to perform specific tasks, such as aiding &lt;a href=&quot;https://blog.google/products/search/search-language-understanding-bert/&quot;&gt;Google searches&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This project uses &lt;a href=&quot;https://arxiv.org/abs/1908.10084&quot;&gt;Sentence-BERT&lt;/a&gt;, a variation of BERT trained for semantic text similarity tasks.
+Sentence-BERT takes a sentence or short paragraph as input, and outputs a 384-dimensional embedding of that text.
+Embeddings can be compared via &lt;a href=&quot;https://en.wikipedia.org/wiki/Cosine_similarity&quot;&gt;cosine similarity&lt;/a&gt; to determine if they convey a similar meaning.&lt;/p&gt;
+
+&lt;h2 id=&quot;my-method&quot;&gt;My Method&lt;/h2&gt;
+&lt;p&gt;My classification technique was a two step process: embedding the paragraphs with Sentence-BERT, and then running these embeddings through binary classifiers.&lt;/p&gt;
+
+&lt;h3 id=&quot;embedding&quot;&gt;Embedding&lt;/h3&gt;
+&lt;p&gt;The version of Sentence-BERT I used, &lt;a href=&quot;https://huggingface.co/sentence-transformers/paraphrase-MiniLM-L6-v2&quot;&gt;paraphrase-MiniLM-L6-v2&lt;/a&gt;, is limited to sequences of 128 &lt;a href=&quot;https://www.analyticsvidhya.com/blog/2021/09/an-explanatory-guide-to-bert-tokenizer/&quot;&gt;tokens&lt;/a&gt; (each token typically represents a few letters).
+Concerned about running over this limit, I used Python’s &lt;a href=&quot;https://www.nltk.org/&quot;&gt;Natural Language Toolkit&lt;/a&gt; to split the paragraphs into individual sentences, ran the sentences through Sentence-BERT, then took the average of the resultant embeddings.&lt;/p&gt;
+
+&lt;p&gt;I experimented with principal component removal, in an analog &lt;a href=&quot;https://openreview.net/pdf?id=SyK00v5xx&quot;&gt;SIF-embedding&lt;/a&gt;.
+While I find this technique very interesting, it ultimately did not improve the performance of my classifiers.
+I think this is consistent with the underlying justification for using SIF-embedding in the first place, but the topic is complex enough to warrant its own discussion.
+Keep an eye out for a companion article from me in the future!
+In the mean time, check out the accompanying notebook for further explanation.&lt;/p&gt;
+
+&lt;h3 id=&quot;classification&quot;&gt;Classification&lt;/h3&gt;
+&lt;p&gt;After forming paragraph-level embeddings for each essay, I tested three different classification techniques: a random forest, a dense neural network with a 50% reduction in neurons at each level (which I will refer to as 1/2-NN), and a dense neural network with a 75% reduction in neurons at each level (1/4-NN).&lt;/p&gt;
+
+&lt;p&gt;Random forests are my favorite starting point for classification tasks.
+They are able to work on data that hasn’t been transformed (such as to have zero mean and unit variance), are resistant to over fitting, and can provide estimates on the relative importance of different features in the dataset.
+I left most of the parameters at their &lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html&quot;&gt;Scikit-Learn default&lt;/a&gt;.
+Of particular importance, I drew with replacement the same number of samples which were in my training dataset, and randomly selected $\sqrt{384}$ features to generate each tree.
+Using bootstrapping and multiple cores to speed calculation, I scanned ensembles of up to n=1000 trees, and used the out-of-bag samples as an estimator of model performance (however, in this regime of many features and few examples, the out-of-bag error rate is &lt;a href=&quot;https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0201904&quot;&gt;extremely pessimistic&lt;/a&gt;).
+I eventually settled on an ensemble of 800 trees, after which I trained the final classifiers on a set of both the training and validation data.&lt;/p&gt;
+
+&lt;p&gt;The neural network classifiers are composed of multiple dense layers. 1/2-NN consists of eight layers, with the structure 192-96-48-24-12-6-3-1 for a total of 98,683 trainable parameters.
+1/4-NN consists of four layers, with the structure 96-24-6-1 for a total of 39,445 trainable parameters.
+Both neural networks used the LeakyReLU activation function, and were initialized using &lt;a href=&quot;https://arxiv.org/abs/1502.01852&quot;&gt;He Normal Initialization&lt;/a&gt;.
+The final output neuron of each network used a sigmoid activation function to output a probability between 0 and 1.
+I used the &lt;a href=&quot;http://cs229.stanford.edu/proj2015/054_report.pdf&quot;&gt;Nadam&lt;/a&gt; optimizer, with the step size determined by scanning a range of values, and choosing a size 1/10 the value where the minimum loss occurred (see the &lt;code class=&quot;highlighter-rouge&quot;&gt;find_learning_rate&lt;/code&gt; function in &lt;a href=&quot;https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb&quot;&gt;this&lt;/a&gt; notebook, meant to accompany &lt;a href=&quot;https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb&quot;&gt;_Hands-on Machine Learning with Scikit-Learn, Keras and TensorFlow&lt;/a&gt;).
+This resulted in a step size $2 \times 10^{-4}$ of for 1/2-NN, and for $2 \times 10^{-3}$ for 1/4-NN.
+Both neural networks were trained with early stopping, with the model selected which ultimately performed best on the validation set.&lt;/p&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+&lt;p&gt;Basically a table?&lt;/p&gt;
+
+&lt;h2 id=&quot;discussion&quot;&gt;Discussion&lt;/h2&gt;
+
+&lt;h2 id=&quot;ideas-for-the-future&quot;&gt;Ideas for the Future&lt;/h2&gt;
+&lt;p&gt;One idea which particularly intrigues me is to look at a more complex methods of the embeddings of individual sentences into paragraphs.
+For example, one could imagine building a model to classify individual sentences, then averaging the classification of each sentence in a paragraph to predict the personality type of the writer.
+This could be further combined with clustering techniques to either remove outlier sentences, or perhaps even remove non-outliers.&lt;/p&gt;
+
+</description>
+        <pubDate>Mon, 17 Apr 2023 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/Classifying-Personality-with-Machine-Learning/</link>
+        <guid isPermaLink="true">http://localhost:4000/Classifying-Personality-with-Machine-Learning/</guid>
+        
+        
+        <category>Machine Learning</category>
+        
+        <category>TensorFlow</category>
+        
+        <category>NLP</category>
+        
+      </item>
     
       <item>
         <title>A Guessing Game with GPT2 and TensorFlow</title>

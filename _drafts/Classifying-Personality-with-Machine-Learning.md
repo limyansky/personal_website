@@ -3,7 +3,7 @@ layout: post
 author: brent
 title:  "Classifying Personality with Machine Learning"
 image: assets/images/personality_classification.png
-date:   2023-04-21
+date:   2023-04-17
 categories: [Machine Learning, TensorFlow, NLP]
 comments: true
 ---
@@ -25,6 +25,13 @@ Often referred to as the _Essays Dataset_, this has become one of the most promi
 [_myPersonality_](https://sites.google.com/michalkosinski.com/mypersonality), a dataset consisting Facebook content coupled with the user's personality type information, is also quite prominent. 
 However, this dataset's maintainers stopped sharing it in 2018, and I felt it best to respect their decision to withdraw it.
 
+### Data Preparation
+With five binary personality labels, there are a total of 32 unique personality types.
+I used a [stratified shuffle split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedShuffleSplit.html) on these 32 categories to implement an 80/20 train-test split.
+The training data was further divided, again using the stratified shuffle split, into an 80/20 train-valid datasets.
+My El-Demerdash et. al. used 90/10 splits, but given the small number of samples in this dataset, I felt 80/20 splits were justified. 
+
+
 ## BERT
 _Bidirectional Encoder Representations from Transformers_, or [BERT](https://arxiv.org/abs/1810.04805v2) is a large language model (LLM) introduced by google in 2018.
 BERT was originally trained to predict masked words in a sentence, and to tell if two sentences likely followed each other in a string of text (https://huggingface.co/bert-base-multilingual-cased).
@@ -32,8 +39,47 @@ However, it was really created with the assumption that it would be fine-tuned t
 
 This project uses [Sentence-BERT](https://arxiv.org/abs/1908.10084), a variation of BERT trained for semantic text similarity tasks.
 Sentence-BERT takes a sentence or short paragraph as input, and outputs a 384-dimensional embedding of that text.
-Embeddings can be compared via cosine-similarity to determine if they convey a similar meaning.
+Embeddings can be compared via [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity) to determine if they convey a similar meaning.
 
 ## My Method
+My classification technique was a two step process: embedding the paragraphs with Sentence-BERT, and then running these embeddings through binary classifiers.
 
+### Embedding
+The version of Sentence-BERT I used, [paraphrase-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/paraphrase-MiniLM-L6-v2), is limited to sequences of 128 [tokens](https://www.analyticsvidhya.com/blog/2021/09/an-explanatory-guide-to-bert-tokenizer/) (each token typically represents a few letters).
+Concerned about running over this limit, I used Python's [Natural Language Toolkit](https://www.nltk.org/) to split the paragraphs into individual sentences, ran the sentences through Sentence-BERT, then took the average of the resultant embeddings.
+
+I experimented with principal component removal, in an analog [SIF-embedding](https://openreview.net/pdf?id=SyK00v5xx).
+While I find this technique very interesting, it ultimately did not improve the performance of my classifiers.
+I think this is consistent with the underlying justification for using SIF-embedding in the first place, but the topic is complex enough to warrant its own discussion.
+Keep an eye out for a companion article from me in the future!
+In the mean time, check out the accompanying notebook for further explanation.
+
+### Classification
+After forming paragraph-level embeddings for each essay, I tested three different classification techniques: a random forest, a dense neural network with a 50% reduction in neurons at each level (which I will refer to as 1/2-NN), and a dense neural network with a 75% reduction in neurons at each level (1/4-NN).
+
+Random forests are my favorite starting point for classification tasks.
+They are able to work on data that hasn't been transformed (such as to have zero mean and unit variance), are resistant to over fitting, and can provide estimates on the relative importance of different features in the dataset.
+I left most of the parameters at their [Scikit-Learn default](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html).
+Of particular importance, I drew with replacement the same number of samples which were in my training dataset, and randomly selected $\sqrt{384}$ features to generate each tree.
+Using bootstrapping and multiple cores to speed calculation, I scanned ensembles of up to n=1000 trees, and used the out-of-bag samples as an estimator of model performance (however, in this regime of many features and few examples, the out-of-bag error rate is [extremely pessimistic](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0201904)).
+I eventually settled on an ensemble of 800 trees, after which I trained the final classifiers on a set of both the training and validation data.
+
+The neural network classifiers are composed of multiple dense layers. 1/2-NN consists of eight layers, with the structure 192-96-48-24-12-6-3-1 for a total of 98,683 trainable parameters.
+1/4-NN consists of four layers, with the structure 96-24-6-1 for a total of 39,445 trainable parameters.
+Both neural networks used the LeakyReLU activation function, and were initialized using [He Normal Initialization](https://arxiv.org/abs/1502.01852).
+The final output neuron of each network used a sigmoid activation function to output a probability between 0 and 1.
+I used the [Nadam](http://cs229.stanford.edu/proj2015/054_report.pdf) optimizer, with the step size determined by scanning a range of values, and choosing a size 1/10 the value where the minimum loss occurred (see the `find_learning_rate` function in [this](https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb) notebook, meant to accompany [_Hands-on Machine Learning with Scikit-Learn, Keras and TensorFlow](https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb)).
+This resulted in a step size $2 \times 10^{-4}$ of for 1/2-NN, and for $2 \times 10^{-3}$ for 1/4-NN.
+Both neural networks were trained with early stopping, with the model selected which ultimately performed best on the validation set.
+
+## Results
+Basically a table? 
+
+
+## Discussion
+
+## Ideas for the Future
+One idea which particularly intrigues me is to look at a more complex methods of the embeddings of individual sentences into paragraphs.
+For example, one could imagine building a model to classify individual sentences, then averaging the classification of each sentence in a paragraph to predict the personality type of the writer.
+This could be further combined with clustering techniques to either remove outlier sentences, or perhaps even remove non-outliers. 
 
