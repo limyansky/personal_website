@@ -6,7 +6,6 @@ image: assets/images/personality_classification.png
 date:   2023-04-17
 categories: [Machine Learning, TensorFlow, NLP]
 comments: true
-datatable: true
 ---
 
 In this project, I demonstrate a technique to classify a person's Big 5 Personality Traits based off of 20 minute stream-of-consciousness essays.
@@ -81,17 +80,10 @@ Both neural networks were trained with early stopping, with the model selected w
 
 ## Results
 
-<div class="table-wrapper" markdown="block">
+![Accuracy of different classification methods.](/assets/images/personality_class_results.JPG)
 
 
-| Model                | Openness | Conscientiousness | Extroversion | Agreeableness | Neuroticism | Average |
-|----------------------|----------|-------------------|--------------|---------------|-------------|---------|
-| Random Forest        | 61.94%   | 56.68%            | 59.11%       | 54.86%        | 55.87%      |57.69%   |
-| 1/4 Neural Network   | 64.78%   | 54.45%            | 59.11%       | 55.67%        | 56.88%      |58.18%   |
-| 1/2 Neural Network   | 63.36%   | 55.67%            | 59.11%       | 54.45%        | 56.28%      |57.77%   |
-| El-Demerdash et. al. | 64.30%   | 58.83%            | 59.95%       | 58.80%        | 60.16%      |60.43%   |
 
-</div>
 
 The above table shows a comparison of the different classification techniques.
 The last row is from the "BERT" row of Table 5 in [El-Demerdash et. al.](https://www.sciencedirect.com/science/article/pii/S1110866521000311).
@@ -100,11 +92,7 @@ However, this involved more training data (fusing the Essays Dataset and myPerso
 The included row in this table shows their results from fine-tuning only BERT on just the Essays Dataset. 
 
 
-| Model               | Trainable Parameters |
-|---------------------|----------------------|
-| 1/4 Neural Network  | 39,445               |
-| 1/2 Neural Network  | 98,683               |
-| El-Demerdash et. al.| 110,000,000          |
+![Size of different classifiers.](/assets/images/personality_class_size.JPG)
 
 The above table shows the number of trainable parameters in each of the neural network approaches.
 These numbers represent a single classifier, and there is one classifier per personality type.
