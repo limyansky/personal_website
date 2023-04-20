@@ -5,8 +5,8 @@
     <description>A website to showcase my personal projects.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 19 Apr 2023 16:40:33 -0700</pubDate>
-    <lastBuildDate>Wed, 19 Apr 2023 16:40:33 -0700</lastBuildDate>
+    <pubDate>Thu, 20 Apr 2023 16:08:58 -0700</pubDate>
+    <lastBuildDate>Thu, 20 Apr 2023 16:08:58 -0700</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -67,7 +67,7 @@ In the mean time, check out the accompanying notebook for further explanation.&l
 &lt;p&gt;Random forests are my favorite starting point for classification tasks.
 They are able to work on data that hasn’t been transformed (such as to have zero mean and unit variance), are resistant to over fitting, and can provide estimates on the relative importance of different features in the dataset.
 I left most of the parameters at their &lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html&quot;&gt;Scikit-Learn default&lt;/a&gt;.
-Of particular importance, I drew with replacement the same number of samples which were in my training dataset, and randomly selected $\sqrt{384}$ features to generate each tree.
+Of particular importance, I drew with replacement the same number of samples which were in my training dataset, and randomly selected &lt;script type=&quot;math/tex&quot;&gt;\sqrt{384}&lt;/script&gt; features to generate each tree.
 Using bootstrapping and multiple cores to speed calculation, I scanned ensembles of up to n=1000 trees, and used the out-of-bag samples as an estimator of model performance (however, in this regime of many features and few examples, the out-of-bag error rate is &lt;a href=&quot;https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0201904&quot;&gt;extremely pessimistic&lt;/a&gt;).
 I eventually settled on an ensemble of 800 trees, after which I trained the final classifiers on a set of both the training and validation data.&lt;/p&gt;
 
@@ -76,62 +76,66 @@ I eventually settled on an ensemble of 800 trees, after which I trained the fina
 Both neural networks used the LeakyReLU activation function, and were initialized using &lt;a href=&quot;https://arxiv.org/abs/1502.01852&quot;&gt;He Normal Initialization&lt;/a&gt;.
 The final output neuron of each network used a sigmoid activation function to output a probability between 0 and 1.
 I used the &lt;a href=&quot;http://cs229.stanford.edu/proj2015/054_report.pdf&quot;&gt;Nadam&lt;/a&gt; optimizer, with the step size determined by scanning a range of values, and choosing a size 1/10 the value where the minimum loss occurred (see the &lt;code class=&quot;highlighter-rouge&quot;&gt;find_learning_rate&lt;/code&gt; function in &lt;a href=&quot;https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb&quot;&gt;this&lt;/a&gt; notebook, meant to accompany &lt;a href=&quot;https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb&quot;&gt;Hands-on Machine Learning with Scikit-Learn, Keras and TensorFlow&lt;/a&gt;).
-This resulted in a step size &lt;script type=&quot;math/tex&quot;&gt;2 \times 10^{-4}&lt;/script&gt; of for 1/2-NN, and for $2 \times 10^{-3}$ for 1/4-NN.
+This resulted in a step size &lt;script type=&quot;math/tex&quot;&gt;2 \times 10^{-4}&lt;/script&gt; of for 1/2-NN, and for &lt;script type=&quot;math/tex&quot;&gt;2 \times 10^{-3}&lt;/script&gt; for 1/4-NN.
 Both neural networks were trained with early stopping, with the model selected which ultimately performed best on the validation set.&lt;/p&gt;
 
 &lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
 
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;Model&lt;/th&gt;
-      &lt;th&gt;Openness&lt;/th&gt;
-      &lt;th&gt;Conscientiousness&lt;/th&gt;
-      &lt;th&gt;Extroversion&lt;/th&gt;
-      &lt;th&gt;Agreeableness&lt;/th&gt;
-      &lt;th&gt;Neuroticism&lt;/th&gt;
-      &lt;th&gt;Average&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Random Forest&lt;/td&gt;
-      &lt;td&gt;61.94%&lt;/td&gt;
-      &lt;td&gt;56.68%&lt;/td&gt;
-      &lt;td&gt;59.11%&lt;/td&gt;
-      &lt;td&gt;54.86%&lt;/td&gt;
-      &lt;td&gt;55.87%&lt;/td&gt;
-      &lt;td&gt;57.69%&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;1/4 Neural Network&lt;/td&gt;
-      &lt;td&gt;64.78%&lt;/td&gt;
-      &lt;td&gt;54.45%&lt;/td&gt;
-      &lt;td&gt;59.11%&lt;/td&gt;
-      &lt;td&gt;55.67%&lt;/td&gt;
-      &lt;td&gt;56.88%&lt;/td&gt;
-      &lt;td&gt;58.18%&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;1/2 Neural Network&lt;/td&gt;
-      &lt;td&gt;63.36%&lt;/td&gt;
-      &lt;td&gt;55.67%&lt;/td&gt;
-      &lt;td&gt;59.11%&lt;/td&gt;
-      &lt;td&gt;54.45%&lt;/td&gt;
-      &lt;td&gt;56.28%&lt;/td&gt;
-      &lt;td&gt;57.77%&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;El-Demerdash et. al.&lt;/td&gt;
-      &lt;td&gt;64.30%&lt;/td&gt;
-      &lt;td&gt;58.83%&lt;/td&gt;
-      &lt;td&gt;59.95%&lt;/td&gt;
-      &lt;td&gt;58.80%&lt;/td&gt;
-      &lt;td&gt;60.16%&lt;/td&gt;
-      &lt;td&gt;60.43%&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+&lt;div class=&quot;table-wrapper&quot;&gt;
+
+  &lt;table&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Model&lt;/th&gt;
+        &lt;th&gt;Openness&lt;/th&gt;
+        &lt;th&gt;Conscientiousness&lt;/th&gt;
+        &lt;th&gt;Extroversion&lt;/th&gt;
+        &lt;th&gt;Agreeableness&lt;/th&gt;
+        &lt;th&gt;Neuroticism&lt;/th&gt;
+        &lt;th&gt;Average&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Random Forest&lt;/td&gt;
+        &lt;td&gt;61.94%&lt;/td&gt;
+        &lt;td&gt;56.68%&lt;/td&gt;
+        &lt;td&gt;59.11%&lt;/td&gt;
+        &lt;td&gt;54.86%&lt;/td&gt;
+        &lt;td&gt;55.87%&lt;/td&gt;
+        &lt;td&gt;57.69%&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;1/4 Neural Network&lt;/td&gt;
+        &lt;td&gt;64.78%&lt;/td&gt;
+        &lt;td&gt;54.45%&lt;/td&gt;
+        &lt;td&gt;59.11%&lt;/td&gt;
+        &lt;td&gt;55.67%&lt;/td&gt;
+        &lt;td&gt;56.88%&lt;/td&gt;
+        &lt;td&gt;58.18%&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;1/2 Neural Network&lt;/td&gt;
+        &lt;td&gt;63.36%&lt;/td&gt;
+        &lt;td&gt;55.67%&lt;/td&gt;
+        &lt;td&gt;59.11%&lt;/td&gt;
+        &lt;td&gt;54.45%&lt;/td&gt;
+        &lt;td&gt;56.28%&lt;/td&gt;
+        &lt;td&gt;57.77%&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;El-Demerdash et. al.&lt;/td&gt;
+        &lt;td&gt;64.30%&lt;/td&gt;
+        &lt;td&gt;58.83%&lt;/td&gt;
+        &lt;td&gt;59.95%&lt;/td&gt;
+        &lt;td&gt;58.80%&lt;/td&gt;
+        &lt;td&gt;60.16%&lt;/td&gt;
+        &lt;td&gt;60.43%&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+
+&lt;/div&gt;
 
 &lt;p&gt;The above table shows a comparison of the different classification techniques.
 The last row is from the “BERT” row of Table 5 in &lt;a href=&quot;https://www.sciencedirect.com/science/article/pii/S1110866521000311&quot;&gt;El-Demerdash et. al.&lt;/a&gt;.

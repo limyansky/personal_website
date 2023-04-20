@@ -6,6 +6,7 @@ image: assets/images/personality_classification.png
 date:   2023-04-17
 categories: [Machine Learning, TensorFlow, NLP]
 comments: true
+datatable: true
 ---
 
 In this project, I demonstrate a technique to classify a person's Big 5 Personality Traits based off of 20 minute stream-of-consciousness essays.
@@ -66,7 +67,7 @@ After forming paragraph-level embeddings for each essay, I tested three differen
 Random forests are my favorite starting point for classification tasks.
 They are able to work on data that hasn't been transformed (such as to have zero mean and unit variance), are resistant to over fitting, and can provide estimates on the relative importance of different features in the dataset.
 I left most of the parameters at their [Scikit-Learn default](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html).
-Of particular importance, I drew with replacement the same number of samples which were in my training dataset, and randomly selected $\sqrt{384}$ features to generate each tree.
+Of particular importance, I drew with replacement the same number of samples which were in my training dataset, and randomly selected $$\sqrt{384}$$ features to generate each tree.
 Using bootstrapping and multiple cores to speed calculation, I scanned ensembles of up to n=1000 trees, and used the out-of-bag samples as an estimator of model performance (however, in this regime of many features and few examples, the out-of-bag error rate is [extremely pessimistic](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0201904)).
 I eventually settled on an ensemble of 800 trees, after which I trained the final classifiers on a set of both the training and validation data.
 
@@ -75,10 +76,13 @@ The neural network classifiers are composed of multiple dense layers. 1/2-NN con
 Both neural networks used the LeakyReLU activation function, and were initialized using [He Normal Initialization](https://arxiv.org/abs/1502.01852).
 The final output neuron of each network used a sigmoid activation function to output a probability between 0 and 1.
 I used the [Nadam](http://cs229.stanford.edu/proj2015/054_report.pdf) optimizer, with the step size determined by scanning a range of values, and choosing a size 1/10 the value where the minimum loss occurred (see the `find_learning_rate` function in [this](https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb) notebook, meant to accompany [Hands-on Machine Learning with Scikit-Learn, Keras and TensorFlow](https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb)).
-This resulted in a step size $$2 \times 10^{-4}$$ of for 1/2-NN, and for $2 \times 10^{-3}$ for 1/4-NN.
+This resulted in a step size $$2 \times 10^{-4}$$ of for 1/2-NN, and for $$2 \times 10^{-3}$$ for 1/4-NN.
 Both neural networks were trained with early stopping, with the model selected which ultimately performed best on the validation set.
 
 ## Results
+
+<div class="table-wrapper" markdown="block">
+
 
 | Model                | Openness | Conscientiousness | Extroversion | Agreeableness | Neuroticism | Average |
 |----------------------|----------|-------------------|--------------|---------------|-------------|---------|
@@ -86,6 +90,8 @@ Both neural networks were trained with early stopping, with the model selected w
 | 1/4 Neural Network   | 64.78%   | 54.45%            | 59.11%       | 55.67%        | 56.88%      |58.18%   |
 | 1/2 Neural Network   | 63.36%   | 55.67%            | 59.11%       | 54.45%        | 56.28%      |57.77%   |
 | El-Demerdash et. al. | 64.30%   | 58.83%            | 59.95%       | 58.80%        | 60.16%      |60.43%   |
+
+</div>
 
 The above table shows a comparison of the different classification techniques.
 The last row is from the "BERT" row of Table 5 in [El-Demerdash et. al.](https://www.sciencedirect.com/science/article/pii/S1110866521000311).

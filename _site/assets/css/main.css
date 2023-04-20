@@ -336,3 +336,6 @@ pre.lineno {
 
 .c-rating--big {
   font-size: 150%; }
+
+.table-wrapper {
+  overflow-x: scroll; }
