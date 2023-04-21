@@ -5,8 +5,8 @@
     <description>A website to showcase my personal projects.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 21 Apr 2023 16:37:17 -0700</pubDate>
-    <lastBuildDate>Fri, 21 Apr 2023 16:37:17 -0700</lastBuildDate>
+    <pubDate>Fri, 21 Apr 2023 16:54:38 -0700</pubDate>
+    <lastBuildDate>Fri, 21 Apr 2023 16:54:38 -0700</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -34,13 +34,16 @@ Regardless of how you feel about the Big 5 model, or personality tests in genera
 &lt;p&gt;&lt;img src=&quot;/assets/images/big-five-personality-traits-infographic.png&quot; alt=&quot;A summary of the Big 5 personality traits.&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Typically, a person is assigned a personality score after responding to questions on a &lt;a href=&quot;https://openpsychometrics.org/tests/IPIP-BFFM/&quot;&gt;questionnaire&lt;/a&gt;.
+You can take a test &lt;a href=&quot;https://openpsychometrics.org/tests/IPIP-BFFM/&quot;&gt;here&lt;/a&gt;, if you are so inclined.
 However, there has been &lt;a href=&quot;https://link.springer.com/article/10.1007/s10462-019-09770-z&quot;&gt;considerable effort&lt;/a&gt; as of late to use deep learning to develop alternate assessment techniques.
 It is to this task that I devote myself in this project: can a short essay from your stream of consciousness be used to predict your personality type?&lt;/p&gt;
 
 &lt;p&gt;Throughout this project, I compared my work to that of &lt;a href=&quot;https://www.sciencedirect.com/science/article/pii/S1110866521000311&quot;&gt;El-Demerdash et. al.&lt;/a&gt; in their paper “Deep learning based fusion strategies for personality prediction”.
-In their work, they were ultimately able to perform the task of classifying personality from an essay with about 61.85% accuracy.&lt;/p&gt;
+In their work, they were ultimately able to perform the task of classifying personality from an essay with about 61.85% accuracy.
+To achieve this, they used an ensemble of three large language models(LLMs), as well as a “fused” training dataset consisting of both the stream of consciousness essays and user’s facebook activity.
+That is a more intensive project than I care to undertake at the moment, but luckily they reported their intermediate results as well.&lt;/p&gt;
 
-&lt;p&gt;You can take a test &lt;a href=&quot;https://openpsychometrics.org/tests/IPIP-BFFM/&quot;&gt;here&lt;/a&gt;, if you are so inclined.&lt;/p&gt;
+&lt;p&gt;In particular, they report the result of fine-tuning the BERT LLM on only the stream of consciousness data, where they were able to achieve 60.43% accuracy.&lt;/p&gt;
 
 &lt;h2 id=&quot;the-data&quot;&gt;The Data&lt;/h2&gt;
 &lt;p&gt;The dataset used in this project consists of 2,467 essays collected by &lt;a href=&quot;https://psycnet.apa.org/doiLanding?doi=10.1037%2F0022-3514.77.6.1296&quot;&gt;James Pennebaker et al.&lt;/a&gt;.

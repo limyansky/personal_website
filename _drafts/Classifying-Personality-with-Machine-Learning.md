@@ -31,13 +31,17 @@ Regardless of how you feel about the Big 5 model, or personality tests in genera
 ![A summary of the Big 5 personality traits.](/assets/images/big-five-personality-traits-infographic.png)
 
 Typically, a person is assigned a personality score after responding to questions on a [questionnaire](https://openpsychometrics.org/tests/IPIP-BFFM/).
+You can take a test [here](https://openpsychometrics.org/tests/IPIP-BFFM/), if you are so inclined.
 However, there has been [considerable effort](https://link.springer.com/article/10.1007/s10462-019-09770-z) as of late to use deep learning to develop alternate assessment techniques.
 It is to this task that I devote myself in this project: can a short essay from your stream of consciousness be used to predict your personality type?
 
 Throughout this project, I compared my work to that of [El-Demerdash et. al.](https://www.sciencedirect.com/science/article/pii/S1110866521000311) in their paper "Deep learning based fusion strategies for personality prediction".
 In their work, they were ultimately able to perform the task of classifying personality from an essay with about 61.85% accuracy.
+To achieve this, they used an ensemble of three large language models(LLMs), as well as a "fused" training dataset consisting of both the stream of consciousness essays and user's facebook activity.
+That is a more intensive project than I care to undertake at the moment, but luckily they reported their intermediate results as well.
 
-You can take a test [here](https://openpsychometrics.org/tests/IPIP-BFFM/), if you are so inclined.
+In particular, they report the result of fine-tuning the BERT LLM on only the stream of consciousness data, where they were able to achieve 60.43% accuracy.
+
 
 ## The Data
 The dataset used in this project consists of 2,467 essays collected by [James Pennebaker et al.](https://psycnet.apa.org/doiLanding?doi=10.1037%2F0022-3514.77.6.1296).
