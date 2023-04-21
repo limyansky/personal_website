@@ -23,6 +23,16 @@ What are the big 5 personality types?
 What kind of work has been done on this before?
 What is the accuracy with which humans can infer personality type based off of these essays?
 
+The [Big 5](https://en.wikipedia.org/wiki/Big_Five_personality_traits) system of personality attempts to classify people's personality according to openness to experience, conscientiousness, extroversion, agreeableness, and neuroticism.
+Where a person falls on this scale (and how this changes with time) can have implications over a wide range of topics, such as [academic achievement](https://archive.org/details/sim_personality-and-individual-differences_2011-09_51_4/page/n2/mode/1up) and [mental health](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7606744/)
+Of course, the model isn't without its [criticism](https://psycnet.apa.org/record/1995-21277-001).
+Regardless of how you feel about the Big 5 model, or personality tests in general, there's no doubt that studies relating to this are prevalent in the field of psychology.
+
+
+
+![A summary of the Big 5 personality traits.](/assets/images/big-five-personality-traits-infographic.png)
+
+You can take a test [here](https://openpsychometrics.org/tests/IPIP-BFFM/), if you are so inclined.
 
 ## The Data
 The dataset used in this project consists of 2,467 essays collected by [James Pennebaker et al.](https://psycnet.apa.org/doiLanding?doi=10.1037%2F0022-3514.77.6.1296).
