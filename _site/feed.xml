@@ -5,8 +5,8 @@
     <description>A website to showcase my personal projects.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 21 Apr 2023 15:41:18 -0700</pubDate>
-    <lastBuildDate>Fri, 21 Apr 2023 15:41:18 -0700</lastBuildDate>
+    <pubDate>Fri, 21 Apr 2023 16:37:17 -0700</pubDate>
+    <lastBuildDate>Fri, 21 Apr 2023 16:37:17 -0700</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -27,11 +27,18 @@ What kind of work has been done on this before?
 What is the accuracy with which humans can infer personality type based off of these essays?&lt;/p&gt;
 
 &lt;p&gt;The &lt;a href=&quot;https://en.wikipedia.org/wiki/Big_Five_personality_traits&quot;&gt;Big 5&lt;/a&gt; system of personality attempts to classify people’s personality according to openness to experience, conscientiousness, extroversion, agreeableness, and neuroticism.
-Where a person falls on this scale (and how this changes with time) can have implications over a wide range of topics, such as &lt;a href=&quot;https://archive.org/details/sim_personality-and-individual-differences_2011-09_51_4/page/n2/mode/1up&quot;&gt;academic achievement&lt;/a&gt; and &lt;a href=&quot;https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7606744/&quot;&gt;mental health&lt;/a&gt;
+Where a person falls on this scale (and how this changes with time) can have implications over a wide range of topics, such as &lt;a href=&quot;https://archive.org/details/sim_personality-and-individual-differences_2011-09_51_4/page/n2/mode/1up&quot;&gt;academic achievement&lt;/a&gt; and &lt;a href=&quot;https://www.sciencedirect.com/science/article/abs/pii/S0272735803001132?via%3Dihub&quot;&gt;mental health&lt;/a&gt;.
 Of course, the model isn’t without its &lt;a href=&quot;https://psycnet.apa.org/record/1995-21277-001&quot;&gt;criticism&lt;/a&gt;.
 Regardless of how you feel about the Big 5 model, or personality tests in general, there’s no doubt that studies relating to this are prevalent in the field of psychology.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/images/big-five-personality-traits-infographic.png&quot; alt=&quot;A summary of the Big 5 personality traits.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Typically, a person is assigned a personality score after responding to questions on a &lt;a href=&quot;https://openpsychometrics.org/tests/IPIP-BFFM/&quot;&gt;questionnaire&lt;/a&gt;.
+However, there has been &lt;a href=&quot;https://link.springer.com/article/10.1007/s10462-019-09770-z&quot;&gt;considerable effort&lt;/a&gt; as of late to use deep learning to develop alternate assessment techniques.
+It is to this task that I devote myself in this project: can a short essay from your stream of consciousness be used to predict your personality type?&lt;/p&gt;
+
+&lt;p&gt;Throughout this project, I compared my work to that of &lt;a href=&quot;https://www.sciencedirect.com/science/article/pii/S1110866521000311&quot;&gt;El-Demerdash et. al.&lt;/a&gt; in their paper “Deep learning based fusion strategies for personality prediction”.
+In their work, they were ultimately able to perform the task of classifying personality from an essay with about 61.85% accuracy.&lt;/p&gt;
 
 &lt;p&gt;You can take a test &lt;a href=&quot;https://openpsychometrics.org/tests/IPIP-BFFM/&quot;&gt;here&lt;/a&gt;, if you are so inclined.&lt;/p&gt;
 

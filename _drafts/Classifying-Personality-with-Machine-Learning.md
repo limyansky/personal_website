@@ -24,13 +24,18 @@ What kind of work has been done on this before?
 What is the accuracy with which humans can infer personality type based off of these essays?
 
 The [Big 5](https://en.wikipedia.org/wiki/Big_Five_personality_traits) system of personality attempts to classify people's personality according to openness to experience, conscientiousness, extroversion, agreeableness, and neuroticism.
-Where a person falls on this scale (and how this changes with time) can have implications over a wide range of topics, such as [academic achievement](https://archive.org/details/sim_personality-and-individual-differences_2011-09_51_4/page/n2/mode/1up) and [mental health](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7606744/)
+Where a person falls on this scale (and how this changes with time) can have implications over a wide range of topics, such as [academic achievement](https://archive.org/details/sim_personality-and-individual-differences_2011-09_51_4/page/n2/mode/1up) and [mental health](https://www.sciencedirect.com/science/article/abs/pii/S0272735803001132?via%3Dihub).
 Of course, the model isn't without its [criticism](https://psycnet.apa.org/record/1995-21277-001).
 Regardless of how you feel about the Big 5 model, or personality tests in general, there's no doubt that studies relating to this are prevalent in the field of psychology.
 
-
-
 ![A summary of the Big 5 personality traits.](/assets/images/big-five-personality-traits-infographic.png)
+
+Typically, a person is assigned a personality score after responding to questions on a [questionnaire](https://openpsychometrics.org/tests/IPIP-BFFM/).
+However, there has been [considerable effort](https://link.springer.com/article/10.1007/s10462-019-09770-z) as of late to use deep learning to develop alternate assessment techniques.
+It is to this task that I devote myself in this project: can a short essay from your stream of consciousness be used to predict your personality type?
+
+Throughout this project, I compared my work to that of [El-Demerdash et. al.](https://www.sciencedirect.com/science/article/pii/S1110866521000311) in their paper "Deep learning based fusion strategies for personality prediction".
+In their work, they were ultimately able to perform the task of classifying personality from an essay with about 61.85% accuracy.
 
 You can take a test [here](https://openpsychometrics.org/tests/IPIP-BFFM/), if you are so inclined.
 
