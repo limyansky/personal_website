@@ -41,6 +41,7 @@ To achieve this, they used an ensemble of three large language models(LLMs), as 
 That is a more intensive project than I care to undertake at the moment, but luckily they reported their intermediate results as well.
 
 In particular, they report the result of fine-tuning the BERT LLM on only the stream of consciousness data, where they were able to achieve 60.43% accuracy.
+This is most similar to my attempt, described further below, based around building light classifiers on top of Sentence-BERT embeddings.
 
 
 ## The Data
