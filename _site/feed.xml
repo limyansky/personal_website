@@ -5,8 +5,8 @@
     <description>A website to showcase my personal projects.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 23 Apr 2023 16:26:48 -0700</pubDate>
-    <lastBuildDate>Sun, 23 Apr 2023 16:26:48 -0700</lastBuildDate>
+    <pubDate>Sun, 23 Apr 2023 16:28:14 -0700</pubDate>
+    <lastBuildDate>Sun, 23 Apr 2023 16:28:14 -0700</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -46,7 +46,7 @@ This is most similar to my attempt, described further below, based around buildi
 &lt;p&gt;The dataset used in this project consists of 2,467 essays collected by &lt;a href=&quot;https://psycnet.apa.org/doiLanding?doi=10.1037%2F0022-3514.77.6.1296&quot;&gt;James Pennebaker et al.&lt;/a&gt;.
 Students wrote down their stream-of-consciousnesses, then took a standardized personality test.
 Often referred to as the &lt;em&gt;Essays Dataset&lt;/em&gt;, this has become one of the most prominent datasets used to build and measure automated personality classification systems.
-&lt;a href=&quot;https://sites.google.com/michalkosinski.com/mypersonality&quot;&gt;&lt;em&gt;myPersonality&lt;/em&gt;&lt;/a&gt;, a dataset consisting Facebook content coupled with the user’s personality type information, is also quite prominent. 
+&lt;a href=&quot;https://sites.google.com/michalkosinski.com/mypersonality&quot;&gt;&lt;em&gt;myPersonality&lt;/em&gt;&lt;/a&gt;, a dataset consisting of Facebook content coupled with the user’s personality type information, is also quite prominent. 
 However, this dataset’s maintainers stopped sharing it in 2018, and I felt it best to respect their withdrawal by not using it in this work.&lt;/p&gt;
 
 &lt;h3 id=&quot;data-preparation&quot;&gt;Data Preparation&lt;/h3&gt;
