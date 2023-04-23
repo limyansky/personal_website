@@ -8,45 +8,40 @@ categories: [Machine Learning, TensorFlow, NLP]
 comments: true
 ---
 
-In this project, I demonstrate a technique to classify a person's Big 5 Personality Traits based off of 20 minute stream-of-consciousness essays.
-I achieved an average accuracy of 58% across the five personality categories by using sentence-BERT embeddings coupled with small neural network classifiers.
+In this project, I demonstrate a technique to classify a person's Big 5 personality traits based off of 20-minute stream-of-consciousness essays.
+I achieved an average accuracy of 58% across the five personality categories by using Sentence-BERT embeddings coupled with small neural network classifiers.
 Although this is slightly less than the 60% accuracy achieved by other BERT-based techniques, my model represents a 1000x reduction in complexity from these other methods.
-In addition to demonstrating the power of sentence-BERT, this reduction in complexity is an important step in making these types of models more distributable to end-users.
+In addition to demonstrating the power of Sentence-BERT, this reduction in complexity is an important step in making these types of models more distributable to end users.
 
 ## Disclaimer
 While I present this work in the context of psychology, this is a substantial deviation from the areas of research in which I have been formally trained.
 This work has not been peer reviewed.
-If you'd like to use these results, I'd instead point you to [_Deep Learning Based Fusion Strategies for Personality Prediction_](https://www.sciencedirect.com/science/article/pii/S1110866521000311#b0225).
+If these results seem relevant to your work, I'd instead point you to [_Deep Learning Based Fusion Strategies for Personality Prediction_](https://www.sciencedirect.com/science/article/pii/S1110866521000311#b0225).
 
 ## Background
-What are the big 5 personality types?
-What kind of work has been done on this before?
-What is the accuracy with which humans can infer personality type based off of these essays?
 
-The [Big 5](https://en.wikipedia.org/wiki/Big_Five_personality_traits) system of personality attempts to classify people's personality according to openness to experience, conscientiousness, extroversion, agreeableness, and neuroticism.
+The [Big 5](https://en.wikipedia.org/wiki/Big_Five_personality_traits) system classifies a person's personality according to openness to experience, conscientiousness, extroversion, agreeableness, and neuroticism.
 Where a person falls on this scale (and how this changes with time) can have implications over a wide range of topics, such as [academic achievement](https://archive.org/details/sim_personality-and-individual-differences_2011-09_51_4/page/n2/mode/1up) and [mental health](https://www.sciencedirect.com/science/article/abs/pii/S0272735803001132?via%3Dihub).
-Of course, the model isn't without its [criticism](https://psycnet.apa.org/record/1995-21277-001).
-Regardless of how you feel about the Big 5 model, or personality tests in general, there's no doubt that studies relating to this are prevalent in the field of psychology.
+Although the model isn't without its [criticism](https://psycnet.apa.org/record/1995-21277-001), studies relating to the Big 5 are prevalent in psychology.
 
 ![A summary of the Big 5 personality traits.](/assets/images/big-five-personality-traits-infographic.png)
 
 Typically, a person is assigned a personality score after responding to questions on a [questionnaire](https://openpsychometrics.org/tests/IPIP-BFFM/).
-You can take a test [here](https://openpsychometrics.org/tests/IPIP-BFFM/), if you are so inclined.
-However, there has been [considerable effort](https://link.springer.com/article/10.1007/s10462-019-09770-z) as of late to use deep learning to develop alternate assessment techniques.
-It is to this task that I devote myself in this project: can a short essay from your stream of consciousness be used to predict your personality type?
+However, there has been [considerable effort](https://link.springer.com/article/10.1007/s10462-019-09770-z) spent as of late towards developing alternate assessment techniques with deep learning.
+It is to this task that I devote myself in this project: can a short essay from your stream-of-consciousness be used to predict your personality type?
 
-Throughout this project, I compared my work to that of [El-Demerdash et. al.](https://www.sciencedirect.com/science/article/pii/S1110866521000311) in their paper "Deep learning based fusion strategies for personality prediction".
-In their work, they were ultimately able to perform the task of classifying personality from an essay with about 61.85% accuracy.
-To achieve this, they used an ensemble of three large language models(LLMs), as well as a "fused" training dataset consisting of both the stream of consciousness essays and user's facebook activity.
+Throughout this project, I compared my work to that of [El-Demerdash et. al.](https://www.sciencedirect.com/science/article/pii/S1110866521000311) in their paper "Deep Learning Based Fusion Strategies for Personality Prediction".
+In this work, they attained 61.85% accuracy in determining a person's personality type from their essays.
+To achieve this, they used an ensemble of three large language models(LLMs), as well as a "fused" training dataset consisting of both the stream-of-consciousness essays and user's facebook activity.
 That is a more intensive project than I care to undertake at the moment, but luckily they reported their intermediate results as well.
 
-In particular, they report the result of fine-tuning the BERT LLM on only the stream of consciousness data, where they were able to achieve 60.43% accuracy.
+In particular, they report the result of fine-tuning the BERT LLM on only the stream-of-consciousness data, after which they achieved 60.43% accuracy in personality classification.
 This is most similar to my attempt, described further below, based around building light classifiers on top of Sentence-BERT embeddings.
 
 
 ## The Data
 The dataset used in this project consists of 2,467 essays collected by [James Pennebaker et al.](https://psycnet.apa.org/doiLanding?doi=10.1037%2F0022-3514.77.6.1296).
-Students wrote down their stream of consciousnesses, then took a standardized personality test.
+Students wrote down their stream-of-consciousnesses, then took a standardized personality test.
 Often referred to as the _Essays Dataset_, this has become one of the most prominent datasets used to build and measure automated personality classification systems.
 [_myPersonality_](https://sites.google.com/michalkosinski.com/mypersonality), a dataset consisting Facebook content coupled with the user's personality type information, is also quite prominent. 
 However, this dataset's maintainers stopped sharing it in 2018, and I felt it best to respect their decision to withdraw it.

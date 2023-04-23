@@ -5,50 +5,45 @@
     <description>A website to showcase my personal projects.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 21 Apr 2023 17:30:36 -0700</pubDate>
-    <lastBuildDate>Fri, 21 Apr 2023 17:30:36 -0700</lastBuildDate>
+    <pubDate>Sun, 23 Apr 2023 15:32:04 -0700</pubDate>
+    <lastBuildDate>Sun, 23 Apr 2023 15:32:04 -0700</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
         <title>Classifying Personality with Machine Learning</title>
-        <description>&lt;p&gt;In this project, I demonstrate a technique to classify a person’s Big 5 Personality Traits based off of 20 minute stream-of-consciousness essays.
-I achieved an average accuracy of 58% across the five personality categories by using sentence-BERT embeddings coupled with small neural network classifiers.
+        <description>&lt;p&gt;In this project, I demonstrate a technique to classify a person’s Big 5 personality traits based off of 20-minute stream-of-consciousness essays.
+I achieved an average accuracy of 58% across the five personality categories by using Sentence-BERT embeddings coupled with small neural network classifiers.
 Although this is slightly less than the 60% accuracy achieved by other BERT-based techniques, my model represents a 1000x reduction in complexity from these other methods.
-In addition to demonstrating the power of sentence-BERT, this reduction in complexity is an important step in making these types of models more distributable to end-users.&lt;/p&gt;
+In addition to demonstrating the power of Sentence-BERT, this reduction in complexity is an important step in making these types of models more distributable to end users.&lt;/p&gt;
 
 &lt;h2 id=&quot;disclaimer&quot;&gt;Disclaimer&lt;/h2&gt;
 &lt;p&gt;While I present this work in the context of psychology, this is a substantial deviation from the areas of research in which I have been formally trained.
 This work has not been peer reviewed.
-If you’d like to use these results, I’d instead point you to &lt;a href=&quot;https://www.sciencedirect.com/science/article/pii/S1110866521000311#b0225&quot;&gt;&lt;em&gt;Deep Learning Based Fusion Strategies for Personality Prediction&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;
+If these results seem relevant to your work, I’d instead point you to &lt;a href=&quot;https://www.sciencedirect.com/science/article/pii/S1110866521000311#b0225&quot;&gt;&lt;em&gt;Deep Learning Based Fusion Strategies for Personality Prediction&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;background&quot;&gt;Background&lt;/h2&gt;
-&lt;p&gt;What are the big 5 personality types?
-What kind of work has been done on this before?
-What is the accuracy with which humans can infer personality type based off of these essays?&lt;/p&gt;
 
-&lt;p&gt;The &lt;a href=&quot;https://en.wikipedia.org/wiki/Big_Five_personality_traits&quot;&gt;Big 5&lt;/a&gt; system of personality attempts to classify people’s personality according to openness to experience, conscientiousness, extroversion, agreeableness, and neuroticism.
+&lt;p&gt;The &lt;a href=&quot;https://en.wikipedia.org/wiki/Big_Five_personality_traits&quot;&gt;Big 5&lt;/a&gt; system classifies a person’s personality according to openness to experience, conscientiousness, extroversion, agreeableness, and neuroticism.
 Where a person falls on this scale (and how this changes with time) can have implications over a wide range of topics, such as &lt;a href=&quot;https://archive.org/details/sim_personality-and-individual-differences_2011-09_51_4/page/n2/mode/1up&quot;&gt;academic achievement&lt;/a&gt; and &lt;a href=&quot;https://www.sciencedirect.com/science/article/abs/pii/S0272735803001132?via%3Dihub&quot;&gt;mental health&lt;/a&gt;.
-Of course, the model isn’t without its &lt;a href=&quot;https://psycnet.apa.org/record/1995-21277-001&quot;&gt;criticism&lt;/a&gt;.
-Regardless of how you feel about the Big 5 model, or personality tests in general, there’s no doubt that studies relating to this are prevalent in the field of psychology.&lt;/p&gt;
+Although the model isn’t without its &lt;a href=&quot;https://psycnet.apa.org/record/1995-21277-001&quot;&gt;criticism&lt;/a&gt;, studies relating to the Big 5 are prevalent in psychology.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/images/big-five-personality-traits-infographic.png&quot; alt=&quot;A summary of the Big 5 personality traits.&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Typically, a person is assigned a personality score after responding to questions on a &lt;a href=&quot;https://openpsychometrics.org/tests/IPIP-BFFM/&quot;&gt;questionnaire&lt;/a&gt;.
-You can take a test &lt;a href=&quot;https://openpsychometrics.org/tests/IPIP-BFFM/&quot;&gt;here&lt;/a&gt;, if you are so inclined.
-However, there has been &lt;a href=&quot;https://link.springer.com/article/10.1007/s10462-019-09770-z&quot;&gt;considerable effort&lt;/a&gt; as of late to use deep learning to develop alternate assessment techniques.
-It is to this task that I devote myself in this project: can a short essay from your stream of consciousness be used to predict your personality type?&lt;/p&gt;
+However, there has been &lt;a href=&quot;https://link.springer.com/article/10.1007/s10462-019-09770-z&quot;&gt;considerable effort&lt;/a&gt; spent as of late towards developing alternate assessment techniques with deep learning.
+It is to this task that I devote myself in this project: can a short essay from your stream-of-consciousness be used to predict your personality type?&lt;/p&gt;
 
-&lt;p&gt;Throughout this project, I compared my work to that of &lt;a href=&quot;https://www.sciencedirect.com/science/article/pii/S1110866521000311&quot;&gt;El-Demerdash et. al.&lt;/a&gt; in their paper “Deep learning based fusion strategies for personality prediction”.
-In their work, they were ultimately able to perform the task of classifying personality from an essay with about 61.85% accuracy.
-To achieve this, they used an ensemble of three large language models(LLMs), as well as a “fused” training dataset consisting of both the stream of consciousness essays and user’s facebook activity.
+&lt;p&gt;Throughout this project, I compared my work to that of &lt;a href=&quot;https://www.sciencedirect.com/science/article/pii/S1110866521000311&quot;&gt;El-Demerdash et. al.&lt;/a&gt; in their paper “Deep Learning Based Fusion Strategies for Personality Prediction”.
+In this work, they attained 61.85% accuracy in determining a person’s personality type from their essays.
+To achieve this, they used an ensemble of three large language models(LLMs), as well as a “fused” training dataset consisting of both the stream-of-consciousness essays and user’s facebook activity.
 That is a more intensive project than I care to undertake at the moment, but luckily they reported their intermediate results as well.&lt;/p&gt;
 
-&lt;p&gt;In particular, they report the result of fine-tuning the BERT LLM on only the stream of consciousness data, where they were able to achieve 60.43% accuracy.
+&lt;p&gt;In particular, they report the result of fine-tuning the BERT LLM on only the stream-of-consciousness data, after which they achieved 60.43% accuracy in personality classification.
 This is most similar to my attempt, described further below, based around building light classifiers on top of Sentence-BERT embeddings.&lt;/p&gt;
 
 &lt;h2 id=&quot;the-data&quot;&gt;The Data&lt;/h2&gt;
 &lt;p&gt;The dataset used in this project consists of 2,467 essays collected by &lt;a href=&quot;https://psycnet.apa.org/doiLanding?doi=10.1037%2F0022-3514.77.6.1296&quot;&gt;James Pennebaker et al.&lt;/a&gt;.
-Students wrote down their stream of consciousnesses, then took a standardized personality test.
+Students wrote down their stream-of-consciousnesses, then took a standardized personality test.
 Often referred to as the &lt;em&gt;Essays Dataset&lt;/em&gt;, this has become one of the most prominent datasets used to build and measure automated personality classification systems.
 &lt;a href=&quot;https://sites.google.com/michalkosinski.com/mypersonality&quot;&gt;&lt;em&gt;myPersonality&lt;/em&gt;&lt;/a&gt;, a dataset consisting Facebook content coupled with the user’s personality type information, is also quite prominent. 
 However, this dataset’s maintainers stopped sharing it in 2018, and I felt it best to respect their decision to withdraw it.&lt;/p&gt;
