@@ -3,7 +3,7 @@ layout: post
 author: brent
 title:  "Classifying Personality with Machine Learning"
 image: assets/images/personality_classification.png
-date:   2023-04-17
+date:   2023-04-23
 categories: [Machine Learning, TensorFlow, NLP]
 comments: true
 ---
