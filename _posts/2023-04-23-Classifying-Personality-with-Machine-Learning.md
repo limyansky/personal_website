@@ -44,7 +44,7 @@ This is most similar to my attempt, described further below, based around buildi
 The dataset used in this project consists of 2,467 essays collected by [James Pennebaker et al.](https://psycnet.apa.org/doiLanding?doi=10.1037%2F0022-3514.77.6.1296).
 Students wrote down their stream-of-consciousnesses, then took a standardized personality test.
 Often referred to as the _Essays Dataset_, this has become one of the most prominent datasets used to build and measure automated personality classification systems.
-[_myPersonality_](https://sites.google.com/michalkosinski.com/mypersonality), a dataset consisting Facebook content coupled with the user's personality type information, is also quite prominent. 
+[_myPersonality_](https://sites.google.com/michalkosinski.com/mypersonality), a dataset consisting of Facebook content coupled with the user's personality type information, is also quite prominent. 
 However, this dataset's maintainers stopped sharing it in 2018, and I felt it best to respect their withdrawal by not using it in this work.
 
 ### Data Preparation
