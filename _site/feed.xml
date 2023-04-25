@@ -5,8 +5,8 @@
     <description>A website to showcase my personal projects.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 23 Apr 2023 16:28:14 -0700</pubDate>
-    <lastBuildDate>Sun, 23 Apr 2023 16:28:14 -0700</lastBuildDate>
+    <pubDate>Tue, 25 Apr 2023 14:24:06 -0700</pubDate>
+    <lastBuildDate>Tue, 25 Apr 2023 14:24:06 -0700</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -61,8 +61,8 @@ BERT was originally &lt;a href=&quot;https://huggingface.co/bert-base-multilingu
 However, it was created with the assumption that it would be fine-tuned to perform specific tasks, such as aiding &lt;a href=&quot;https://blog.google/products/search/search-language-understanding-bert/&quot;&gt;Google searches&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;This project uses &lt;a href=&quot;https://arxiv.org/abs/1908.10084&quot;&gt;Sentence-BERT&lt;/a&gt;, a variation of BERT trained for semantic text similarity tasks.
-Sentence-BERT takes a sentence or short paragraph as input, and outputs a 384-dimensional embedding of that text.
-Embeddings can be compared via &lt;a href=&quot;https://en.wikipedia.org/wiki/Cosine_similarity&quot;&gt;cosine similarity&lt;/a&gt; or Euclidean distance to determine if they convey a similar meaning.&lt;/p&gt;
+Sentence-BERT takes a sentence or short paragraph as input, and outputs a point called an &lt;em&gt;embedding&lt;/em&gt; in 384-dimensional space.
+The magic of Sentence-BERT is that these embeddings can be compared via &lt;a href=&quot;https://en.wikipedia.org/wiki/Cosine_similarity&quot;&gt;cosine similarity&lt;/a&gt; or Euclidean distance to determine if they convey a similar meaning.&lt;/p&gt;
 
 &lt;h2 id=&quot;my-method&quot;&gt;My Method&lt;/h2&gt;
 &lt;p&gt;My classification technique was a two step process: embedding the paragraphs with Sentence-BERT, and then running these embeddings through binary classifiers.&lt;/p&gt;

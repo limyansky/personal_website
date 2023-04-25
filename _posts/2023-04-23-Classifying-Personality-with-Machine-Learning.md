@@ -60,8 +60,8 @@ BERT was originally [trained](https://huggingface.co/bert-base-multilingual-case
 However, it was created with the assumption that it would be fine-tuned to perform specific tasks, such as aiding [Google searches](https://blog.google/products/search/search-language-understanding-bert/).
 
 This project uses [Sentence-BERT](https://arxiv.org/abs/1908.10084), a variation of BERT trained for semantic text similarity tasks.
-Sentence-BERT takes a sentence or short paragraph as input, and outputs a 384-dimensional embedding of that text.
-Embeddings can be compared via [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity) or Euclidean distance to determine if they convey a similar meaning.
+Sentence-BERT takes a sentence or short paragraph as input, and outputs a point called an _embedding_ in 384-dimensional space.
+The magic of Sentence-BERT is that these embeddings can be compared via [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity) or Euclidean distance to determine if they convey a similar meaning.
 
 ## My Method
 My classification technique was a two step process: embedding the paragraphs with Sentence-BERT, and then running these embeddings through binary classifiers.
