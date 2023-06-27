@@ -25,6 +25,8 @@ The [Big 5](https://en.wikipedia.org/wiki/Big_Five_personality_traits) system cl
 Where a person falls on this scale (and how this changes with time) can have implications over a wide range of topics, such as [academic achievement](https://archive.org/details/sim_personality-and-individual-differences_2011-09_51_4/page/n2/mode/1up) and [mental health](https://www.sciencedirect.com/science/article/abs/pii/S0272735803001132?via%3Dihub).
 Although the model isn't without its [criticism](https://psycnet.apa.org/record/1995-21277-001), studies relating to the Big 5 are prevalent in psychology.
 
+![A summary of the Big 5 personality traits.](/assets/images/big-five-personality-traits-infographic.png)
+
 Typically, a person is assigned a personality score after responding to questions on a [questionnaire](https://openpsychometrics.org/tests/IPIP-BFFM/).
 However, there has been [considerable effort](https://link.springer.com/article/10.1007/s10462-019-09770-z) spent as of late towards developing alternate assessment techniques with deep learning.
 It is to this task that I devote myself in this project: can a short essay from your stream-of-consciousness be used to predict your personality type?
