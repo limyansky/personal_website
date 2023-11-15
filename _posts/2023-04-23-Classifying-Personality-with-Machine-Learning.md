@@ -12,7 +12,7 @@ In this project, I demonstrate a technique to classify a person's Big 5 personal
 I achieved an average accuracy of 58% across the five personality categories by using Sentence-BERT embeddings coupled with small neural network classifiers.
 Although this is slightly less than the 60% accuracy achieved by other BERT-based techniques, my model represents a 1000x reduction in complexity from these other methods.
 In addition to demonstrating the power of Sentence-BERT, this reduction in complexity is an important step in making these types of models more distributable to end users.
-The code for this project is available on [GitHub](https://github.com/limyansky/Personality-Classification/blob/main/Embed_Sentences.ipynb) as a Google Collaboratory notebook.
+The code for this project is available on [GitHub](https://github.com/limyansky/Personality-Classification/blob/main/Personality_Classification.ipynb) as a Google Collaboratory notebook.
 
 ## Disclaimer
 While I present this work in the context of psychology, this is a substantial deviation from the areas of research in which I have been formally trained.
@@ -24,8 +24,6 @@ If these results seem relevant to your work, I'd instead point you to [_Deep Lea
 The [Big 5](https://en.wikipedia.org/wiki/Big_Five_personality_traits) system classifies a person's personality according to openness to experience, conscientiousness, extroversion, agreeableness, and neuroticism.
 Where a person falls on this scale (and how this changes with time) can have implications over a wide range of topics, such as [academic achievement](https://archive.org/details/sim_personality-and-individual-differences_2011-09_51_4/page/n2/mode/1up) and [mental health](https://www.sciencedirect.com/science/article/abs/pii/S0272735803001132?via%3Dihub).
 Although the model isn't without its [criticism](https://psycnet.apa.org/record/1995-21277-001), studies relating to the Big 5 are prevalent in psychology.
-
-![A summary of the Big 5 personality traits.](/assets/images/big-five-personality-traits-infographic.png)
 
 Typically, a person is assigned a personality score after responding to questions on a [questionnaire](https://openpsychometrics.org/tests/IPIP-BFFM/).
 However, there has been [considerable effort](https://link.springer.com/article/10.1007/s10462-019-09770-z) spent as of late towards developing alternate assessment techniques with deep learning.

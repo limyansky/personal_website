@@ -3,10 +3,10 @@
   <channel>
     <title>Brent Limyansky, PhD</title>
     <description>A website to showcase my personal projects.</description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 25 Apr 2023 14:29:01 -0700</pubDate>
-    <lastBuildDate>Tue, 25 Apr 2023 14:29:01 -0700</lastBuildDate>
+    <link>https://limyansky.com/</link>
+    <atom:link href="https://limyansky.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Wed, 15 Nov 2023 11:18:02 -0500</pubDate>
+    <lastBuildDate>Wed, 15 Nov 2023 11:18:02 -0500</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -15,7 +15,7 @@
 I achieved an average accuracy of 58% across the five personality categories by using Sentence-BERT embeddings coupled with small neural network classifiers.
 Although this is slightly less than the 60% accuracy achieved by other BERT-based techniques, my model represents a 1000x reduction in complexity from these other methods.
 In addition to demonstrating the power of Sentence-BERT, this reduction in complexity is an important step in making these types of models more distributable to end users.
-The code for this project is available on &lt;a href=&quot;https://github.com/limyansky/Personality-Classification/blob/main/Embed_Sentences.ipynb&quot;&gt;GitHub&lt;/a&gt; as a Google Collaboratory notebook.&lt;/p&gt;
+The code for this project is available on &lt;a href=&quot;https://github.com/limyansky/Personality-Classification/blob/main/Personality_Classification.ipynb&quot;&gt;GitHub&lt;/a&gt; as a Google Collaboratory notebook.&lt;/p&gt;
 
 &lt;h2 id=&quot;disclaimer&quot;&gt;Disclaimer&lt;/h2&gt;
 &lt;p&gt;While I present this work in the context of psychology, this is a substantial deviation from the areas of research in which I have been formally trained.
@@ -27,8 +27,6 @@ If these results seem relevant to your work, I’d instead point you to &lt;a hr
 &lt;p&gt;The &lt;a href=&quot;https://en.wikipedia.org/wiki/Big_Five_personality_traits&quot;&gt;Big 5&lt;/a&gt; system classifies a person’s personality according to openness to experience, conscientiousness, extroversion, agreeableness, and neuroticism.
 Where a person falls on this scale (and how this changes with time) can have implications over a wide range of topics, such as &lt;a href=&quot;https://archive.org/details/sim_personality-and-individual-differences_2011-09_51_4/page/n2/mode/1up&quot;&gt;academic achievement&lt;/a&gt; and &lt;a href=&quot;https://www.sciencedirect.com/science/article/abs/pii/S0272735803001132?via%3Dihub&quot;&gt;mental health&lt;/a&gt;.
 Although the model isn’t without its &lt;a href=&quot;https://psycnet.apa.org/record/1995-21277-001&quot;&gt;criticism&lt;/a&gt;, studies relating to the Big 5 are prevalent in psychology.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/big-five-personality-traits-infographic.png&quot; alt=&quot;A summary of the Big 5 personality traits.&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Typically, a person is assigned a personality score after responding to questions on a &lt;a href=&quot;https://openpsychometrics.org/tests/IPIP-BFFM/&quot;&gt;questionnaire&lt;/a&gt;.
 However, there has been &lt;a href=&quot;https://link.springer.com/article/10.1007/s10462-019-09770-z&quot;&gt;considerable effort&lt;/a&gt; spent as of late towards developing alternate assessment techniques with deep learning.
@@ -131,9 +129,9 @@ For example, one could imagine building a model to classify individual sentences
 This could be further combined with clustering techniques to either remove outlier sentences, or perhaps even remove non-outliers.&lt;/p&gt;
 
 </description>
-        <pubDate>Sun, 23 Apr 2023 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/Classifying-Personality-with-Machine-Learning/</link>
-        <guid isPermaLink="true">http://localhost:4000/Classifying-Personality-with-Machine-Learning/</guid>
+        <pubDate>Sun, 23 Apr 2023 00:00:00 -0400</pubDate>
+        <link>https://limyansky.com/Classifying-Personality-with-Machine-Learning/</link>
+        <guid isPermaLink="true">https://limyansky.com/Classifying-Personality-with-Machine-Learning/</guid>
         
         
         <category>Machine Learning</category>
@@ -428,9 +426,9 @@ For the full version history, please refer to &lt;a href=&quot;https://github.co
 &lt;a href=&quot;https://huggingface.co/course/chapter7/&quot;&gt;https://huggingface.co/course/chapter7/&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&quot;https://huggingface.co/course/chapter3/&quot;&gt;https://huggingface.co/course/chapter3/&lt;/a&gt;&lt;/p&gt;
 </description>
-        <pubDate>Thu, 23 Mar 2023 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/A-Guessing-Game-with-GPT2/</link>
-        <guid isPermaLink="true">http://localhost:4000/A-Guessing-Game-with-GPT2/</guid>
+        <pubDate>Thu, 23 Mar 2023 00:00:00 -0400</pubDate>
+        <link>https://limyansky.com/A-Guessing-Game-with-GPT2/</link>
+        <guid isPermaLink="true">https://limyansky.com/A-Guessing-Game-with-GPT2/</guid>
         
         
         <category>Machine Learning</category>
@@ -511,9 +509,9 @@ One organization I was previously involved with lost their domain in this manner
 I hope that by going into detail on what I finally settled on, I can save you some time in designing your own website.
 Good luck!&lt;/p&gt;
 </description>
-        <pubDate>Tue, 27 Sep 2022 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/Building-A-Website/</link>
-        <guid isPermaLink="true">http://localhost:4000/Building-A-Website/</guid>
+        <pubDate>Tue, 27 Sep 2022 00:00:00 -0400</pubDate>
+        <link>https://limyansky.com/Building-A-Website/</link>
+        <guid isPermaLink="true">https://limyansky.com/Building-A-Website/</guid>
         
         
         <category>project</category>
