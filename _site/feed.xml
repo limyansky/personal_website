@@ -3,10 +3,10 @@
   <channel>
     <title>Brent Limyansky, PhD</title>
     <description>A website to showcase my personal projects.</description>
-    <link>https://limyansky.com/</link>
-    <atom:link href="https://limyansky.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 15 Nov 2023 11:18:02 -0500</pubDate>
-    <lastBuildDate>Wed, 15 Nov 2023 11:18:02 -0500</lastBuildDate>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sun, 19 Nov 2023 23:53:47 -0500</pubDate>
+    <lastBuildDate>Sun, 19 Nov 2023 23:53:47 -0500</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -130,8 +130,8 @@ This could be further combined with clustering techniques to either remove outli
 
 </description>
         <pubDate>Sun, 23 Apr 2023 00:00:00 -0400</pubDate>
-        <link>https://limyansky.com/Classifying-Personality-with-Machine-Learning/</link>
-        <guid isPermaLink="true">https://limyansky.com/Classifying-Personality-with-Machine-Learning/</guid>
+        <link>http://localhost:4000/Classifying-Personality-with-Machine-Learning/</link>
+        <guid isPermaLink="true">http://localhost:4000/Classifying-Personality-with-Machine-Learning/</guid>
         
         
         <category>Machine Learning</category>
@@ -427,8 +427,8 @@ For the full version history, please refer to &lt;a href=&quot;https://github.co
 &lt;a href=&quot;https://huggingface.co/course/chapter3/&quot;&gt;https://huggingface.co/course/chapter3/&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 23 Mar 2023 00:00:00 -0400</pubDate>
-        <link>https://limyansky.com/A-Guessing-Game-with-GPT2/</link>
-        <guid isPermaLink="true">https://limyansky.com/A-Guessing-Game-with-GPT2/</guid>
+        <link>http://localhost:4000/A-Guessing-Game-with-GPT2/</link>
+        <guid isPermaLink="true">http://localhost:4000/A-Guessing-Game-with-GPT2/</guid>
         
         
         <category>Machine Learning</category>
@@ -510,8 +510,8 @@ I hope that by going into detail on what I finally settled on, I can save you so
 Good luck!&lt;/p&gt;
 </description>
         <pubDate>Tue, 27 Sep 2022 00:00:00 -0400</pubDate>
-        <link>https://limyansky.com/Building-A-Website/</link>
-        <guid isPermaLink="true">https://limyansky.com/Building-A-Website/</guid>
+        <link>http://localhost:4000/Building-A-Website/</link>
+        <guid isPermaLink="true">http://localhost:4000/Building-A-Website/</guid>
         
         
         <category>project</category>
