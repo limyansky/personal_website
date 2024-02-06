@@ -90,3 +90,13 @@ In fact, after taking a minute to dig through the API documentation, we can see 
 
 The downside to this, versus specifically downloading your data, is that your analysis is much more limited in scope.
 While your extended streaming data includes a timestamp for every play of every song you've ever listened to, there's really no way to request that information through the API. 
+
+Anyways, that's a broad overview of API's in general.
+In this project, I used the Spotify API to determine the genre of each song I had listened to. 
+Specifically, I used the [Spotipy]() python library to interact with the API.
+I first took each song's unique URI and requested the unique artist URI's associated with that song (note: although the downloaded data contains artist name, this is a plaintext "Taylor Swift", and insufficient to actually query the API).
+Then, I requested the artist URI to request the genre's associated with that artist. 
+Correlating this data, I wound up with a list of genres associated with each song.
+
+There was a sneaky gottcha here - if a song was performed by, say, two "pop" artists, it gets two "pop" tags, and is counted in the genre total for "pop" twice! 
+In SQL, you'd correct for this with a `GROUP BY` command, but in Tableau I used a [Level of Detail](https://help.tableau.com/current/pro/desktop/en-us/calculations_calculatedfields_lod.htm) expression.
