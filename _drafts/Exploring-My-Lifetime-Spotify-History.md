@@ -50,7 +50,32 @@ We spent some time reminiscing about what we saw as the defining stages of our l
 [Tableau Public](https://public.tableau.com/app/profile/brent.limyansky/viz/MySpotifyData_17066362308130/Dashboard12)
 [GitHub](https://github.com/limyansky/my_spotify)
 
+# The Best Things I Learned
+My single favorite takeaway from this project was seeing how steeply my listening dropped off when I was working on my Master's Degree.
+This was definitely the most social part of grad school for me, where we were either TAing or working on homework problems together nearly all the time.
+Apparently I wasn't selected to be DJ...
+
+![Actual Handout](/assets/images/spotify_artice/Jackson.png)
+Part of an _actual_ handout given to us by our electromagnetism professor (original by Davon Ferrara)
+
+![Grading](/assets/images/spotify_artice/Grading.png)
+A selfie of the author grading tests with his classmates.
+
+I also really liked using it to explore genres that, despite listening to, I didn't know existed.
+For example, neo mellow was something I'd listened to quite a bit, yet I'd never heard of it before.
+Selecting it on my dashboard shows me my top neo mellow artists... 
+![Neo Mellow](/assets/images/spotify_artice/NeoMellow.png)
+and give me this fun moment where I thought to myself "now that you mention it, I kinda see what these guys have in common". 
+Now, I'm searching neo mellow playlists on Spotify and finding new things to listen to! 
+
+My overall listening history also reminds me of [PSR J0218+4232](https://iopscience.iop.org/article/10.3847/1538-4357/ac20d7), so that's neat too. 
+![A pulsar in my thesis.](/assets/images/spotify_artice/Pulsar.jpg)
+
+There's really a lot to dig into, and I look forward to seeing other ways in which I use this dashboard in the future!
+
 # Technical Details
+[GitHub](https://github.com/limyansky/my_spotify)
+
 ## Getting the Data from Spotify
 Spotify is constantly gathering data about how you interact with their services.
 As a part of their data transparency policy, they will allow you to [request](https://support.spotify.com/us/article/data-rights-and-privacy-settings/) this data so that you know exactly what it is they are collecting.
@@ -100,3 +125,7 @@ Correlating this data, I wound up with a list of genres associated with each son
 
 There was a sneaky gottcha here - if a song was performed by, say, two "pop" artists, it gets two "pop" tags, and is counted in the genre total for "pop" twice! 
 In SQL, you'd correct for this with a `GROUP BY` command, but in Tableau I used a [Level of Detail](https://help.tableau.com/current/pro/desktop/en-us/calculations_calculatedfields_lod.htm) expression.
+This is why you can select a genre on the dashboard, and the total will be different than the total for Hours by Artist.
+While I was okay with saying "I listened to both Taylor Swift and Ed Sheeran for three minutes by listening to Everything has Changed", I didn't think it was fair to say I listened to six minutes of pop.
+
+![Genre and Artist hours differ](/assets/images/spotify_artice/Dashboard.png)
