@@ -57,17 +57,24 @@ My single favorite takeaway from this project was seeing how steeply my listenin
 This was definitely the most social part of grad school for me, where we were either TAing or working on homework problems together nearly all the time.
 Apparently I wasn't selected to be DJ...
 
+{:refdef: style="text-align: center;"}
 ![Actual Handout](/assets/images/spotify_article/Jackson.png)  
-Part of an _actual_ handout given to us by our electromagnetism professor (original by Davon Ferrara)
+Part of an _actual_ handout given to us by our electromagnetism professor (original by Davon Ferrara).
+{:refdef}
 
+{:refdef: style="text-align: center;"}
 ![Grading](/assets/images/spotify_article/Grading.jpg)  
 A selfie of the author grading tests with his classmates.
+{:refdef}
 
 I also really liked using it to explore genres that, despite listening to, I didn't know existed.
 For example, neo mellow was something I'd listened to quite a bit, yet I'd never heard of it before.
 Selecting it on my dashboard shows me my top neo mellow artists...  
 
+{:refdef: style="text-align: center;"}
 ![Neo Mellow](/assets/images/spotify_article/NeoMellow.png)  
+{:refdef}
+
 and give me this fun moment where I thought to myself "now that you mention it, I kinda see what these guys have in common".  
 
 Now, I'm searching neo mellow playlists on Spotify and finding new things to listen to! 
@@ -104,17 +111,24 @@ However, while I think genre of music best tells the story of my music tastes, t
 Which leads me to...
 
 ## The Spotify API
-If you aren't familiar, API stands for "application programming interface", and is a simple way for apps to talk to one another. For example, here's an "API Endpoint" that asks the "REST Countries API" to give you information about Russia:
+If you aren't familiar, API stands for "application programming interface", and is a simple way for apps to talk to one another. For example, here's an "API Endpoint" that asks the "REST Countries API" to give you information about Russia:  
+{:refdef: style="text-align: center;"}
 [https://restcountries.com/v3.1/name/Russia](https://restcountries.com/v3.1/name/Russia)  
+{:refdef}
+
 If you instead want to know information about Germany, you can change the address to:  
+
+{:refdef: style="text-align: center;"}
 [https://restcountries.com/v3.1/name/Germany](https://restcountries.com/v3.1/name/Germany)  
+{:refdef}
+
 The idea is that your program is able to ask simple questions in this format ("Tell me about Germany"), and get an answer that is easy for the computer to understand and work with.
 
 The [Spotify API](https://developer.spotify.com/documentation/web-api) is free, but does require you to make a developer account and generate some credentials for yourself before you can use it. 
 If you want a fun example of the kind of app you can build around this, check out [statsforspotify.com](https://www.statsforspotify.com/).
 After logging into your account, this website gives you details such as your top artists over a 4-week or 6-month time period, or the lifetime of your account. 
 Why only these time periods?
-Well, the Spotify API has a [get user's top items](https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks) function, which allows you to request a user's most-streamed items over a `short_term`(4 week), `medium_term`(6 month) or `long_term` (all) time period.
+Well, the Spotify API has a [get user's top items](https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks) function, which allows you to request a user's most-streamed items over a `short_term` (4 week), `medium_term` (6 month) or `long_term` (all) time period.
 In fact, after taking a minute to dig through the API documentation, we can see that Stats for Spotify is a minimalist wrapper around the larger Spotify API!
 
 The downside to this, versus specifically downloading your data, is that your analysis is much more limited in scope.
@@ -132,4 +146,6 @@ In SQL, you'd correct for this with a `GROUP BY` command, but in Tableau I used 
 This is why you can select a genre on the dashboard, and the total will be different than the total for Hours by Artist.
 While I was okay with saying "I listened to both Taylor Swift and Ed Sheeran for three minutes by listening to Everything has Changed", I didn't think it was fair to say I listened to six minutes of pop.
 
+{:refdef: style="text-align: center;"}
 ![Genre and Artist hours differ](/assets/images/spotify_article/GenreHours.png)
+{:refdef}

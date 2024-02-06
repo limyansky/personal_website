@@ -5,8 +5,8 @@
     <description>A website to showcase my personal projects.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 05 Feb 2024 22:42:17 -0500</pubDate>
-    <lastBuildDate>Mon, 05 Feb 2024 22:42:17 -0500</lastBuildDate>
+    <pubDate>Mon, 05 Feb 2024 22:56:33 -0500</pubDate>
+    <lastBuildDate>Mon, 05 Feb 2024 22:56:33 -0500</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -22,18 +22,19 @@ We spent some time reminiscing about what we saw as the defining stages of our l
 This was definitely the most social part of grad school for me, where we were either TAing or working on homework problems together nearly all the time.
 Apparently I wasn’t selected to be DJ…&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/images/spotify_article/Jackson.png&quot; alt=&quot;Actual Handout&quot; /&gt;&lt;br /&gt;
-Part of an &lt;em&gt;actual&lt;/em&gt; handout given to us by our electromagnetism professor (original by Davon Ferrara)&lt;/p&gt;
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/assets/images/spotify_article/Jackson.png&quot; alt=&quot;Actual Handout&quot; /&gt;&lt;br /&gt;
+Part of an &lt;em&gt;actual&lt;/em&gt; handout given to us by our electromagnetism professor (original by Davon Ferrara).&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/images/spotify_article/Grading.jpg&quot; alt=&quot;Grading&quot; /&gt;&lt;br /&gt;
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/assets/images/spotify_article/Grading.jpg&quot; alt=&quot;Grading&quot; /&gt;&lt;br /&gt;
 A selfie of the author grading tests with his classmates.&lt;/p&gt;
 
 &lt;p&gt;I also really liked using it to explore genres that, despite listening to, I didn’t know existed.
 For example, neo mellow was something I’d listened to quite a bit, yet I’d never heard of it before.
 Selecting it on my dashboard shows me my top neo mellow artists…&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/images/spotify_article/NeoMellow.png&quot; alt=&quot;Neo Mellow&quot; /&gt;&lt;br /&gt;
-and give me this fun moment where I thought to myself “now that you mention it, I kinda see what these guys have in common”.&lt;/p&gt;
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/assets/images/spotify_article/NeoMellow.png&quot; alt=&quot;Neo Mellow&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;and give me this fun moment where I thought to myself “now that you mention it, I kinda see what these guys have in common”.&lt;/p&gt;
 
 &lt;p&gt;Now, I’m searching neo mellow playlists on Spotify and finding new things to listen to!&lt;/p&gt;
 
@@ -71,17 +72,20 @@ However, while I think genre of music best tells the story of my music tastes, t
 Which leads me to…&lt;/p&gt;
 
 &lt;h2 id=&quot;the-spotify-api&quot;&gt;The Spotify API&lt;/h2&gt;
-&lt;p&gt;If you aren’t familiar, API stands for “application programming interface”, and is a simple way for apps to talk to one another. For example, here’s an “API Endpoint” that asks the “REST Countries API” to give you information about Russia:
-&lt;a href=&quot;https://restcountries.com/v3.1/name/Russia&quot;&gt;https://restcountries.com/v3.1/name/Russia&lt;/a&gt;&lt;br /&gt;
-If you instead want to know information about Germany, you can change the address to:&lt;br /&gt;
-&lt;a href=&quot;https://restcountries.com/v3.1/name/Germany&quot;&gt;https://restcountries.com/v3.1/name/Germany&lt;/a&gt;&lt;br /&gt;
-The idea is that your program is able to ask simple questions in this format (“Tell me about Germany”), and get an answer that is easy for the computer to understand and work with.&lt;/p&gt;
+&lt;p&gt;If you aren’t familiar, API stands for “application programming interface”, and is a simple way for apps to talk to one another. For example, here’s an “API Endpoint” that asks the “REST Countries API” to give you information about Russia:&lt;/p&gt;
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://restcountries.com/v3.1/name/Russia&quot;&gt;https://restcountries.com/v3.1/name/Russia&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;If you instead want to know information about Germany, you can change the address to:&lt;/p&gt;
+
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://restcountries.com/v3.1/name/Germany&quot;&gt;https://restcountries.com/v3.1/name/Germany&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The idea is that your program is able to ask simple questions in this format (“Tell me about Germany”), and get an answer that is easy for the computer to understand and work with.&lt;/p&gt;
 
 &lt;p&gt;The &lt;a href=&quot;https://developer.spotify.com/documentation/web-api&quot;&gt;Spotify API&lt;/a&gt; is free, but does require you to make a developer account and generate some credentials for yourself before you can use it. 
 If you want a fun example of the kind of app you can build around this, check out &lt;a href=&quot;https://www.statsforspotify.com/&quot;&gt;statsforspotify.com&lt;/a&gt;.
 After logging into your account, this website gives you details such as your top artists over a 4-week or 6-month time period, or the lifetime of your account. 
 Why only these time periods?
-Well, the Spotify API has a &lt;a href=&quot;https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks&quot;&gt;get user’s top items&lt;/a&gt; function, which allows you to request a user’s most-streamed items over a &lt;code class=&quot;highlighter-rouge&quot;&gt;short_term&lt;/code&gt;(4 week), &lt;code class=&quot;highlighter-rouge&quot;&gt;medium_term&lt;/code&gt;(6 month) or &lt;code class=&quot;highlighter-rouge&quot;&gt;long_term&lt;/code&gt; (all) time period.
+Well, the Spotify API has a &lt;a href=&quot;https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks&quot;&gt;get user’s top items&lt;/a&gt; function, which allows you to request a user’s most-streamed items over a &lt;code class=&quot;highlighter-rouge&quot;&gt;short_term&lt;/code&gt; (4 week), &lt;code class=&quot;highlighter-rouge&quot;&gt;medium_term&lt;/code&gt; (6 month) or &lt;code class=&quot;highlighter-rouge&quot;&gt;long_term&lt;/code&gt; (all) time period.
 In fact, after taking a minute to dig through the API documentation, we can see that Stats for Spotify is a minimalist wrapper around the larger Spotify API!&lt;/p&gt;
 
 &lt;p&gt;The downside to this, versus specifically downloading your data, is that your analysis is much more limited in scope.
@@ -99,7 +103,7 @@ In SQL, you’d correct for this with a &lt;code class=&quot;highlighter-rouge&q
 This is why you can select a genre on the dashboard, and the total will be different than the total for Hours by Artist.
 While I was okay with saying “I listened to both Taylor Swift and Ed Sheeran for three minutes by listening to Everything has Changed”, I didn’t think it was fair to say I listened to six minutes of pop.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/images/spotify_article/GenreHours.png&quot; alt=&quot;Genre and Artist hours differ&quot; /&gt;&lt;/p&gt;
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/assets/images/spotify_article/GenreHours.png&quot; alt=&quot;Genre and Artist hours differ&quot; /&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 05 Feb 2024 00:00:00 -0500</pubDate>
         <link>http://localhost:4000/Exploring-My-Lifetime-Spotify-History/</link>
