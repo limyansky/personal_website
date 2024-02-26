@@ -24,7 +24,19 @@ When this outward force balances the inward force of gravity, you get a Lagrange
 In this regard, L1-L3 are the most visibly-intuitive Lagrange Points.
 At these locations, the orbiting bodies exert a gravitational force either exactly in line with the satellite's centrifugal force. When the gravitational force exactly cancels the centrifugal force, you get a Lagrange point. 
 
-The story is very much the same for L4 and L5, although the gravitational force cancelling the centrifugal force is somewhat harder to visualize. 
+The story is very much the same for L4 and L5, although the gravitational force cancelling the centrifugal force is somewhat harder to visualize.
 It was in search of this visualization that I create this notebook.
 
 ## Single-Body Gravitational Potential
+
+![Single-Body Gravitational Potential](/assets/images/lagrange_article/singleObject.jpg)
+
+![Centrifugal Potential](/assets/images/lagrange_article/centrifugalPotential.jpg)
+
+![Adding Spin](/assets/images/lagrange_article/spin.gif)
+
+![Separation of Objects](/assets/images/lagrange_article/separation.gif)
+
+![Changing Ratio](/assets/images/lagrange_article/ratio.gif)
+
+![Lagrange Points](/assets/images/lagrange_article/lagrangePoints.jpg)

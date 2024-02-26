@@ -5,8 +5,8 @@
     <description>A website to showcase my personal projects.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 15 Jan 2024 16:49:07 -0500</pubDate>
-    <lastBuildDate>Mon, 15 Jan 2024 16:49:07 -0500</lastBuildDate>
+    <pubDate>Thu, 18 Jan 2024 11:47:20 -0500</pubDate>
+    <lastBuildDate>Thu, 18 Jan 2024 11:47:20 -0500</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -27,10 +27,22 @@ When this outward force balances the inward force of gravity, you get a Lagrange
 In this regard, L1-L3 are the most visibly-intuitive Lagrange Points.
 At these locations, the orbiting bodies exert a gravitational force either exactly in line with the satellite’s centrifugal force. When the gravitational force exactly cancels the centrifugal force, you get a Lagrange point.&lt;/p&gt;
 
-&lt;p&gt;The story is very much the same for L4 and L5, although the gravitational force cancelling the centrifugal force is somewhat harder to visualize. 
+&lt;p&gt;The story is very much the same for L4 and L5, although the gravitational force cancelling the centrifugal force is somewhat harder to visualize.
 It was in search of this visualization that I create this notebook.&lt;/p&gt;
 
 &lt;h2 id=&quot;single-body-gravitational-potential&quot;&gt;Single-Body Gravitational Potential&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/lagrange_article/singleObject.jpg&quot; alt=&quot;Single-Body Gravitational Potential&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/lagrange_article/centrifugalPotential.jpg&quot; alt=&quot;Centrifugal Potential&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/lagrange_article/spin.gif&quot; alt=&quot;Adding Spin&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/lagrange_article/separation.gif&quot; alt=&quot;Separation of Objects&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/lagrange_article/ratio.gif&quot; alt=&quot;Changing Ratio&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/lagrange_article/lagrangePoints.jpg&quot; alt=&quot;Lagrange Points&quot; /&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 15 Jan 2024 00:00:00 -0500</pubDate>
         <link>http://localhost:4000/Intuition-for-Lagrange-Points/</link>
