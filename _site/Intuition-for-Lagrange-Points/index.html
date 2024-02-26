@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="icon" href="/assets/images/logo.png">
+
+<title>Lagrange Points: Developing an Intuition | Brent Limyansky, PhD</title>
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Lagrange Points: Developing an Intuition | Brent Limyansky, PhD</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Lagrange Points: Developing an Intuition" />
+<meta name="author" content="brent" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="When two bodies in space orbit one-another, there exist special equilibrium points around them where small satellites will feel no net force. These locations are called Lagrange points, and they are essentially parking spots where satellites can stay in the same location relative to the two bodies without expending any fuel (at least, in a perfect universe). The Lagrange points for the Sun and Earth are shown in the image below, labeled L1-L5." />
+<meta property="og:description" content="When two bodies in space orbit one-another, there exist special equilibrium points around them where small satellites will feel no net force. These locations are called Lagrange points, and they are essentially parking spots where satellites can stay in the same location relative to the two bodies without expending any fuel (at least, in a perfect universe). The Lagrange points for the Sun and Earth are shown in the image below, labeled L1-L5." />
+<link rel="canonical" href="http://localhost:4000/Intuition-for-Lagrange-Points/" />
+<meta property="og:url" content="http://localhost:4000/Intuition-for-Lagrange-Points/" />
+<meta property="og:site_name" content="Brent Limyansky, PhD" />
+<meta property="og:image" content="http://localhost:4000/assets/images/lagrange_article/lagrangePoints.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-01-15T00:00:00-05:00" />
+<script type="application/ld+json">
+{"headline":"Lagrange Points: Developing an Intuition","dateModified":"2024-01-15T00:00:00-05:00","datePublished":"2024-01-15T00:00:00-05:00","url":"http://localhost:4000/Intuition-for-Lagrange-Points/","@type":"BlogPosting","image":"http://localhost:4000/assets/images/lagrange_article/lagrangePoints.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/Intuition-for-Lagrange-Points/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/images/logo.png"},"name":"brent"},"author":{"@type":"Person","name":"brent"},"description":"When two bodies in space orbit one-another, there exist special equilibrium points around them where small satellites will feel no net force. These locations are called Lagrange points, and they are essentially parking spots where satellites can stay in the same location relative to the two bodies without expending any fuel (at least, in a perfect universe). The Lagrange points for the Sun and Earth are shown in the image below, labeled L1-L5.","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
+<link href="/assets/css/screen.css" rel="stylesheet">
+
+<link href="/assets/css/main.css" rel="stylesheet">
+
+<script src="/assets/js/jquery.min.js"></script>
+
+</head>
+
+
+
+
+<body class="layout-post">
+	<!-- defer loading of font and font awesome -->
+	<noscript id="deferred-styles">
+		<link href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i" rel="stylesheet">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	</noscript>
+
+
+<!-- Begin Menu Navigation
+================================================== -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top mediumnavigation nav-down">
+
+    <div class="container pr-0">
+
+    <!-- Begin Logo -->
+    <a class="navbar-brand" href="/">
+    <img src="/assets/images/logo.png" alt="Brent Limyansky, PhD">
+    </a>
+    <!-- End Logo -->
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMediumish" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarMediumish">
+
+        <!-- Begin Menu -->
+
+            <ul class="navbar-nav ml-auto">
+
+                
+                <li class="nav-item">
+                
+                <a class="nav-link" href="/index.html">Blog</a>
+                </li>
+
+                <li class="nav-item">
+                <a class="nav-link" href="/LimyanskyAnalyticsLLC">Limyansky Analytics LLC</a>
+                </li>
+
+                <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+                </li>
+
+                <script src="/assets/js/lunr.js"></script>
+
+
+<style>
+    .lunrsearchresult .title {color: #d9230f;}
+    .lunrsearchresult .url {color: silver;}
+    .lunrsearchresult a {display: block; color: #777;}
+    .lunrsearchresult a:hover, .lunrsearchresult a:focus {text-decoration: none;}
+    .lunrsearchresult a:hover .title {text-decoration: underline;}
+</style>
+
+
+<form class="bd-search" onSubmit="return lunr_search(document.getElementById('lunrsearch').value);">
+    <input type="text" class="form-control text-small launch-modal-search" id="lunrsearch" name="q" maxlength="255" value="" placeholder="Type and enter..."/>
+</form>
+
+<div id="lunrsearchresults">
+    <ul></ul>
+</div>
+
+<script src="/assets/js/lunrsearchengine.js"></script>
+
+            </ul>
+
+        <!-- End Menu -->
+
+    </div>
+
+    </div>
+</nav>
+<!-- End Navigation
+================================================== -->
+
+<div class="site-content">
+
+<div class="container">
+
+<!-- Site Title
+================================================== -->
+<div class="mainheading">
+    <h1 class="sitetitle">Brent Limyansky, PhD</h1>
+    <p class="lead">
+        A website to showcase my personal projects.
+    </p>
+</div>
+
+<!-- Content
+================================================== -->
+<div class="main-content">
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<!-- Begin Article
+================================================== -->
+<div class="container">
+    <div class="row">
+
+        <!-- Post Share -->
+        <div class="col-md-2 pl-0">
+            <div class="share sticky-top sticky-top-offset">
+    <p>
+        Share
+    </p>
+    <ul>
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://twitter.com/intent/tweet?text=Lagrange Points: Developing an Intuition&url=http://localhost:4000/Intuition-for-Lagrange-Points/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://facebook.com/sharer.php?u=http://localhost:4000/Intuition-for-Lagrange-Points/" onclick="window.open(this.href, 'facebook-share', 'width=550,height=435');return false;">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/Intuition-for-Lagrange-Points/" onclick="window.open(this.href, 'width=550,height=435');return false;">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+        </li>
+
+    </ul>
+    
+    <div class="sep">
+    </div>
+    <ul>
+        <li>
+        <a class="small smoothscroll" href="#disqus_thread"></a>
+        </li>
+    </ul>
+    
+</div>
+
+        </div>
+
+        <!-- Post -->
+        
+
+        <div class="col-md-9 flex-first flex-md-unordered">
+            <div class="mainheading">
+
+                <!-- Author Box -->
+                
+                <div class="row post-top-meta">
+                    <div class="col-xs-12 col-md-3 col-lg-2 text-center text-md-left mb-4 mb-md-0">
+                        
+                        <img class="author-thumb" src="/assets/images/avatar.jpg" alt="Brent">
+                        
+                    </div>
+                    <div class="col-xs-12 col-md-9 col-lg-10 text-center text-md-left">
+                        <a target="_blank" class="link-dark" href="">Brent</a><a target="_blank" href="" class="btn follow">Follow</a>
+                        <span class="author-description">Aspiring data scientist and author of limyansky.com</span>
+                    </div>
+                </div>
+                
+
+                <!-- Post Title -->
+                <h1 class="posttitle">Lagrange Points: Developing an Intuition</h1>
+
+            </div>
+
+            <!-- Adsense if enabled from _config.yml (change your pub id and slot) -->
+            
+            <!-- End Adsense -->
+
+            <!-- Post Featured Image -->
+            
+
+            
+            <img class="featured-image img-fluid" src="/assets/images/lagrange_article/lagrangePoints.jpg" alt="Lagrange Points: Developing an Intuition">
+            
+
+            
+            <!-- End Featured Image -->
+
+            <!-- Post Content -->
+            <div class="article-post">
+                <!-- Toc if any -->
+                
+                <!-- End Toc -->
+                <p>When two bodies in space orbit one-another, there exist special equilibrium points around them where small satellites will feel no net force.
+These locations are called Lagrange points, and they are essentially parking spots where satellites can stay in the same location relative to the two bodies without expending any fuel (at least, in a perfect universe).
+The Lagrange points for the Sun and Earth are shown in the image below, labeled L1-L5.</p>
+
+<p><img src="/assets/images/lagrange_article/lagrangePointsSimple.png" alt="Lagrange Point Diagram" />
+By Xander89-File:Lagrange_points2.svg,CC BY 3.0, <a href="https://commons.wikimedia.org/w/index.php?curid=36697081">Wikimedia Commons</a></p>
+
+<p>Most people have some familiarity with the so-called centrifugal force. This is  the name we give to the force that pulls a string taught when we, say, hit a teather ball, and is shown below in red.</p>
+
+<p>By Svjo-File:CentrifugalForce.png,CC BY SA 3.0, <a href="https://commons.wikimedia.org/wiki/File:CentrifugalForce.png">Wikimedia Commons</a></p>
+
+<p>The key to understanding Lagrange points is realizing our satellite also experiences an outward Centrifugal force as it orbits along with the two bodies.
+When this outward force balances the inward force of gravity, you get a Lagrange point.
+In this regard, L1-L3 are the most visibly-intuitive Lagrange Points.
+At these locations, the orbiting bodies exert a gravitational force either exactly in line with the satellite’s centrifugal force. When the gravitational force exactly cancels the centrifugal force, you get a Lagrange point.</p>
+
+<p>The story is very much the same for L4 and L5, although the gravitational force cancelling the centrifugal force is somewhat harder to visualize.
+It was in search of this visualization that I create this notebook.</p>
+
+<h2 id="single-body-gravitational-potential">Single-Body Gravitational Potential</h2>
+
+<p><img src="/assets/images/lagrange_article/singleObject.jpg" alt="Single-Body Gravitational Potential" /></p>
+
+<p><img src="/assets/images/lagrange_article/centrifugalPotential.jpg" alt="Centrifugal Potential" /></p>
+
+<p><img src="/assets/images/lagrange_article/spin.gif" alt="Adding Spin" /></p>
+
+<p><img src="/assets/images/lagrange_article/separation.gif" alt="Separation of Objects" /></p>
+
+<p><img src="/assets/images/lagrange_article/ratio.gif" alt="Changing Ratio" /></p>
+
+<p><img src="/assets/images/lagrange_article/lagrangePoints.jpg" alt="Lagrange Points" /></p>
+
+            </div>
+
+            <!-- Rating -->
+            
+
+            <!-- Post Date -->
+            <p>
+            <small>
+                <span class="post-date"><time class="post-date" datetime="2024-01-15">15 Jan 2024</time></span>           
+                
+                </small>
+            </p>
+
+            <!-- Post Categories -->
+            <div class="after-post-cats">
+                <ul class="tags mb-4">
+                    
+                    
+                    <li>
+                        <a class="smoothscroll" href="/categories#Mathematica">Mathematica</a>
+                    </li>
+                    
+                    <li>
+                        <a class="smoothscroll" href="/categories#Physics">Physics</a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- End Categories -->
+
+            <!-- Post Tags -->
+            <div class="after-post-tags">
+                <ul class="tags">
+                    
+                    
+                </ul>
+            </div>
+            <!-- End Tags -->
+
+            <!-- Prev/Next -->
+            <div class="row PageNavigation d-flex justify-content-between font-weight-bold">
+            
+            <a class="prev d-block col-md-6" href="//Classifying-Personality-with-Machine-Learning/"> &laquo; Classifying Personality with Machine Learning</a>
+            
+            
+            <div class="clearfix"></div>
+            </div>
+            <!-- End Categories -->
+
+        </div>
+        <!-- End Post -->
+
+    </div>
+</div>
+<!-- End Article
+================================================== -->
+
+<!-- Begin Comments
+================================================== -->
+
+    <div class="container">
+        <div id="comments" class="row justify-content-center mb-5">
+            <div class="col-md-8">
+                <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'limyansky'; 
+        var disqus_developer = 0;
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+            </div>
+        </div>
+    </div>
+
+<!--End Comments
+================================================== -->
+
+<!-- Review with LD-JSON, adapt it for your needs if you like, but make sure you test the generated HTML source code first: 
+https://search.google.com/structured-data/testing-tool/u/0/
+================================================== -->
+
+</div>
+
+
+    
+</div>
+
+<!-- Categories Jumbotron
+================================================== -->
+<div class="jumbotron fortags">
+	<div class="d-md-flex h-100">
+		<div class="col-md-4 transpdark align-self-center text-center h-100">
+            <div class="d-md-flex align-items-center justify-content-center h-100">
+                <h2 class="d-md-block align-self-center py-1 font-weight-light">Explore <span class="d-none d-md-inline">→</span></h2>
+            </div>
+		</div>
+		<div class="col-md-8 p-5 align-self-center text-center">
+            
+            
+                
+                    <a class="mt-1 mb-1" href="/categories#project">project (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#github">github (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Data-Science">Data Science (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Studying">Studying (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#SQL">SQL (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Projects">Projects (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Machine-Learning">Machine Learning (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#TensorFlow">TensorFlow (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#GPT">GPT (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#NLP">NLP (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Physics">Physics (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Mathematica">Mathematica (1)</a>
+                
+            
+            
+		</div>
+	</div>
+</div>
+
+<!-- Begin Footer
+================================================== -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 text-center text-lg-left">
+                Copyright © 2024 Brent Limyansky, PhD 
+            </div>
+            <div class="col-md-6 col-sm-6 text-center text-lg-right">    
+                <a target="_blank" href="https://www.wowthemes.net/mediumish-free-jekyll-template/">Mediumish Jekyll Theme</a> by WowThemes.net
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- End Footer
+================================================== -->
+
+</div> <!-- /.site-content -->
+
+<!-- Scripts
+================================================== -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+<script src="/assets/js/mediumish.js"></script>
+
+
+
+<script src="/assets/js/ie10-viewport-bug-workaround.js"></script> 
+
+
+<script id="dsq-count-scr" src="//limyansky.disqus.com/count.js"></script>
+
+
+</body>
+</html>
