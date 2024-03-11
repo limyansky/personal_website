@@ -5,9 +5,9 @@
     <description>A website to showcase my personal projects.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 06 Feb 2024 12:55:28 -0500</pubDate>
-    <lastBuildDate>Tue, 06 Feb 2024 12:55:28 -0500</lastBuildDate>
-    <generator>Jekyll v3.8.5</generator>
+    <pubDate>Mon, 26 Feb 2024 13:13:56 -0500</pubDate>
+    <lastBuildDate>Mon, 26 Feb 2024 13:13:56 -0500</lastBuildDate>
+    <generator>Jekyll v4.3.3</generator>
     
       <item>
         <title>Exploring My Lifetime Spotify History</title>
@@ -85,7 +85,7 @@ Which leads me to…&lt;/p&gt;
 If you want a fun example of the kind of app you can build around this, check out &lt;a href=&quot;https://www.statsforspotify.com/&quot;&gt;statsforspotify.com&lt;/a&gt;.
 After logging into your account, this website gives you details such as your top artists over a 4-week or 6-month time period, or the lifetime of your account. 
 Why only these time periods?
-Well, the Spotify API has a &lt;a href=&quot;https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks&quot;&gt;get user’s top items&lt;/a&gt; function, which allows you to request a user’s most-streamed items over a &lt;code class=&quot;highlighter-rouge&quot;&gt;short_term&lt;/code&gt; (4 week), &lt;code class=&quot;highlighter-rouge&quot;&gt;medium_term&lt;/code&gt; (6 month) or &lt;code class=&quot;highlighter-rouge&quot;&gt;long_term&lt;/code&gt; (all) time period.
+Well, the Spotify API has a &lt;a href=&quot;https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks&quot;&gt;get user’s top items&lt;/a&gt; function, which allows you to request a user’s most-streamed items over a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;short_term&lt;/code&gt; (4 week), &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;medium_term&lt;/code&gt; (6 month) or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;long_term&lt;/code&gt; (all) time period.
 In fact, after taking a minute to dig through the API documentation, we can see that Stats for Spotify is a minimalist wrapper around the larger Spotify API!&lt;/p&gt;
 
 &lt;p&gt;The downside to this, versus specifically downloading your data, is that your analysis is much more limited in scope.
@@ -99,7 +99,7 @@ Then, I requested the artist URI to request the genre’s associated with that a
 Correlating this data, I wound up with a list of genres associated with each song.&lt;/p&gt;
 
 &lt;p&gt;There was a sneaky gottcha here - if a song was performed by, say, two “pop” artists, it gets two “pop” tags, and is counted in the genre total for “pop” twice! 
-In SQL, you’d correct for this with a &lt;code class=&quot;highlighter-rouge&quot;&gt;GROUP BY&lt;/code&gt; command, but in Tableau I used a &lt;a href=&quot;https://help.tableau.com/current/pro/desktop/en-us/calculations_calculatedfields_lod.htm&quot;&gt;Level of Detail&lt;/a&gt; expression.
+In SQL, you’d correct for this with a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;GROUP BY&lt;/code&gt; command, but in Tableau I used a &lt;a href=&quot;https://help.tableau.com/current/pro/desktop/en-us/calculations_calculatedfields_lod.htm&quot;&gt;Level of Detail&lt;/a&gt; expression.
 This is why you can select a genre on the dashboard, and the total will be different than the total for Hours by Artist.
 While I was okay with saying “I listened to both Taylor Swift and Ed Sheeran for three minutes by listening to Everything has Changed”, I didn’t think it was fair to say I listened to six minutes of pop.&lt;/p&gt;
 
@@ -113,6 +113,52 @@ While I was okay with saying “I listened to both Taylor Swift and Ed Sheeran f
         <category>Data Analysis</category>
         
         <category>Tableau</category>
+        
+      </item>
+    
+      <item>
+        <title>Lagrange Points: Developing an Intuition</title>
+        <description>&lt;p&gt;When two bodies in space orbit one-another, there exist special equilibrium points around them where small satellites will feel no net force.
+These locations are called Lagrange points, and they are essentially parking spots where satellites can stay in the same location relative to the two bodies without expending any fuel (at least, in a perfect universe).
+The Lagrange points for the Sun and Earth are shown in the image below, labeled L1-L5.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/lagrange_article/lagrangePointsSimple.png&quot; alt=&quot;Lagrange Point Diagram&quot; /&gt;
+By Xander89-File:Lagrange_points2.svg,CC BY 3.0, &lt;a href=&quot;https://commons.wikimedia.org/w/index.php?curid=36697081&quot;&gt;Wikimedia Commons&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Most people have some familiarity with the so-called centrifugal force. This is  the name we give to the force that pulls a string taught when we, say, hit a teather ball, and is shown below in red.&lt;/p&gt;
+
+&lt;p&gt;By Svjo-File:CentrifugalForce.png,CC BY SA 3.0, &lt;a href=&quot;https://commons.wikimedia.org/wiki/File:CentrifugalForce.png&quot;&gt;Wikimedia Commons&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The key to understanding Lagrange points is realizing our satellite also experiences an outward Centrifugal force as it orbits along with the two bodies.
+When this outward force balances the inward force of gravity, you get a Lagrange point.
+In this regard, L1-L3 are the most visibly-intuitive Lagrange Points.
+At these locations, the orbiting bodies exert a gravitational force either exactly in line with the satellite’s centrifugal force. When the gravitational force exactly cancels the centrifugal force, you get a Lagrange point.&lt;/p&gt;
+
+&lt;p&gt;The story is very much the same for L4 and L5, although the gravitational force cancelling the centrifugal force is somewhat harder to visualize.
+It was in search of this visualization that I create this notebook.&lt;/p&gt;
+
+&lt;h2 id=&quot;single-body-gravitational-potential&quot;&gt;Single-Body Gravitational Potential&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/lagrange_article/singleObject.jpg&quot; alt=&quot;Single-Body Gravitational Potential&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/lagrange_article/centrifugalPotential.jpg&quot; alt=&quot;Centrifugal Potential&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/lagrange_article/spin.gif&quot; alt=&quot;Adding Spin&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/lagrange_article/separation.gif&quot; alt=&quot;Separation of Objects&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/lagrange_article/ratio.gif&quot; alt=&quot;Changing Ratio&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/lagrange_article/lagrangePoints.jpg&quot; alt=&quot;Lagrange Points&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Mon, 15 Jan 2024 00:00:00 -0500</pubDate>
+        <link>http://localhost:4000/Intuition-for-Lagrange-Points/</link>
+        <guid isPermaLink="true">http://localhost:4000/Intuition-for-Lagrange-Points/</guid>
+        
+        
+        <category>Physics</category>
+        
+        <category>Mathematica</category>
         
       </item>
     
@@ -188,7 +234,7 @@ In the mean time, check out the accompanying notebook for further explanation.&l
 
 &lt;p&gt;Random forests are my favorite starting point for classification tasks; they are able to work on data that hasn’t been transformed (such as to have zero mean and unit variance), are resistant to over fitting, and can provide estimates on the relative importance of different features in the dataset.
 While constructing this classifier, I left most of the parameters at their &lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html&quot;&gt;Scikit-Learn default&lt;/a&gt;.
-Of particular importance, I drew with replacement the same number of samples which were in my training dataset, and randomly selected &lt;script type=&quot;math/tex&quot;&gt;\sqrt{384}&lt;/script&gt; features to generate each tree.
+Of particular importance, I drew with replacement the same number of samples which were in my training dataset, and randomly selected \(\sqrt{384}\) features to generate each tree.
 Using bootstrapping and multiple cores to speed calculation, I scanned ensembles of up to n=1000 trees, and used the out-of-bag samples as an estimator of model performance (however, in this regime of many features and few examples, the out-of-bag error rate is &lt;a href=&quot;https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0201904&quot;&gt;extremely pessimistic&lt;/a&gt;).
 I eventually settled on an ensemble of 800 trees, after which I trained the final classifiers on a set of both the training and validation data.&lt;/p&gt;
 
@@ -196,8 +242,8 @@ I eventually settled on an ensemble of 800 trees, after which I trained the fina
 1/4-NN consists of four layers, with the structure 96-24-6-1 for a total of 39,445 trainable parameters.
 Both neural networks used the LeakyReLU activation function, and were initialized using &lt;a href=&quot;https://arxiv.org/abs/1502.01852&quot;&gt;He Normal Initialization&lt;/a&gt;.
 The final output neuron of each network used a sigmoid activation function to produce a probability between 0 and 1.
-I used the &lt;a href=&quot;http://cs229.stanford.edu/proj2015/054_report.pdf&quot;&gt;Nadam&lt;/a&gt; optimizer, with the step size determined by scanning a range of values, and choosing a size 1/10 the value where the minimum loss occurred (see the &lt;code class=&quot;highlighter-rouge&quot;&gt;find_learning_rate&lt;/code&gt; function in &lt;a href=&quot;https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb&quot;&gt;this&lt;/a&gt; notebook, meant to accompany &lt;a href=&quot;https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb&quot;&gt;Hands-on Machine Learning with Scikit-Learn, Keras and TensorFlow&lt;/a&gt;).
-This resulted in a step size &lt;script type=&quot;math/tex&quot;&gt;2 \times 10^{-4}&lt;/script&gt; of for 1/2-NN, and for &lt;script type=&quot;math/tex&quot;&gt;2 \times 10^{-3}&lt;/script&gt; for 1/4-NN.
+I used the &lt;a href=&quot;http://cs229.stanford.edu/proj2015/054_report.pdf&quot;&gt;Nadam&lt;/a&gt; optimizer, with the step size determined by scanning a range of values, and choosing a size 1/10 the value where the minimum loss occurred (see the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;find_learning_rate&lt;/code&gt; function in &lt;a href=&quot;https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb&quot;&gt;this&lt;/a&gt; notebook, meant to accompany &lt;a href=&quot;https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb&quot;&gt;Hands-on Machine Learning with Scikit-Learn, Keras and TensorFlow&lt;/a&gt;).
+This resulted in a step size \(2 \times 10^{-4}\) of for 1/2-NN, and for \(2 \times 10^{-3}\) for 1/4-NN.
 Both neural networks were trained with early stopping, and weights were rolled-back to the point of lowest validation error.&lt;/p&gt;
 
 &lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
@@ -279,12 +325,12 @@ It is ubiquitous in physics, with most recent papers also appearing on ArXiv.
 Rather than scrape ArXiv myself, I used a &lt;a href=&quot;https://www.kaggle.com/datasets/Cornell-University/arxiv?resource=download&quot;&gt;Kaggle dataset&lt;/a&gt; containing the relevant information in a .json file.&lt;/p&gt;
 
 &lt;p&gt;Originally, my plan was to create training sentences of the format:&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
 &lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;category: High Energy Physics - Experiment title: Building the LHC
 &lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;for all 2+ million papers on ArXiv.
 Then, using prompts of the format:&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
 &lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;category: High Energy Astrophysical Phenomena title: 
 &lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;GPT2 would end up generating a fake paper title.
@@ -326,7 +372,7 @@ I decided to simplify the task by picking a few categories of interest, selectin
 
 &lt;p&gt;Data preparation was rather simple: I pulled the title, removed characters other than letters and numbers, and removed multiple spaces.
 In hindsight, this was too conservative - the GPT2 vocabulary includes various forms of punctuation and special characters.
-In particular, allowing the &lt;code class=&quot;highlighter-rouge&quot;&gt;:&lt;/code&gt; symbol would really have improved the readability of my results.&lt;/p&gt;
+In particular, allowing the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;:&lt;/code&gt; symbol would really have improved the readability of my results.&lt;/p&gt;
 
 &lt;h2 id=&quot;the-model&quot;&gt;The Model&lt;/h2&gt;
 &lt;p&gt;Due to computational limitations, I opted to use the smallest version of &lt;a href=&quot;https://huggingface.co/gpt2&quot;&gt;GPT2&lt;/a&gt;, with 124 million trainable parameters. 
@@ -343,7 +389,7 @@ Through the use of an &lt;em&gt;attention mask&lt;/em&gt;, PAD tokens they are t
 
 &lt;p&gt;GPT2 was only trained using EOS tokens, but I elected to add SOS and PAD tokens as well.
 The addition of an SOS token was purely aesthetic - I prefer to ask GPT2 to auto-complete a sentence of the form
-&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;|startoftext|&amp;gt;&lt;/code&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;|startoftext|&amp;gt;&lt;/code&gt;
 as opposed to just an empty string.
 The addition of a PAD token was necessary to ensure that GPT2 truncated the fake titles at a reasonable point, and without it (or by setting the EOS token to be the PAD token), GPT2 will generate text until it reaches a hard-coded limit.&lt;/p&gt;
 
@@ -395,7 +441,7 @@ It is also apparent where colons should be used, although the text filter remove
 
 &lt;p&gt;&lt;strong&gt;Some Real Titles&lt;/strong&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
 2
 3
 4
@@ -413,7 +459,7 @@ It is also apparent where colons should be used, although the text filter remove
 
 &lt;p&gt;&lt;strong&gt;Some Fake Titles&lt;/strong&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
 2
 3
 4
@@ -467,7 +513,7 @@ Here is a rough measure of my guessing performance after 20 rounds of each categ
 
 &lt;p&gt;Not awful, considering my prior experiences with the base ArXiv vs SnarXiv game. 
 Based off of this small sample, the “Tissues and Organs” category had the most poorly trained model, producing strange or grammatically incorrect titles:&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
 2
 3
 &lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;all patients with chronic liver disease
@@ -500,9 +546,9 @@ the dry news-speak of the Associated Press or the legalese of a court’s majori
 
 &lt;p&gt;Of course, I’m not fighting against any authority here, but I got a lot of enjoyment from watching this model poke fun of my field/knowledge.
 For example, consider: 
-&lt;code class=&quot;highlighter-rouge&quot;&gt;J1305-4420-4533 a strange globular cluster I an enigmatic low-mass black hole mass hadrons and spin oscillations
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;J1305-4420-4533 a strange globular cluster I an enigmatic low-mass black hole mass hadrons and spin oscillations
 &lt;/code&gt;
-Astronomy does use a naming convention that looks like &lt;code class=&quot;highlighter-rouge&quot;&gt;PSR J1846-0285&lt;/code&gt;, where ‘PSR’ refers to the object type, ‘J’ refers to a particular coordinate system, and ‘1846-0285’ are the coordinates in that system.
+Astronomy does use a naming convention that looks like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PSR J1846-0285&lt;/code&gt;, where ‘PSR’ refers to the object type, ‘J’ refers to a particular coordinate system, and ‘1846-0285’ are the coordinates in that system.
 Adding a third set of coordinates to a title like this is gibberish - but, then again, this naming scheme certainly look like gibberish to a lot of people anyways.&lt;/p&gt;
 
 &lt;p&gt;Interestingly, I also realized it was possible for GPT to do &lt;em&gt;too good&lt;/em&gt; a job of generating fake paper titles.
@@ -553,7 +599,7 @@ For the full version history, please refer to &lt;a href=&quot;https://github.co
         <description>&lt;!-- 
 SQL puts the &quot;Data&quot; in &quot;Data Science&quot;.
 Can you do science without data?
-Sure, but we call those people &quot;Theorists&quot;, and if you're reading this you're either not interested in, or fleeing from, such a destitute lifestyle. --&gt;
+Sure, but we call those people &quot;Theorists&quot;, and if you&apos;re reading this you&apos;re either not interested in, or fleeing from, such a destitute lifestyle. --&gt;
 
 &lt;p&gt;SQL is a programming language used to access information stored on a special type of database called a &lt;em&gt;relational&lt;/em&gt; database.
 In a nutshell, relational databases offer an easy way to tie together clusters of information.
@@ -649,7 +695,7 @@ LIMIT 10;
 &lt;p&gt;Look at the Cessna 172&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT acft_model
 FROM `aircraft`
-WHERE acft_model LIKE '%172%'
+WHERE acft_model LIKE &apos;%172%&apos;
 GROUP BY acft_model;
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -679,7 +725,7 @@ GROUP BY acft_model;
       </item>
     
       <item>
-        <title>Building a Website: A Physicist's Perspective</title>
+        <title>Building a Website: A Physicist&apos;s Perspective</title>
         <description>&lt;p&gt;A common piece of advice for those transitioning from academia to industry is to build a personal portfolio of projects to show off your skills and talents.
 One of the first elements to building such a portfolio is deciding how to display it.
 In creating my own website, I sought something cheap and easy to write, but also over which I had a large degree of creative control.

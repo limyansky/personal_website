@@ -25,6 +25,10 @@
 <lastmod>2023-04-23T00:00:00-04:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/Intuition-for-Lagrange-Points/</loc>
+<lastmod>2024-01-15T00:00:00-05:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/Exploring-My-Lifetime-Spotify-History/</loc>
 <lastmod>2024-02-05T00:00:00-05:00</lastmod>
 </url>
@@ -72,6 +76,12 @@
 </url>
 <url>
 <loc>http://localhost:4000/category/nlp/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/category/physics/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/category/mathematica/</loc>
 </url>
 <url>
 <loc>http://localhost:4000/category/data-analysis/</loc>
