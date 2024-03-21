@@ -9,7 +9,12 @@ comments: true
 ---
 
 I went out to dinner with some close friends the other night, when the topic of music came up. 
-We spent some time reminiscing about what we saw as the defining stages of our lives, and how our music tastes changed and developed along with us. 
+We spent some time reminiscing about what we saw as the defining stages of our lives, and how our music tastes changed and developed along with us.
+Inspired by this conversation, I decided to see if I could take a more quantitative approach to analyzing this nostalgia.
+Conveniently, Spotify has been my main source of music for the last decade, and they both maintain their users' lifetime streaming history and provide a convenient (-ish, if you're willing to wait a month and know how to work with .json files) manner of downloading it.
+Thus, the stage was set, and it was off to Tableau to see what insights I could find.
+
+Below, you'll find a summary of my findings, 
 
 {% comment %}
 <div class='tableauPlaceholder' id='viz1707182650418' style='position: relative'>
