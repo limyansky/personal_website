@@ -8,7 +8,8 @@ categories: [Data Analysis, Tableau]
 comments: true
 ---
 
-I went out to dinner with some close friends the other night, when the topic of music came up. 
+I went out to dinner with some close friends the other night when the topic of music came up.
+Not upcoming concerts, new releases, or things of that sort, but rather reminiscing 
 We spent some time reminiscing about what we saw as the defining stages of our lives, and how our music tastes changed and developed along with us. 
 
 {% comment %}
@@ -49,7 +50,7 @@ We spent some time reminiscing about what we saw as the defining stages of our l
 </script>
 {% endcomment %}
 
-[Tableau Public](https://public.tableau.com/app/profile/brent.limyansky/viz/MySpotifyData_17066362308130/Dashboard12)
+[Tableau Public](https://public.tableau.com/app/profile/brent.limyansky/viz/MySpotifyData_17066362308130/Dashboard12), 
 [GitHub](https://github.com/limyansky/my_spotify)
 
 # The Best Things I Learned
