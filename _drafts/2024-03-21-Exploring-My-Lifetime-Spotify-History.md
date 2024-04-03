@@ -14,11 +14,14 @@ Inspired by this conversation, I decided to see if I could take a more quantitat
 Conveniently, Spotify has been my main source of music for the last decade, and they both maintain their users' lifetime streaming history and provide a convenient (-ish, if you're willing to wait a month and know how to work with .json files) manner of downloading it.
 Thus, the stage was set, and it was off to Tableau to see what insights I could find! 
 
+Below, you'll find a summary of the insights I gained from working on this visualization.
+Afterwords, I spend some time going into the technical details of the project.
+I have included some screenshots, but I encourage you to check out the interactive form on Tableau Public (embedding the dashboard on this website was a bit too slow).
+I've also included a link to some helper scripts on GitHub, helped to turn the .json file I received from Spotify into a spreadsheet that was easier to work with.
+There is also a helper script which makes use of the Spotify API to add genre information, something which wasn't included in the file I downloaded. 
+
 [Tableau Public](https://public.tableau.com/app/profile/brent.limyansky/viz/MySpotifyData_17066362308130/Dashboard12)
 [GitHub](https://github.com/limyansky/my_spotify)
-
-Below, you'll find a summary of my findings, 
-
 
 {% comment %}
 <div class='tableauPlaceholder' id='viz1707182650418' style='position: relative'>
