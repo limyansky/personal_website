@@ -61,18 +61,16 @@ There is also a helper script which makes use of the Spotify API to add genre in
 </script>
 {% endcomment %}
 
-[Tableau Public](https://public.tableau.com/app/profile/brent.limyansky/viz/MySpotifyData_17066362308130/Dashboard12), 
-[GitHub](https://github.com/limyansky/my_spotify)
+# My Highlights
 
-# The Best Things I Learned
+My favorite insight came from looking at my monthly streaming minutes, shown below.
+I color coded these months by (working on degree), and noticed a sharp... Mesh the next paragraph here. 
+
+Put a plot here
+
 My single favorite takeaway from this project was seeing how steeply my listening dropped off when I was working on my Master's Degree.
 This was definitely the most social part of grad school for me, where we were either TAing or working on homework problems together nearly all the time.
 Apparently I wasn't selected to be DJ...
-
-{:refdef: style="text-align: center;"}
-![Actual Handout](/assets/images/spotify_article/Jackson.png)  
-Part of an _actual_ handout given to us by our electromagnetism professor (original by Davon Ferrara).
-{:refdef}
 
 {:refdef: style="text-align: center;"}
 ![Grading](/assets/images/spotify_article/Grading.jpg)  
