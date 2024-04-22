@@ -47,6 +47,28 @@ I've added pins for all four locations to the map below:
 
 ![My Friends](/assets/images/eclipse_article/FriendLocations.png)
 
-Rochester was cloudy, but its still cool to look at all four locations simultaneously to "watch" the eclipse transit the US!
+Rochester was cloudy, so the best my friend could send was a snapshot of the 360 degree sunset during totality.
+Nonetheless, its still cool to look at all four locations simultaneously to "watch" the eclipse transit the US!
+In the graphic below, the top row of animated images show the view of the eclipse across time from each of the four locations.
+Each frame of the graphic is synced in time - the only difference is the viewing location.
+The bottom row of images show a snapshot of the eclipse during maximum coverage, again from each of the four locations.
 
+![The Eclipse from Different Cities](/assets/images/eclipse_article/DifferentCities.gif)
 
+There are a couple interesting things to note about this graphic.
+One of these I already spoke about - my location in Atlanta didn't get full coverage, a feature which is well represented in the animation.
+Otherwise, I think its just interesting to look at the relative timing of the eclipse at the different locations.
+Texas gets totality first, followed by Arkansas shortly after, I get my 83% brush in Atlanta, and, finally, my friend in New York is the last to observe totality. 
+
+## Further Reading
+The eclipse diagrams I used in this article (both the map and sun/moon visualizations) were produced in Mathematica.
+The creator this program, Stephen Wolfram, has written both a [book](https://www.amazon.com/Predicting-Eclipse-Multimillennium-Tale-Computation/dp/1579550878/) and a detailed [blog post](https://writings.stephenwolfram.com/2024/03/computing-the-eclipse-astronomy-in-the-wolfram-language/) about solar eclipses.
+Although I haven't read his book, the aforementioned blog post served as inspiration for this article.
+If you'd like further details about different eclipse-related calculations you can do in Mathematica, it is definitely worth checking out!
+
+Every time I pick up Mathematica, I'm constantly amazed at how much you can do with so little coding, and this project was no exception.
+If you want to check it out yourself, my notebook is available on [GitHub](https://github.com/limyansky/MyEclipse_2024).
+If you don't have access to a copy of Mathematica, I've also saved a copy of my notebook as a [pdf you can view anywhere](https://github.com/limyansky/MyEclipse_2024/blob/main/EclipseCalculations.pdf).
+The presentation isn't as polished as it is here, but its still a nice look at how everything was done. 
+
+Thanks for reading!
