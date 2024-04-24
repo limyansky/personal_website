@@ -13,6 +13,10 @@
 <lastmod>2023-04-23T00:00:00-04:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/Solar-Eclipse/</loc>
+<lastmod>2024-04-24T00:00:00-04:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/LimyanskyAnalyticsLLC</loc>
 </url>
 <url>
@@ -44,5 +48,11 @@
 </url>
 <url>
 <loc>http://localhost:4000/category/nlp/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/category/physics/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/category/mathematica/</loc>
 </url>
 </urlset>

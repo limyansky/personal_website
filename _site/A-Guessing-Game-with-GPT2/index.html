@@ -8,9 +8,9 @@
 
 <title>A Guessing Game with GPT2 and TensorFlow | Brent Limyansky, PhD</title>
 
-<!-- Begin Jekyll SEO tag v2.5.0 -->
+<!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>A Guessing Game with GPT2 and TensorFlow | Brent Limyansky, PhD</title>
-<meta name="generator" content="Jekyll v3.8.5" />
+<meta name="generator" content="Jekyll v4.3.3" />
 <meta property="og:title" content="A Guessing Game with GPT2 and TensorFlow" />
 <meta name="author" content="brent" />
 <meta property="og:locale" content="en_US" />
@@ -22,8 +22,11 @@
 <meta property="og:image" content="http://localhost:4000/assets/images/scientist.jpg" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2023-03-23T00:00:00-04:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="http://localhost:4000/assets/images/scientist.jpg" />
+<meta property="twitter:title" content="A Guessing Game with GPT2 and TensorFlow" />
 <script type="application/ld+json">
-{"headline":"A Guessing Game with GPT2 and TensorFlow","dateModified":"2023-03-23T00:00:00-04:00","datePublished":"2023-03-23T00:00:00-04:00","url":"http://localhost:4000/A-Guessing-Game-with-GPT2/","@type":"BlogPosting","image":"http://localhost:4000/assets/images/scientist.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/A-Guessing-Game-with-GPT2/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/images/logo.png"},"name":"brent"},"author":{"@type":"Person","name":"brent"},"description":"In this project, I fine-tuned the GPT2 large language model (LLM) with TensorFlow so that it generates scientific-sounding paper titles for a real-or-fake guessing game. You can view the project notebook (and run it in Google Colaboratory) here, and you can play the game by running this interactive notebook. The fake titles are generally realistic enough to pass cursory review, with the player needing subject-matter knowledge to determine real from fake.","@context":"http://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"brent"},"dateModified":"2023-03-23T00:00:00-04:00","datePublished":"2023-03-23T00:00:00-04:00","description":"In this project, I fine-tuned the GPT2 large language model (LLM) with TensorFlow so that it generates scientific-sounding paper titles for a real-or-fake guessing game. You can view the project notebook (and run it in Google Colaboratory) here, and you can play the game by running this interactive notebook. The fake titles are generally realistic enough to pass cursory review, with the player needing subject-matter knowledge to determine real from fake.","headline":"A Guessing Game with GPT2 and TensorFlow","image":"http://localhost:4000/assets/images/scientist.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/A-Guessing-Game-with-GPT2/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/images/logo.png"},"name":"brent"},"url":"http://localhost:4000/A-Guessing-Game-with-GPT2/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -126,7 +129,7 @@
 <div class="mainheading">
     <h1 class="sitetitle">Brent Limyansky, PhD</h1>
     <p class="lead">
-        A website to showcase my personal projects.
+        A website exploring projects in data analysis, machine learning, and everything in between from the perspective of a physics PhD.
     </p>
 </div>
 
@@ -195,7 +198,7 @@
                     </div>
                     <div class="col-xs-12 col-md-9 col-lg-10 text-center text-md-left">
                         <a target="_blank" class="link-dark" href="">Brent</a><a target="_blank" href="" class="btn follow">Follow</a>
-                        <span class="author-description">Aspiring data scientist and author of limyansky.com</span>
+                        <span class="author-description">Physics PhD and author of limyansky.com</span>
                     </div>
                 </div>
                 
@@ -252,12 +255,12 @@ It is ubiquitous in physics, with most recent papers also appearing on ArXiv.
 Rather than scrape ArXiv myself, I used a <a href="https://www.kaggle.com/datasets/Cornell-University/arxiv?resource=download">Kaggle dataset</a> containing the relevant information in a .json file.</p>
 
 <p>Originally, my plan was to create training sentences of the format:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>category: High Energy Physics - Experiment title: Building the LHC
 </pre></td></tr></tbody></table></code></pre></div></div>
 <p>for all 2+ million papers on ArXiv.
 Then, using prompts of the format:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>category: High Energy Astrophysical Phenomena title: 
 </pre></td></tr></tbody></table></code></pre></div></div>
 <p>GPT2 would end up generating a fake paper title.
@@ -299,7 +302,7 @@ I decided to simplify the task by picking a few categories of interest, selectin
 
 <p>Data preparation was rather simple: I pulled the title, removed characters other than letters and numbers, and removed multiple spaces.
 In hindsight, this was too conservative - the GPT2 vocabulary includes various forms of punctuation and special characters.
-In particular, allowing the <code class="highlighter-rouge">:</code> symbol would really have improved the readability of my results.</p>
+In particular, allowing the <code class="language-plaintext highlighter-rouge">:</code> symbol would really have improved the readability of my results.</p>
 
 <h2 id="the-model">The Model</h2>
 <p>Due to computational limitations, I opted to use the smallest version of <a href="https://huggingface.co/gpt2">GPT2</a>, with 124 million trainable parameters. 
@@ -316,7 +319,7 @@ Through the use of an <em>attention mask</em>, PAD tokens they are typically ign
 
 <p>GPT2 was only trained using EOS tokens, but I elected to add SOS and PAD tokens as well.
 The addition of an SOS token was purely aesthetic - I prefer to ask GPT2 to auto-complete a sentence of the form
-<code class="highlighter-rouge">&lt;|startoftext|&gt;</code>
+<code class="language-plaintext highlighter-rouge">&lt;|startoftext|&gt;</code>
 as opposed to just an empty string.
 The addition of a PAD token was necessary to ensure that GPT2 truncated the fake titles at a reasonable point, and without it (or by setting the EOS token to be the PAD token), GPT2 will generate text until it reaches a hard-coded limit.</p>
 
@@ -368,7 +371,7 @@ It is also apparent where colons should be used, although the text filter remove
 
 <p><strong>Some Real Titles</strong></p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -386,7 +389,7 @@ It is also apparent where colons should be used, although the text filter remove
 
 <p><strong>Some Fake Titles</strong></p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -440,7 +443,7 @@ Here is a rough measure of my guessing performance after 20 rounds of each categ
 
 <p>Not awful, considering my prior experiences with the base ArXiv vs SnarXiv game. 
 Based off of this small sample, the “Tissues and Organs” category had the most poorly trained model, producing strange or grammatically incorrect titles:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 </pre></td><td class="rouge-code"><pre>all patients with chronic liver disease
@@ -473,9 +476,9 @@ the dry news-speak of the Associated Press or the legalese of a court’s majori
 
 <p>Of course, I’m not fighting against any authority here, but I got a lot of enjoyment from watching this model poke fun of my field/knowledge.
 For example, consider: 
-<code class="highlighter-rouge">J1305-4420-4533 a strange globular cluster I an enigmatic low-mass black hole mass hadrons and spin oscillations
+<code class="language-plaintext highlighter-rouge">J1305-4420-4533 a strange globular cluster I an enigmatic low-mass black hole mass hadrons and spin oscillations
 </code>
-Astronomy does use a naming convention that looks like <code class="highlighter-rouge">PSR J1846-0285</code>, where ‘PSR’ refers to the object type, ‘J’ refers to a particular coordinate system, and ‘1846-0285’ are the coordinates in that system.
+Astronomy does use a naming convention that looks like <code class="language-plaintext highlighter-rouge">PSR J1846-0285</code>, where ‘PSR’ refers to the object type, ‘J’ refers to a particular coordinate system, and ‘1846-0285’ are the coordinates in that system.
 Adding a third set of coordinates to a title like this is gibberish - but, then again, this naming scheme certainly look like gibberish to a lot of people anyways.</p>
 
 <p>Interestingly, I also realized it was possible for GPT to do <em>too good</em> a job of generating fake paper titles.
@@ -636,6 +639,10 @@ https://search.google.com/structured-data/testing-tool/u/0/
                 
                     <a class="mt-1 mb-1" href="/categories#NLP">NLP (2)</a>
                 
+                    <a class="mt-1 mb-1" href="/categories#Physics">Physics (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Mathematica">Mathematica (1)</a>
+                
             
             
 		</div>
@@ -648,7 +655,7 @@ https://search.google.com/structured-data/testing-tool/u/0/
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-sm-6 text-center text-lg-left">
-                Copyright © 2023 Brent Limyansky, PhD 
+                Copyright © 2024 Brent Limyansky, PhD 
             </div>
             <div class="col-md-6 col-sm-6 text-center text-lg-right">    
                 <a target="_blank" href="https://www.wowthemes.net/mediumish-free-jekyll-template/">Mediumish Jekyll Theme</a> by WowThemes.net

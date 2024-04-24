@@ -8,9 +8,9 @@
 
 <title>Classifying Personality with Machine Learning | Brent Limyansky, PhD</title>
 
-<!-- Begin Jekyll SEO tag v2.5.0 -->
+<!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Classifying Personality with Machine Learning | Brent Limyansky, PhD</title>
-<meta name="generator" content="Jekyll v3.8.5" />
+<meta name="generator" content="Jekyll v4.3.3" />
 <meta property="og:title" content="Classifying Personality with Machine Learning" />
 <meta name="author" content="brent" />
 <meta property="og:locale" content="en_US" />
@@ -22,8 +22,11 @@
 <meta property="og:image" content="http://localhost:4000/assets/images/personality_classification.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2023-04-23T00:00:00-04:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="http://localhost:4000/assets/images/personality_classification.png" />
+<meta property="twitter:title" content="Classifying Personality with Machine Learning" />
 <script type="application/ld+json">
-{"headline":"Classifying Personality with Machine Learning","dateModified":"2023-04-23T00:00:00-04:00","datePublished":"2023-04-23T00:00:00-04:00","url":"http://localhost:4000/Classifying-Personality-with-Machine-Learning/","@type":"BlogPosting","image":"http://localhost:4000/assets/images/personality_classification.png","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/Classifying-Personality-with-Machine-Learning/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/images/logo.png"},"name":"brent"},"author":{"@type":"Person","name":"brent"},"description":"In this project, I demonstrate a technique to classify a person’s Big 5 personality traits based off of 20-minute stream-of-consciousness essays. I achieved an average accuracy of 58% across the five personality categories by using Sentence-BERT embeddings coupled with small neural network classifiers. Although this is slightly less than the 60% accuracy achieved by other BERT-based techniques, my model represents a 1000x reduction in complexity from these other methods. In addition to demonstrating the power of Sentence-BERT, this reduction in complexity is an important step in making these types of models more distributable to end users. The code for this project is available on GitHub as a Google Collaboratory notebook.","@context":"http://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"brent"},"dateModified":"2023-04-23T00:00:00-04:00","datePublished":"2023-04-23T00:00:00-04:00","description":"In this project, I demonstrate a technique to classify a person’s Big 5 personality traits based off of 20-minute stream-of-consciousness essays. I achieved an average accuracy of 58% across the five personality categories by using Sentence-BERT embeddings coupled with small neural network classifiers. Although this is slightly less than the 60% accuracy achieved by other BERT-based techniques, my model represents a 1000x reduction in complexity from these other methods. In addition to demonstrating the power of Sentence-BERT, this reduction in complexity is an important step in making these types of models more distributable to end users. The code for this project is available on GitHub as a Google Collaboratory notebook.","headline":"Classifying Personality with Machine Learning","image":"http://localhost:4000/assets/images/personality_classification.png","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/Classifying-Personality-with-Machine-Learning/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/images/logo.png"},"name":"brent"},"url":"http://localhost:4000/Classifying-Personality-with-Machine-Learning/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -126,7 +129,7 @@
 <div class="mainheading">
     <h1 class="sitetitle">Brent Limyansky, PhD</h1>
     <p class="lead">
-        A website to showcase my personal projects.
+        A website exploring projects in data analysis, machine learning, and everything in between from the perspective of a physics PhD.
     </p>
 </div>
 
@@ -195,7 +198,7 @@
                     </div>
                     <div class="col-xs-12 col-md-9 col-lg-10 text-center text-md-left">
                         <a target="_blank" class="link-dark" href="">Brent</a><a target="_blank" href="" class="btn follow">Follow</a>
-                        <span class="author-description">Aspiring data scientist and author of limyansky.com</span>
+                        <span class="author-description">Physics PhD and author of limyansky.com</span>
                     </div>
                 </div>
                 
@@ -294,7 +297,7 @@ In the mean time, check out the accompanying notebook for further explanation.</
 
 <p>Random forests are my favorite starting point for classification tasks; they are able to work on data that hasn’t been transformed (such as to have zero mean and unit variance), are resistant to over fitting, and can provide estimates on the relative importance of different features in the dataset.
 While constructing this classifier, I left most of the parameters at their <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html">Scikit-Learn default</a>.
-Of particular importance, I drew with replacement the same number of samples which were in my training dataset, and randomly selected <script type="math/tex">\sqrt{384}</script> features to generate each tree.
+Of particular importance, I drew with replacement the same number of samples which were in my training dataset, and randomly selected \(\sqrt{384}\) features to generate each tree.
 Using bootstrapping and multiple cores to speed calculation, I scanned ensembles of up to n=1000 trees, and used the out-of-bag samples as an estimator of model performance (however, in this regime of many features and few examples, the out-of-bag error rate is <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0201904">extremely pessimistic</a>).
 I eventually settled on an ensemble of 800 trees, after which I trained the final classifiers on a set of both the training and validation data.</p>
 
@@ -302,8 +305,8 @@ I eventually settled on an ensemble of 800 trees, after which I trained the fina
 1/4-NN consists of four layers, with the structure 96-24-6-1 for a total of 39,445 trainable parameters.
 Both neural networks used the LeakyReLU activation function, and were initialized using <a href="https://arxiv.org/abs/1502.01852">He Normal Initialization</a>.
 The final output neuron of each network used a sigmoid activation function to produce a probability between 0 and 1.
-I used the <a href="http://cs229.stanford.edu/proj2015/054_report.pdf">Nadam</a> optimizer, with the step size determined by scanning a range of values, and choosing a size 1/10 the value where the minimum loss occurred (see the <code class="highlighter-rouge">find_learning_rate</code> function in <a href="https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb">this</a> notebook, meant to accompany <a href="https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb">Hands-on Machine Learning with Scikit-Learn, Keras and TensorFlow</a>).
-This resulted in a step size <script type="math/tex">2 \times 10^{-4}</script> of for 1/2-NN, and for <script type="math/tex">2 \times 10^{-3}</script> for 1/4-NN.
+I used the <a href="http://cs229.stanford.edu/proj2015/054_report.pdf">Nadam</a> optimizer, with the step size determined by scanning a range of values, and choosing a size 1/10 the value where the minimum loss occurred (see the <code class="language-plaintext highlighter-rouge">find_learning_rate</code> function in <a href="https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb">this</a> notebook, meant to accompany <a href="https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb">Hands-on Machine Learning with Scikit-Learn, Keras and TensorFlow</a>).
+This resulted in a step size \(2 \times 10^{-4}\) of for 1/2-NN, and for \(2 \times 10^{-3}\) for 1/4-NN.
 Both neural networks were trained with early stopping, and weights were rolled-back to the point of lowest validation error.</p>
 
 <h2 id="results">Results</h2>
@@ -391,6 +394,8 @@ This could be further combined with clustering techniques to either remove outli
             <a class="prev d-block col-md-6" href="//A-Guessing-Game-with-GPT2/"> &laquo; A Guessing Game with GPT2 and TensorFlow</a>
             
             
+            <a class="next d-block col-md-6 text-lg-right" href="//Solar-Eclipse/">Observing the Eclipse &raquo; </a>
+            
             <div class="clearfix"></div>
             </div>
             <!-- End Categories -->
@@ -466,6 +471,10 @@ https://search.google.com/structured-data/testing-tool/u/0/
                 
                     <a class="mt-1 mb-1" href="/categories#NLP">NLP (2)</a>
                 
+                    <a class="mt-1 mb-1" href="/categories#Physics">Physics (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Mathematica">Mathematica (1)</a>
+                
             
             
 		</div>
@@ -478,7 +487,7 @@ https://search.google.com/structured-data/testing-tool/u/0/
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-sm-6 text-center text-lg-left">
-                Copyright © 2023 Brent Limyansky, PhD 
+                Copyright © 2024 Brent Limyansky, PhD 
             </div>
             <div class="col-md-6 col-sm-6 text-center text-lg-right">    
                 <a target="_blank" href="https://www.wowthemes.net/mediumish-free-jekyll-template/">Mediumish Jekyll Theme</a> by WowThemes.net
