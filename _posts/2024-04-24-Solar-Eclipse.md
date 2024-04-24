@@ -10,10 +10,9 @@ comments: true
 "We see the same moon, you and I—you in your world and I in mine. I find that comforting."
 
 Its a nice, unattributable sentiment that has been the focus of [movies](https://en.wikipedia.org/wiki/Under_the_Same_Moon), [songs](https://www.youtube.com/watch?v=mx-UzMiNK5A), and [facebook posts](https://duckduckgo.com/?t=h_&q=under+the+same+moon+quote&iax=images&ia=images) the world over.
-So... what harm will one more blog post do? 
-On April 8, 2024, when a solar eclipse swept through the United States, I had friends who chased it throughout the country, from Texas to New York.
-
-Some more introduction
+On April 8, 2024, when a solar eclipse swept through the United States and my friends chased it across the country, I had my own brush with this age-old idea.
+Our experience wasn't perfect; several people were battling clouds, and I didn't make the journey to experience totality.
+Nevertheless, from Texas to New York, all of us gathered under the same moon and turned our eyes skyward.
 
 ## My Eclipse Viewing
 Of the four perspectives presented in this article, my personal eclipse viewing is the only one from outside the path of totality.

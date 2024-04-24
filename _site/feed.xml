@@ -5,8 +5,8 @@
     <description>A website exploring projects in data analysis, machine learning, and everything in between from the perspective of a physics PhD.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 24 Apr 2024 16:39:35 -0400</pubDate>
-    <lastBuildDate>Wed, 24 Apr 2024 16:39:35 -0400</lastBuildDate>
+    <pubDate>Wed, 24 Apr 2024 17:05:54 -0400</pubDate>
+    <lastBuildDate>Wed, 24 Apr 2024 17:05:54 -0400</lastBuildDate>
     <generator>Jekyll v4.3.3</generator>
     
       <item>
@@ -14,10 +14,9 @@
         <description>&lt;p&gt;“We see the same moon, you and I—you in your world and I in mine. I find that comforting.”&lt;/p&gt;
 
 &lt;p&gt;Its a nice, unattributable sentiment that has been the focus of &lt;a href=&quot;https://en.wikipedia.org/wiki/Under_the_Same_Moon&quot;&gt;movies&lt;/a&gt;, &lt;a href=&quot;https://www.youtube.com/watch?v=mx-UzMiNK5A&quot;&gt;songs&lt;/a&gt;, and &lt;a href=&quot;https://duckduckgo.com/?t=h_&amp;amp;q=under+the+same+moon+quote&amp;amp;iax=images&amp;amp;ia=images&quot;&gt;facebook posts&lt;/a&gt; the world over.
-So… what harm will one more blog post do? 
-On April 8, 2024, when a solar eclipse swept through the United States, I had friends who chased it throughout the country, from Texas to New York.&lt;/p&gt;
-
-&lt;p&gt;Some more introduction&lt;/p&gt;
+On April 8, 2024, when a solar eclipse swept through the United States and my friends chased it across the country, I had my own brush with this age-old idea.
+Our experience wasn’t perfect; several people were battling clouds, and I didn’t make the journey to experience totality.
+Nevertheless, from Texas to New York, all of us gathered under the same moon and turned our eyes skyward.&lt;/p&gt;
 
 &lt;h2 id=&quot;my-eclipse-viewing&quot;&gt;My Eclipse Viewing&lt;/h2&gt;
 &lt;p&gt;Of the four perspectives presented in this article, my personal eclipse viewing is the only one from outside the path of totality.
@@ -522,7 +521,7 @@ For the full version history, please refer to &lt;a href=&quot;https://github.co
       </item>
     
       <item>
-        <title>Building a Website: A Physicist's Perspective</title>
+        <title>Building a Website: A Physicist&apos;s Perspective</title>
         <description>&lt;p&gt;A common piece of advice for those transitioning from academia to industry is to build a personal portfolio of projects to show off your skills and talents.
 One of the first elements to building such a portfolio is deciding how to display it.
 In creating my own website, I sought something cheap and easy to write, but also over which I had a large degree of creative control.
