@@ -1,9 +1,9 @@
 ---
 layout: post
 author: brent
-title:  "My Solar Eclipse"
+title:  "Observing the Eclipse"
 image: assets\images\eclipse_article\PinholeEclipse.jpg
-date:   2024-04-09
+date:   2024-04-24
 categories: [Physics, Mathematica]
 comments: true
 ---
