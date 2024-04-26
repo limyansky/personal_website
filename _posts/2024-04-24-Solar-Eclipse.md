@@ -2,7 +2,7 @@
 layout: post
 author: brent
 title:  "Observing the Eclipse"
-image: assets\images\eclipse_article\PinholeEclipse.jpg
+image: assets/images/eclipse_article/PinholeEclipse.jpg
 date:   2024-04-24
 categories: [Physics, Mathematica]
 comments: true
@@ -19,7 +19,7 @@ Of the four perspectives presented in this article, my personal eclipse viewing 
 Dropping a pin at my location: 
 
 {:refdef: style="text-align: center;"}
-![My Eclipse Viewing Location](\assets\images\eclipse_article\MyLocation.png)
+![My Eclipse Viewing Location](/assets/images/eclipse_article/MyLocation.png)
 {: refdef}
 
 we can see that I only saw about 83% coverage from my viewing location outside of Atlanta, GA.
