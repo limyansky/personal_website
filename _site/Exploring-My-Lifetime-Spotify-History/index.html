@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="icon" href="/assets/images/logo.png">
+
+<title>Dashboarding My Lifetime Spotify History with Tableau | Brent Limyansky, PhD</title>
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Dashboarding My Lifetime Spotify History with Tableau | Brent Limyansky, PhD</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Dashboarding My Lifetime Spotify History with Tableau" />
+<meta name="author" content="brent" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I went out to dinner with some close friends the other night, when the topic of music came up. We spent some time reminiscing about what we saw as the defining stages of our lives, and how our music tastes changed and developed along with us. Inspired by this conversation, I decided to see if I could take a more quantitative approach to analyzing this nostalgia. Conveniently, Spotify has been my main source of music for the last decade, and they both maintain their users’ lifetime streaming history and provide a convenient manner of downloading it. Thus, I set off to Tableau to see what I could learn about myself! Below, you’ll find a summary of the insights I gained from working on this visualization. Afterwords, I spend some time going into the technical details of the project. I have included screenshots of my dashboard, but I encourage you to check out the interactive form on Tableau Public (it was a bit too slow when I attempted to embed it here). I’ve also included a link to some helper scripts on GitHub, which convert Spotify’s .json file into a spreadsheet and add genre information via the Spotify API. Tableau Public GitHub My Highlights My favorite insight came from looking at my monthly streaming minutes, shown below. I color coded these months by the degree I was working on at the time. What stuck out to me was a decrease in listening time while I was working on my Master’s Degree, which ticked back up while working on my PhD. An overview of my Tableau dashboard, showing a sharp decrease in listening while I was working on my Master’s Degree. The two years I worked on my Master’s Degree were definitely the most social part of grad school. I was around others nearly all the time, either working on homework or TAing. Apparently I wasn’t selected to be DJ, accounting for the decrease in listening minutes compared to the end of my Undergraduate Degree. My PhD work was comparatively less social, with long hours spend on my computer while my friends were either doing the same or working in labs. Plenty of time to listen to music! A selfie of the author grading tests with his classmates. I also really liked using this dashboard to discover generas which, despite listening to, I didn’t know existed. For example, neo mellow was something I’d listened to quite a bit, yet I’d never heard of it before. Selecting it on my dashboard shows me my top neo mellow artists… What is Neo Mellow? and give me this fun moment where I thought to myself “now that you mention it, I kinda see what these guys have in common”. Now, I’m searching neo mellow playlists on Spotify and finding new things to listen to! Technical Details GitHub Getting the Data from Spotify Spotify is constantly gathering data about how you interact with their services. As a part of their data transparency policy, they will allow you to request this data so that you know exactly what it is they are collecting. The three types of user data you can download from Spotify are: account data, technical log information, and extended streaming history. There’s actually quite a lot of data they collect, which you can read about on their website. This project utilized only the “extended streaming history” data set. This covers the lifetime of your account, and includes: Date/Time of Stream Number of milliseconds track was played Track name Artist name Album name Track URI (Spotify’s unique identifier) And More! After requesting this data, it took about two weeks for it to be delivered. They guarantee the data within 30 days of request. Most of the data I used in my dashboard was directly listed in the extended streaming history. However, while I think genre of music best tells the story of my music tastes, this isn’t included in your extended history! Which leads me to… The Spotify API If you aren’t familiar, API stands for “application programming interface”, and is a simple way for apps to talk to one another. For example, here’s an “API Endpoint” that asks the “REST Countries API” to give you information about Russia: https://restcountries.com/v3.1/name/Russia If you instead want to know information about Germany, you can change the address to: https://restcountries.com/v3.1/name/Germany The idea is that your program is able to ask simple questions in this format (“Tell me about Germany”), and get an answer that is easy for the computer to understand and work with. The Spotify API is free, but does require you to make a developer account and generate some credentials for yourself before you can use it. If you want a fun example of the kind of app you can build around this, check out statsforspotify.com. After logging into your account, this website gives you details such as your top artists over a 4-week or 6-month time period, or the lifetime of your account. Why only these time periods? Well, the Spotify API has a get user’s top items function, which allows you to request a user’s most-streamed items over a short_term (4 week), medium_term (6 month) or long_term (all) time period. In fact, after taking a minute to dig through the API documentation, we can see that Stats for Spotify is a minimalist wrapper around the larger Spotify API! The downside to this, versus specifically downloading your data, is that your analysis is much more limited in scope. While your extended streaming data includes a timestamp for every play of every song you’ve ever listened to, there’s really no way to request that information through the API. That’s a broad overview of API’s in general. In this project, I used the Spotify API to determine the genre of each song I had listened to. Specifically, I used the Spotipy python library to interact with the API. I first took each song’s unique URI and requested the unique artist URI’s associated with that song (note: although the downloaded data contains artist name, this is a plaintext “Taylor Swift”, and insufficient to actually query the API). Then, I used the artist URI to request the genre’s associated with that artist. Correlating this data, I wound up with a list of genres associated with each song. There was a sneaky gottcha here - if a song was performed by, say, two “pop” artists, it gets two “pop” tags, and is counted in the genre total for “pop” twice! In SQL, you’d correct for this with a GROUP BY command, but in Tableau I used a Level of Detail expression. This is why you can select a genre on the dashboard, and the total will be different than the total for Hours by Artist. While I was okay with saying “I listened to both Taylor Swift and Ed Sheeran for three minutes by listening to Everything has Changed”, I didn’t think it was fair to say I listened to six minutes of pop. Double-counting artist collaborations mean I listened to 1,038 hours of pop artists, but only 1,003 hours of pop music. Concluding Remarks If you made it this far, thanks for reading! I had a lot of fun on this project, even if it took me quite a few months to finish the write-up. Moving forward, I’m looking into different ways to make this analysis available for other people to perform on their own. At the moment, I think this could involve making my own website that will plug user-submitted data into a Plotly dashboard. If this sounds like something you’d use, please let me know!" />
+<meta property="og:description" content="I went out to dinner with some close friends the other night, when the topic of music came up. We spent some time reminiscing about what we saw as the defining stages of our lives, and how our music tastes changed and developed along with us. Inspired by this conversation, I decided to see if I could take a more quantitative approach to analyzing this nostalgia. Conveniently, Spotify has been my main source of music for the last decade, and they both maintain their users’ lifetime streaming history and provide a convenient manner of downloading it. Thus, I set off to Tableau to see what I could learn about myself! Below, you’ll find a summary of the insights I gained from working on this visualization. Afterwords, I spend some time going into the technical details of the project. I have included screenshots of my dashboard, but I encourage you to check out the interactive form on Tableau Public (it was a bit too slow when I attempted to embed it here). I’ve also included a link to some helper scripts on GitHub, which convert Spotify’s .json file into a spreadsheet and add genre information via the Spotify API. Tableau Public GitHub My Highlights My favorite insight came from looking at my monthly streaming minutes, shown below. I color coded these months by the degree I was working on at the time. What stuck out to me was a decrease in listening time while I was working on my Master’s Degree, which ticked back up while working on my PhD. An overview of my Tableau dashboard, showing a sharp decrease in listening while I was working on my Master’s Degree. The two years I worked on my Master’s Degree were definitely the most social part of grad school. I was around others nearly all the time, either working on homework or TAing. Apparently I wasn’t selected to be DJ, accounting for the decrease in listening minutes compared to the end of my Undergraduate Degree. My PhD work was comparatively less social, with long hours spend on my computer while my friends were either doing the same or working in labs. Plenty of time to listen to music! A selfie of the author grading tests with his classmates. I also really liked using this dashboard to discover generas which, despite listening to, I didn’t know existed. For example, neo mellow was something I’d listened to quite a bit, yet I’d never heard of it before. Selecting it on my dashboard shows me my top neo mellow artists… What is Neo Mellow? and give me this fun moment where I thought to myself “now that you mention it, I kinda see what these guys have in common”. Now, I’m searching neo mellow playlists on Spotify and finding new things to listen to! Technical Details GitHub Getting the Data from Spotify Spotify is constantly gathering data about how you interact with their services. As a part of their data transparency policy, they will allow you to request this data so that you know exactly what it is they are collecting. The three types of user data you can download from Spotify are: account data, technical log information, and extended streaming history. There’s actually quite a lot of data they collect, which you can read about on their website. This project utilized only the “extended streaming history” data set. This covers the lifetime of your account, and includes: Date/Time of Stream Number of milliseconds track was played Track name Artist name Album name Track URI (Spotify’s unique identifier) And More! After requesting this data, it took about two weeks for it to be delivered. They guarantee the data within 30 days of request. Most of the data I used in my dashboard was directly listed in the extended streaming history. However, while I think genre of music best tells the story of my music tastes, this isn’t included in your extended history! Which leads me to… The Spotify API If you aren’t familiar, API stands for “application programming interface”, and is a simple way for apps to talk to one another. For example, here’s an “API Endpoint” that asks the “REST Countries API” to give you information about Russia: https://restcountries.com/v3.1/name/Russia If you instead want to know information about Germany, you can change the address to: https://restcountries.com/v3.1/name/Germany The idea is that your program is able to ask simple questions in this format (“Tell me about Germany”), and get an answer that is easy for the computer to understand and work with. The Spotify API is free, but does require you to make a developer account and generate some credentials for yourself before you can use it. If you want a fun example of the kind of app you can build around this, check out statsforspotify.com. After logging into your account, this website gives you details such as your top artists over a 4-week or 6-month time period, or the lifetime of your account. Why only these time periods? Well, the Spotify API has a get user’s top items function, which allows you to request a user’s most-streamed items over a short_term (4 week), medium_term (6 month) or long_term (all) time period. In fact, after taking a minute to dig through the API documentation, we can see that Stats for Spotify is a minimalist wrapper around the larger Spotify API! The downside to this, versus specifically downloading your data, is that your analysis is much more limited in scope. While your extended streaming data includes a timestamp for every play of every song you’ve ever listened to, there’s really no way to request that information through the API. That’s a broad overview of API’s in general. In this project, I used the Spotify API to determine the genre of each song I had listened to. Specifically, I used the Spotipy python library to interact with the API. I first took each song’s unique URI and requested the unique artist URI’s associated with that song (note: although the downloaded data contains artist name, this is a plaintext “Taylor Swift”, and insufficient to actually query the API). Then, I used the artist URI to request the genre’s associated with that artist. Correlating this data, I wound up with a list of genres associated with each song. There was a sneaky gottcha here - if a song was performed by, say, two “pop” artists, it gets two “pop” tags, and is counted in the genre total for “pop” twice! In SQL, you’d correct for this with a GROUP BY command, but in Tableau I used a Level of Detail expression. This is why you can select a genre on the dashboard, and the total will be different than the total for Hours by Artist. While I was okay with saying “I listened to both Taylor Swift and Ed Sheeran for three minutes by listening to Everything has Changed”, I didn’t think it was fair to say I listened to six minutes of pop. Double-counting artist collaborations mean I listened to 1,038 hours of pop artists, but only 1,003 hours of pop music. Concluding Remarks If you made it this far, thanks for reading! I had a lot of fun on this project, even if it took me quite a few months to finish the write-up. Moving forward, I’m looking into different ways to make this analysis available for other people to perform on their own. At the moment, I think this could involve making my own website that will plug user-submitted data into a Plotly dashboard. If this sounds like something you’d use, please let me know!" />
+<link rel="canonical" href="http://localhost:4000/Exploring-My-Lifetime-Spotify-History/" />
+<meta property="og:url" content="http://localhost:4000/Exploring-My-Lifetime-Spotify-History/" />
+<meta property="og:site_name" content="Brent Limyansky, PhD" />
+<meta property="og:image" content="http://localhost:4000/assets/images/spotify_article/Dashboard.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-02-05T00:00:00-05:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="http://localhost:4000/assets/images/spotify_article/Dashboard.png" />
+<meta property="twitter:title" content="Dashboarding My Lifetime Spotify History with Tableau" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"brent"},"dateModified":"2024-02-05T00:00:00-05:00","datePublished":"2024-02-05T00:00:00-05:00","description":"I went out to dinner with some close friends the other night, when the topic of music came up. We spent some time reminiscing about what we saw as the defining stages of our lives, and how our music tastes changed and developed along with us. Inspired by this conversation, I decided to see if I could take a more quantitative approach to analyzing this nostalgia. Conveniently, Spotify has been my main source of music for the last decade, and they both maintain their users’ lifetime streaming history and provide a convenient manner of downloading it. Thus, I set off to Tableau to see what I could learn about myself! Below, you’ll find a summary of the insights I gained from working on this visualization. Afterwords, I spend some time going into the technical details of the project. I have included screenshots of my dashboard, but I encourage you to check out the interactive form on Tableau Public (it was a bit too slow when I attempted to embed it here). I’ve also included a link to some helper scripts on GitHub, which convert Spotify’s .json file into a spreadsheet and add genre information via the Spotify API. Tableau Public GitHub My Highlights My favorite insight came from looking at my monthly streaming minutes, shown below. I color coded these months by the degree I was working on at the time. What stuck out to me was a decrease in listening time while I was working on my Master’s Degree, which ticked back up while working on my PhD. An overview of my Tableau dashboard, showing a sharp decrease in listening while I was working on my Master’s Degree. The two years I worked on my Master’s Degree were definitely the most social part of grad school. I was around others nearly all the time, either working on homework or TAing. Apparently I wasn’t selected to be DJ, accounting for the decrease in listening minutes compared to the end of my Undergraduate Degree. My PhD work was comparatively less social, with long hours spend on my computer while my friends were either doing the same or working in labs. Plenty of time to listen to music! A selfie of the author grading tests with his classmates. I also really liked using this dashboard to discover generas which, despite listening to, I didn’t know existed. For example, neo mellow was something I’d listened to quite a bit, yet I’d never heard of it before. Selecting it on my dashboard shows me my top neo mellow artists… What is Neo Mellow? and give me this fun moment where I thought to myself “now that you mention it, I kinda see what these guys have in common”. Now, I’m searching neo mellow playlists on Spotify and finding new things to listen to! Technical Details GitHub Getting the Data from Spotify Spotify is constantly gathering data about how you interact with their services. As a part of their data transparency policy, they will allow you to request this data so that you know exactly what it is they are collecting. The three types of user data you can download from Spotify are: account data, technical log information, and extended streaming history. There’s actually quite a lot of data they collect, which you can read about on their website. This project utilized only the “extended streaming history” data set. This covers the lifetime of your account, and includes: Date/Time of Stream Number of milliseconds track was played Track name Artist name Album name Track URI (Spotify’s unique identifier) And More! After requesting this data, it took about two weeks for it to be delivered. They guarantee the data within 30 days of request. Most of the data I used in my dashboard was directly listed in the extended streaming history. However, while I think genre of music best tells the story of my music tastes, this isn’t included in your extended history! Which leads me to… The Spotify API If you aren’t familiar, API stands for “application programming interface”, and is a simple way for apps to talk to one another. For example, here’s an “API Endpoint” that asks the “REST Countries API” to give you information about Russia: https://restcountries.com/v3.1/name/Russia If you instead want to know information about Germany, you can change the address to: https://restcountries.com/v3.1/name/Germany The idea is that your program is able to ask simple questions in this format (“Tell me about Germany”), and get an answer that is easy for the computer to understand and work with. The Spotify API is free, but does require you to make a developer account and generate some credentials for yourself before you can use it. If you want a fun example of the kind of app you can build around this, check out statsforspotify.com. After logging into your account, this website gives you details such as your top artists over a 4-week or 6-month time period, or the lifetime of your account. Why only these time periods? Well, the Spotify API has a get user’s top items function, which allows you to request a user’s most-streamed items over a short_term (4 week), medium_term (6 month) or long_term (all) time period. In fact, after taking a minute to dig through the API documentation, we can see that Stats for Spotify is a minimalist wrapper around the larger Spotify API! The downside to this, versus specifically downloading your data, is that your analysis is much more limited in scope. While your extended streaming data includes a timestamp for every play of every song you’ve ever listened to, there’s really no way to request that information through the API. That’s a broad overview of API’s in general. In this project, I used the Spotify API to determine the genre of each song I had listened to. Specifically, I used the Spotipy python library to interact with the API. I first took each song’s unique URI and requested the unique artist URI’s associated with that song (note: although the downloaded data contains artist name, this is a plaintext “Taylor Swift”, and insufficient to actually query the API). Then, I used the artist URI to request the genre’s associated with that artist. Correlating this data, I wound up with a list of genres associated with each song. There was a sneaky gottcha here - if a song was performed by, say, two “pop” artists, it gets two “pop” tags, and is counted in the genre total for “pop” twice! In SQL, you’d correct for this with a GROUP BY command, but in Tableau I used a Level of Detail expression. This is why you can select a genre on the dashboard, and the total will be different than the total for Hours by Artist. While I was okay with saying “I listened to both Taylor Swift and Ed Sheeran for three minutes by listening to Everything has Changed”, I didn’t think it was fair to say I listened to six minutes of pop. Double-counting artist collaborations mean I listened to 1,038 hours of pop artists, but only 1,003 hours of pop music. Concluding Remarks If you made it this far, thanks for reading! I had a lot of fun on this project, even if it took me quite a few months to finish the write-up. Moving forward, I’m looking into different ways to make this analysis available for other people to perform on their own. At the moment, I think this could involve making my own website that will plug user-submitted data into a Plotly dashboard. If this sounds like something you’d use, please let me know!","headline":"Dashboarding My Lifetime Spotify History with Tableau","image":"http://localhost:4000/assets/images/spotify_article/Dashboard.png","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/Exploring-My-Lifetime-Spotify-History/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/images/logo.png"},"name":"brent"},"url":"http://localhost:4000/Exploring-My-Lifetime-Spotify-History/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
+<link href="/assets/css/screen.css" rel="stylesheet">
+
+<link href="/assets/css/main.css" rel="stylesheet">
+
+<script src="/assets/js/jquery.min.js"></script>
+
+</head>
+
+
+
+
+<body class="layout-post">
+	<!-- defer loading of font and font awesome -->
+	<noscript id="deferred-styles">
+		<link href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i" rel="stylesheet">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	</noscript>
+
+
+<!-- Begin Menu Navigation
+================================================== -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top mediumnavigation nav-down">
+
+    <div class="container pr-0">
+
+    <!-- Begin Logo -->
+    <a class="navbar-brand" href="/">
+    <img src="/assets/images/logo.png" alt="Brent Limyansky, PhD">
+    </a>
+    <!-- End Logo -->
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMediumish" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarMediumish">
+
+        <!-- Begin Menu -->
+
+            <ul class="navbar-nav ml-auto">
+
+                
+                <li class="nav-item">
+                
+                <a class="nav-link" href="/index.html">Blog</a>
+                </li>
+
+                <li class="nav-item">
+                <a class="nav-link" href="/LimyanskyAnalyticsLLC">Limyansky Analytics LLC</a>
+                </li>
+
+                <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+                </li>
+
+                <script src="/assets/js/lunr.js"></script>
+
+
+<style>
+    .lunrsearchresult .title {color: #d9230f;}
+    .lunrsearchresult .url {color: silver;}
+    .lunrsearchresult a {display: block; color: #777;}
+    .lunrsearchresult a:hover, .lunrsearchresult a:focus {text-decoration: none;}
+    .lunrsearchresult a:hover .title {text-decoration: underline;}
+</style>
+
+
+<form class="bd-search" onSubmit="return lunr_search(document.getElementById('lunrsearch').value);">
+    <input type="text" class="form-control text-small launch-modal-search" id="lunrsearch" name="q" maxlength="255" value="" placeholder="Type and enter..."/>
+</form>
+
+<div id="lunrsearchresults">
+    <ul></ul>
+</div>
+
+<script src="/assets/js/lunrsearchengine.js"></script>
+
+            </ul>
+
+        <!-- End Menu -->
+
+    </div>
+
+    </div>
+</nav>
+<!-- End Navigation
+================================================== -->
+
+<div class="site-content">
+
+<div class="container">
+
+<!-- Site Title
+================================================== -->
+<div class="mainheading">
+    <h1 class="sitetitle">Brent Limyansky, PhD</h1>
+    <p class="lead">
+        A website exploring projects in data analysis, machine learning, and everything in between from the perspective of a physics PhD.
+    </p>
+</div>
+
+<!-- Content
+================================================== -->
+<div class="main-content">
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<!-- Begin Article
+================================================== -->
+<div class="container">
+    <div class="row">
+
+        <!-- Post Share -->
+        <div class="col-md-2 pl-0">
+            <div class="share sticky-top sticky-top-offset">
+    <p>
+        Share
+    </p>
+    <ul>
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://twitter.com/intent/tweet?text=Dashboarding My Lifetime Spotify History with Tableau&url=http://localhost:4000/Exploring-My-Lifetime-Spotify-History/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://facebook.com/sharer.php?u=http://localhost:4000/Exploring-My-Lifetime-Spotify-History/" onclick="window.open(this.href, 'facebook-share', 'width=550,height=435');return false;">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/Exploring-My-Lifetime-Spotify-History/" onclick="window.open(this.href, 'width=550,height=435');return false;">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+        </li>
+
+    </ul>
+    
+    <div class="sep">
+    </div>
+    <ul>
+        <li>
+        <a class="small smoothscroll" href="#disqus_thread"></a>
+        </li>
+    </ul>
+    
+</div>
+
+        </div>
+
+        <!-- Post -->
+        
+
+        <div class="col-md-9 flex-first flex-md-unordered">
+            <div class="mainheading">
+
+                <!-- Author Box -->
+                
+                <div class="row post-top-meta">
+                    <div class="col-xs-12 col-md-3 col-lg-2 text-center text-md-left mb-4 mb-md-0">
+                        
+                        <img class="author-thumb" src="/assets/images/avatar.jpg" alt="Brent">
+                        
+                    </div>
+                    <div class="col-xs-12 col-md-9 col-lg-10 text-center text-md-left">
+                        <a target="_blank" class="link-dark" href="">Brent</a><a target="_blank" href="" class="btn follow">Follow</a>
+                        <span class="author-description">Physics PhD and author of limyansky.com</span>
+                    </div>
+                </div>
+                
+
+                <!-- Post Title -->
+                <h1 class="posttitle">Dashboarding My Lifetime Spotify History with Tableau</h1>
+
+            </div>
+
+            <!-- Adsense if enabled from _config.yml (change your pub id and slot) -->
+            
+            <!-- End Adsense -->
+
+            <!-- Post Featured Image -->
+            
+
+            
+            <img class="featured-image img-fluid" src="/assets/images/spotify_article/Dashboard.png" alt="Dashboarding My Lifetime Spotify History with Tableau">
+            
+
+            
+            <!-- End Featured Image -->
+
+            <!-- Post Content -->
+            <div class="article-post">
+                <!-- Toc if any -->
+                
+                <!-- End Toc -->
+                <p>I went out to dinner with some close friends the other night, when the topic of music came up. 
+We spent some time reminiscing about what we saw as the defining stages of our lives, and how our music tastes changed and developed along with us.
+Inspired by this conversation, I decided to see if I could take a more quantitative approach to analyzing this nostalgia.
+Conveniently, Spotify has been my main source of music for the last decade, and they both maintain their users’ lifetime streaming history and provide a convenient manner of downloading it.
+Thus, I set off to Tableau to see what I could learn about myself!</p>
+
+<p>Below, you’ll find a summary of the insights I gained from working on this visualization.
+Afterwords, I spend some time going into the technical details of the project.
+I have included screenshots of my dashboard, but I encourage you to check out the interactive form on Tableau Public (it was a bit too slow when I attempted to embed it here).
+I’ve also included a link to some helper scripts on GitHub, which convert Spotify’s .json file into a spreadsheet and add genre information via the Spotify API.</p>
+
+<p><a href="https://public.tableau.com/app/profile/brent.limyansky/viz/MySpotifyData_17066362308130/Dashboard12">Tableau Public</a></p>
+
+<p><a href="https://github.com/limyansky/my_spotify">GitHub</a></p>
+
+<h1 id="my-highlights">My Highlights</h1>
+
+<p>My favorite insight came from looking at my monthly streaming minutes, shown below.
+I color coded these months by the degree I was working on at the time. 
+What stuck out to me was a decrease in listening time while I was working on my Master’s Degree, which ticked back up while working on my PhD.</p>
+
+<p style="text-align: center;"><img src="/assets/images/spotify_article/Dashboard.png" alt="Grading" /><br />
+An overview of my Tableau dashboard, showing a sharp decrease in listening while I was working on my Master’s Degree.</p>
+
+<p>The two years I worked on my Master’s Degree were definitely the most social part of grad school.
+I was around others nearly all the time, either working on homework or TAing. 
+Apparently I wasn’t selected to be DJ, accounting for the decrease in listening minutes compared to the end of my Undergraduate Degree. 
+My PhD work was comparatively less social, with long hours spend on my computer while my friends were either doing the same or working in labs.
+Plenty of time to listen to music!</p>
+
+<p style="text-align: center;"><img src="/assets/images/spotify_article/Grading.jpg" alt="Grading" /><br />
+A selfie of the author grading tests with his classmates.</p>
+
+<p>I also really liked using this dashboard to discover generas which, despite listening to, I didn’t know existed.
+For example, neo mellow was something I’d listened to quite a bit, yet I’d never heard of it before.
+Selecting it on my dashboard shows me my top neo mellow artists…</p>
+
+<p style="text-align: center;"><img src="/assets/images/spotify_article/NeoMellow.png" alt="Neo Mellow" /><br />
+What is Neo Mellow?</p>
+
+<p>and give me this fun moment where I thought to myself “now that you mention it, I kinda see what these guys have in common”.</p>
+
+<p>Now, I’m searching neo mellow playlists on Spotify and finding new things to listen to!</p>
+
+<h1 id="technical-details">Technical Details</h1>
+<p><a href="https://github.com/limyansky/my_spotify">GitHub</a></p>
+
+<h2 id="getting-the-data-from-spotify">Getting the Data from Spotify</h2>
+<p>Spotify is constantly gathering data about how you interact with their services.
+As a part of their data transparency policy, they will allow you to <a href="https://support.spotify.com/us/article/data-rights-and-privacy-settings/">request</a> this data so that you know exactly what it is they are collecting.
+The three types of user data you can download from Spotify are: account data, technical log information, and extended streaming history.
+There’s actually quite a lot of data they collect, which you can read about on <a href="https://support.spotify.com/us/article/understanding-my-data/">their website</a>.</p>
+
+<p>This project utilized only the “extended streaming history” data set.
+This covers the lifetime of your account, and includes:</p>
+<ul>
+  <li>Date/Time of Stream</li>
+  <li>Number of milliseconds track was played</li>
+  <li>Track name</li>
+  <li>Artist name</li>
+  <li>Album name</li>
+  <li>Track URI (Spotify’s unique identifier)</li>
+  <li>And More!</li>
+</ul>
+
+<p>After requesting this data, it took about two weeks for it to be delivered.
+They guarantee the data within 30 days of request.</p>
+
+<p>Most of the data I used in my dashboard was directly listed in the extended streaming history.
+However, while I think genre of music best tells the story of my music tastes, this isn’t included in your extended history!
+Which leads me to…</p>
+
+<h2 id="the-spotify-api">The Spotify API</h2>
+<p>If you aren’t familiar, API stands for “application programming interface”, and is a simple way for apps to talk to one another. For example, here’s an “API Endpoint” that asks the “REST Countries API” to give you information about Russia:</p>
+<p style="text-align: center;"><a href="https://restcountries.com/v3.1/name/Russia">https://restcountries.com/v3.1/name/Russia</a></p>
+
+<p>If you instead want to know information about Germany, you can change the address to:</p>
+
+<p style="text-align: center;"><a href="https://restcountries.com/v3.1/name/Germany">https://restcountries.com/v3.1/name/Germany</a></p>
+
+<p>The idea is that your program is able to ask simple questions in this format (“Tell me about Germany”), and get an answer that is easy for the computer to understand and work with.</p>
+
+<p>The <a href="https://developer.spotify.com/documentation/web-api">Spotify API</a> is free, but does require you to make a developer account and generate some credentials for yourself before you can use it. 
+If you want a fun example of the kind of app you can build around this, check out <a href="https://www.statsforspotify.com/">statsforspotify.com</a>.
+After logging into your account, this website gives you details such as your top artists over a 4-week or 6-month time period, or the lifetime of your account. 
+Why only these time periods?
+Well, the Spotify API has a <a href="https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks">get user’s top items</a> function, which allows you to request a user’s most-streamed items over a <code class="language-plaintext highlighter-rouge">short_term</code> (4 week), <code class="language-plaintext highlighter-rouge">medium_term</code> (6 month) or <code class="language-plaintext highlighter-rouge">long_term</code> (all) time period.
+In fact, after taking a minute to dig through the API documentation, we can see that Stats for Spotify is a minimalist wrapper around the larger Spotify API!</p>
+
+<p>The downside to this, versus specifically downloading your data, is that your analysis is much more limited in scope.
+While your extended streaming data includes a timestamp for every play of every song you’ve ever listened to, there’s really no way to request that information through the API.</p>
+
+<p>That’s a broad overview of API’s in general.
+In this project, I used the Spotify API to determine the genre of each song I had listened to. 
+Specifically, I used the <a href="https://spotipy.readthedocs.io/en/2.22.1/">Spotipy</a> python library to interact with the API.
+I first took each song’s unique URI and requested the unique artist URI’s associated with that song (note: although the downloaded data contains artist name, this is a plaintext “Taylor Swift”, and insufficient to actually query the API).
+Then, I used the artist URI to request the genre’s associated with that artist. 
+Correlating this data, I wound up with a list of genres associated with each song.</p>
+
+<p>There was a sneaky gottcha here - if a song was performed by, say, two “pop” artists, it gets two “pop” tags, and is counted in the genre total for “pop” twice! 
+In SQL, you’d correct for this with a <code class="language-plaintext highlighter-rouge">GROUP BY</code> command, but in Tableau I used a <a href="https://help.tableau.com/current/pro/desktop/en-us/calculations_calculatedfields_lod.htm">Level of Detail</a> expression.
+This is why you can select a genre on the dashboard, and the total will be different than the total for Hours by Artist.
+While I was okay with saying “I listened to both Taylor Swift and Ed Sheeran for three minutes by listening to Everything has Changed”, I didn’t think it was fair to say I listened to six minutes of pop.</p>
+
+<p style="text-align: center;"><img src="/assets/images/spotify_article/GenreHours.png" alt="Genre and Artist hours differ" />
+Double-counting artist collaborations mean I listened to 1,038 hours of pop artists, but only 1,003 hours of pop music.</p>
+
+<h2 id="concluding-remarks">Concluding Remarks</h2>
+
+<p>If you made it this far, thanks for reading!
+I had a lot of fun on this project, even if it took me quite a few months to finish the write-up.
+Moving forward, I’m looking into different ways to make this analysis available for other people to perform on their own.
+At the moment, I think this could involve making my own website that will plug user-submitted data into a Plotly dashboard.
+If this sounds like something you’d use, please let me know!</p>
+
+            </div>
+
+            <!-- Rating -->
+            
+
+            <!-- Post Date -->
+            <p>
+            <small>
+                <span class="post-date"><time class="post-date" datetime="2024-02-05">05 Feb 2024</time></span>           
+                
+                </small>
+            </p>
+
+            <!-- Post Categories -->
+            <div class="after-post-cats">
+                <ul class="tags mb-4">
+                    
+                    
+                    <li>
+                        <a class="smoothscroll" href="/categories#Data-Analysis">Data Analysis</a>
+                    </li>
+                    
+                    <li>
+                        <a class="smoothscroll" href="/categories#Tableau">Tableau</a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- End Categories -->
+
+            <!-- Post Tags -->
+            <div class="after-post-tags">
+                <ul class="tags">
+                    
+                    
+                </ul>
+            </div>
+            <!-- End Tags -->
+
+            <!-- Prev/Next -->
+            <div class="row PageNavigation d-flex justify-content-between font-weight-bold">
+            
+            <a class="prev d-block col-md-6" href="//Intuition-for-Lagrange-Points/"> &laquo; Lagrange Points: Developing an Intuition</a>
+            
+            
+            <a class="next d-block col-md-6 text-lg-right" href="//Solar-Eclipse/">Observing the Eclipse &raquo; </a>
+            
+            <div class="clearfix"></div>
+            </div>
+            <!-- End Categories -->
+
+        </div>
+        <!-- End Post -->
+
+    </div>
+</div>
+<!-- End Article
+================================================== -->
+
+<!-- Begin Comments
+================================================== -->
+
+    <div class="container">
+        <div id="comments" class="row justify-content-center mb-5">
+            <div class="col-md-8">
+                <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'limyansky'; 
+        var disqus_developer = 0;
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+            </div>
+        </div>
+    </div>
+
+<!--End Comments
+================================================== -->
+
+<!-- Review with LD-JSON, adapt it for your needs if you like, but make sure you test the generated HTML source code first: 
+https://search.google.com/structured-data/testing-tool/u/0/
+================================================== -->
+
+</div>
+
+
+    
+</div>
+
+<!-- Categories Jumbotron
+================================================== -->
+<div class="jumbotron fortags">
+	<div class="d-md-flex h-100">
+		<div class="col-md-4 transpdark align-self-center text-center h-100">
+            <div class="d-md-flex align-items-center justify-content-center h-100">
+                <h2 class="d-md-block align-self-center py-1 font-weight-light">Explore <span class="d-none d-md-inline">→</span></h2>
+            </div>
+		</div>
+		<div class="col-md-8 p-5 align-self-center text-center">
+            
+            
+                
+                    <a class="mt-1 mb-1" href="/categories#project">project (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#github">github (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Data-Science">Data Science (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Studying">Studying (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#SQL">SQL (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Projects">Projects (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Machine-Learning">Machine Learning (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#TensorFlow">TensorFlow (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#GPT">GPT (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#NLP">NLP (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Physics">Physics (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Mathematica">Mathematica (2)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Data-Analysis">Data Analysis (1)</a>
+                
+                    <a class="mt-1 mb-1" href="/categories#Tableau">Tableau (1)</a>
+                
+            
+            
+		</div>
+	</div>
+</div>
+
+<!-- Begin Footer
+================================================== -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 text-center text-lg-left">
+                Copyright © 2024 Brent Limyansky, PhD 
+            </div>
+            <div class="col-md-6 col-sm-6 text-center text-lg-right">    
+                <a target="_blank" href="https://www.wowthemes.net/mediumish-free-jekyll-template/">Mediumish Jekyll Theme</a> by WowThemes.net
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- End Footer
+================================================== -->
+
+</div> <!-- /.site-content -->
+
+<!-- Scripts
+================================================== -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+<script src="/assets/js/mediumish.js"></script>
+
+
+
+<script src="/assets/js/ie10-viewport-bug-workaround.js"></script> 
+
+
+<script id="dsq-count-scr" src="//limyansky.disqus.com/count.js"></script>
+
+
+</body>
+</html>
