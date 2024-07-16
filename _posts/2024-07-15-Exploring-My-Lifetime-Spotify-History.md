@@ -1,9 +1,9 @@
 ---
 layout: post
 author: brent
-title:  "Exploring My Lifetime Spotify History"
+title:  "Dashboarding My Lifetime Spotify History with Tableau"
 image: assets/images/spotify_article/Dashboard.png
-date:   2024-02-05
+date:   2024-07-15
 categories: [Data Analysis, Tableau]
 comments: true
 ---
@@ -11,16 +11,17 @@ comments: true
 I went out to dinner with some close friends the other night, when the topic of music came up. 
 We spent some time reminiscing about what we saw as the defining stages of our lives, and how our music tastes changed and developed along with us.
 Inspired by this conversation, I decided to see if I could take a more quantitative approach to analyzing this nostalgia.
-Conveniently, Spotify has been my main source of music for the last decade, and they both maintain their users' lifetime streaming history and provide a convenient (-ish, if you're willing to wait a month and know how to work with .json files) manner of downloading it.
-Thus, the stage was set, and it was off to Tableau to see what insights I could find! 
+Conveniently, Spotify has been my main source of music for the last decade, and they both maintain their users' lifetime streaming history and provide a convenient manner of downloading it.
+Thus, I set off to Tableau to see what I could learn about myself! 
 
 Below, you'll find a summary of the insights I gained from working on this visualization.
 Afterwords, I spend some time going into the technical details of the project.
-I have included some screenshots, but I encourage you to check out the interactive form on Tableau Public (embedding the dashboard on this website was a bit too slow).
-I've also included a link to some helper scripts on GitHub, helped to turn the .json file I received from Spotify into a spreadsheet that was easier to work with.
-There is also a helper script which makes use of the Spotify API to add genre information, something which wasn't included in the file I downloaded. 
+I have included screenshots of my dashboard, but I encourage you to check out the interactive form on Tableau Public (it was a bit too slow when I attempted to embed it here).
+I've also included a link to some helper scripts on GitHub, which convert Spotify's .json file into a spreadsheet and add genre information via the Spotify API. 
+
 
 [Tableau Public](https://public.tableau.com/app/profile/brent.limyansky/viz/MySpotifyData_17066362308130/Dashboard12)
+
 [GitHub](https://github.com/limyansky/my_spotify)
 
 {% comment %}
@@ -64,35 +65,46 @@ There is also a helper script which makes use of the Spotify API to add genre in
 # My Highlights
 
 My favorite insight came from looking at my monthly streaming minutes, shown below.
-I color coded these months by (working on degree), and noticed a sharp... Mesh the next paragraph here. 
+I color coded these months by the degree I was working on at the time. 
+What stuck out to me was a decrease in listening time while I was working on my Master's Degree, which ticked back up while working on my PhD.
 
-Put a plot here
+{:refdef: style="text-align: center;"}
+![Grading](/assets/images/spotify_article/Dashboard.png)  
+An overview of my Tableau dashboard, showing a sharp decrease in listening while I was working on my Master's Degree.
+{:refdef}
 
-My single favorite takeaway from this project was seeing how steeply my listening dropped off when I was working on my Master's Degree.
-This was definitely the most social part of grad school for me, where we were either TAing or working on homework problems together nearly all the time.
-Apparently I wasn't selected to be DJ...
+The two years I worked on my Master's Degree were definitely the most social part of grad school.
+I was around others nearly all the time, either working on homework or TAing. 
+Apparently I wasn't selected to be DJ, accounting for the decrease in listening minutes compared to the end of my Undergraduate Degree. 
+My PhD work was comparatively less social, with long hours spend on my computer while my friends were either doing the same or working in labs.
+Plenty of time to listen to music!
 
 {:refdef: style="text-align: center;"}
 ![Grading](/assets/images/spotify_article/Grading.jpg)  
 A selfie of the author grading tests with his classmates.
 {:refdef}
 
-I also really liked using it to explore genres that, despite listening to, I didn't know existed.
+I also really liked using this dashboard to discover generas which, despite listening to, I didn't know existed.
 For example, neo mellow was something I'd listened to quite a bit, yet I'd never heard of it before.
 Selecting it on my dashboard shows me my top neo mellow artists...  
 
 {:refdef: style="text-align: center;"}
 ![Neo Mellow](/assets/images/spotify_article/NeoMellow.png)  
+What is Neo Mellow?
 {:refdef}
 
 and give me this fun moment where I thought to myself "now that you mention it, I kinda see what these guys have in common".  
 
 Now, I'm searching neo mellow playlists on Spotify and finding new things to listen to! 
 
+
+{% comment %}
+
 My overall listening history also reminds me of [PSR J0218+4232](https://iopscience.iop.org/article/10.3847/1538-4357/ac20d7), so that's neat too.   
 ![A pulsar in my thesis.](/assets/images/spotify_article/Pulsar.jpg)
 
 There's really a lot to dig into, and I look forward to seeing other ways in which I use this dashboard in the future!
+{% endcomment %}
 
 # Technical Details
 [GitHub](https://github.com/limyansky/my_spotify)
@@ -144,11 +156,11 @@ In fact, after taking a minute to dig through the API documentation, we can see 
 The downside to this, versus specifically downloading your data, is that your analysis is much more limited in scope.
 While your extended streaming data includes a timestamp for every play of every song you've ever listened to, there's really no way to request that information through the API. 
 
-Anyways, that's a broad overview of API's in general.
+That's a broad overview of API's in general.
 In this project, I used the Spotify API to determine the genre of each song I had listened to. 
 Specifically, I used the [Spotipy](https://spotipy.readthedocs.io/en/2.22.1/) python library to interact with the API.
 I first took each song's unique URI and requested the unique artist URI's associated with that song (note: although the downloaded data contains artist name, this is a plaintext "Taylor Swift", and insufficient to actually query the API).
-Then, I requested the artist URI to request the genre's associated with that artist. 
+Then, I used the artist URI to request the genre's associated with that artist. 
 Correlating this data, I wound up with a list of genres associated with each song.
 
 There was a sneaky gottcha here - if a song was performed by, say, two "pop" artists, it gets two "pop" tags, and is counted in the genre total for "pop" twice! 
@@ -158,4 +170,13 @@ While I was okay with saying "I listened to both Taylor Swift and Ed Sheeran for
 
 {:refdef: style="text-align: center;"}
 ![Genre and Artist hours differ](/assets/images/spotify_article/GenreHours.png)
+Double-counting artist collaborations mean I listened to 1,038 hours of pop artists, but only 1,003 hours of pop music.
 {:refdef}
+
+## Concluding Remarks
+
+If you made it this far, thanks for reading!
+I had a lot of fun on this project, even if it took me quite a few months to finish the write-up.
+Moving forward, I'm looking into different ways to make this analysis available for other people to perform on their own.
+At the moment, I think this could involve making my own website that will plug user-submitted data into a Plotly dashboard.
+If this sounds like something you'd use, please let me know!
