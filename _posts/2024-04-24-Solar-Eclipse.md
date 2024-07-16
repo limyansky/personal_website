@@ -2,7 +2,7 @@
 layout: post
 author: brent
 title:  "Observing the Eclipse"
-image: assets\images\eclipse_article\PinholeEclipse.jpg
+image: assets/images/eclipse_article/PinholeEclipse.jpg
 date:   2024-04-24
 categories: [Physics, Mathematica]
 comments: true
@@ -10,17 +10,16 @@ comments: true
 "We see the same moon, you and I—you in your world and I in mine. I find that comforting."
 
 Its a nice, unattributable sentiment that has been the focus of [movies](https://en.wikipedia.org/wiki/Under_the_Same_Moon), [songs](https://www.youtube.com/watch?v=mx-UzMiNK5A), and [facebook posts](https://duckduckgo.com/?t=h_&q=under+the+same+moon+quote&iax=images&ia=images) the world over.
-So... what harm will one more blog post do? 
-On April 8, 2024, when a solar eclipse swept through the United States, I had friends who chased it throughout the country, from Texas to New York.
-
-Some more introduction
+On April 8, 2024, when a solar eclipse swept through the United States and my friends chased it across the country, I had my own brush with this age-old idea.
+Our experience wasn't perfect; several people were battling clouds, and I didn't make the journey to experience totality.
+Nevertheless, from Texas to New York, all of us gathered under the same moon and turned our eyes skyward.
 
 ## My Eclipse Viewing
 Of the four perspectives presented in this article, my personal eclipse viewing is the only one from outside the path of totality.
 Dropping a pin at my location: 
 
 {:refdef: style="text-align: center;"}
-![My Eclipse Viewing Location](\assets\images\eclipse_article\MyLocation.png)
+![My Eclipse Viewing Location](/assets/images/eclipse_article/MyLocation.png)
 {: refdef}
 
 we can see that I only saw about 83% coverage from my viewing location outside of Atlanta, GA.
@@ -33,7 +32,7 @@ My solution to this dilemma was a unique mix of basic and fancy: an old [Calumet
 
 The camera itself (the accordion-like object in the above image) is essentially just empty space - a place to hold the lens on the front, a place to hold film on the back, and a light-tight tube connecting the two.
 When the film is removed, the lens instead projects an image on a piece of ground glass, allowing you to compose a photo (as long as you're in a dark enough space, which is why old photographers are often seen huddling under a cloth hood).
-The resultant image on the ground glass is upside-down, something handheld cameras correct with a pentaprism, and backwards, due to viewing the image "from behind" as it is projected on the ground glass. 
+The resultant image on the ground glass is upside-down, something handheld cameras correct with a pentaprism, and mirrored, due to viewing the image "from behind" as it is projected on the ground glass. 
 See the image below, taken by [Cameron Shaw](https://www.flickr.com/photos/camshaw/51280977749/in/pool-camerawiki/), as an example of these effects: 
 
 {:refdef: style="text-align: center;"}
@@ -42,7 +41,7 @@ See the image below, taken by [Cameron Shaw](https://www.flickr.com/photos/camsh
 
 The result wasn't the prettiest thing in the world, but it worked! At 3:10 pm, I snapped the photo of the eclipse shown to the right below. 
 Unsurprisingly, it matches perfectly with Mathematica's visualization for my time and location (shown on the left)! 
-It is easy to see the mirroring I mentioned earlier, and if you look closely enough, you can make out the inversion as well. 
+It is easy to see the mirroring I mentioned earlier, and if you look closely enough, you can make out the upside-down inversion as well. 
 
 {:refdef: style="text-align: center;"}
 ![My Eclipse](/assets/images/eclipse_article/Comparison.png)
@@ -70,7 +69,7 @@ assets/images/eclipse_article/DifferentCities.gif)
 
 There are a couple interesting things to note about this graphic.
 One of these I already spoke about - my location in Atlanta didn't get full coverage, a feature which is well represented in the animation.
-Otherwise, I think its just interesting to look at the relative timing of the eclipse at the different locations.
+Otherwise, I think its fascinating to look at the relative timing of the eclipse at the different locations.
 Texas gets totality first, followed by Arkansas shortly after, I get my 83% brush in Atlanta, and, finally, my friend in New York is the last to observe totality. 
 
 ## Further Reading
