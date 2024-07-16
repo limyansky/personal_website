@@ -20,7 +20,7 @@ I have included screenshots of my dashboard, but I encourage you to check out th
 I've also included a link to some helper scripts on GitHub, which convert Spotify's .json file into a spreadsheet and add genre information via the Spotify API. 
 
 
-[Tableau Public](https://public.tableau.com/app/profile/brent.limyansky/viz/MySpotifyData_17066362308130/Dashboard12)
+[Tableau Public](https://public.tableau.com/app/profile/brent.limyansky/viz/MySpotifyData_17066362308130/SpotifyDashboard)
 
 [GitHub](https://github.com/limyansky/my_spotify)
 
