@@ -3,12 +3,10 @@
   <channel>
     <title>Brent Limyansky, PhD</title>
     <description>A website exploring projects in data analysis, machine learning, and everything in between from the perspective of a physics PhD.</description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-
-    <pubDate>Mon, 15 Jul 2024 15:53:41 -0400</pubDate>
-    <lastBuildDate>Mon, 15 Jul 2024 15:53:41 -0400</lastBuildDate>
-
+    <link>https://limyansky.com/</link>
+    <atom:link href="https://limyansky.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Tue, 16 Jul 2024 15:10:30 -0400</pubDate>
+    <lastBuildDate>Tue, 16 Jul 2024 15:10:30 -0400</lastBuildDate>
     <generator>Jekyll v4.3.3</generator>
     
       <item>
@@ -24,7 +22,7 @@ Afterwords, I spend some time going into the technical details of the project.
 I have included screenshots of my dashboard, but I encourage you to check out the interactive form on Tableau Public (it was a bit too slow when I attempted to embed it here).
 I’ve also included a link to some helper scripts on GitHub, which convert Spotify’s .json file into a spreadsheet and add genre information via the Spotify API.&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://public.tableau.com/app/profile/brent.limyansky/viz/MySpotifyData_17066362308130/Dashboard12&quot;&gt;Tableau Public&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://public.tableau.com/app/profile/brent.limyansky/viz/MySpotifyData_17066362308130/SpotifyDashboard&quot;&gt;Tableau Public&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/limyansky/my_spotify&quot;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
 
@@ -129,8 +127,8 @@ At the moment, I think this could involve making my own website that will plug u
 If this sounds like something you’d use, please let me know!&lt;/p&gt;
 </description>
         <pubDate>Mon, 15 Jul 2024 00:00:00 -0400</pubDate>
-        <link>http://localhost:4000/Exploring-My-Lifetime-Spotify-History/</link>
-        <guid isPermaLink="true">http://localhost:4000/Exploring-My-Lifetime-Spotify-History/</guid>
+        <link>https://limyansky.com/Exploring-My-Lifetime-Spotify-History/</link>
+        <guid isPermaLink="true">https://limyansky.com/Exploring-My-Lifetime-Spotify-History/</guid>
         
         
         <category>Data Analysis</category>
@@ -208,8 +206,8 @@ The presentation isn’t as polished as it is here, but its still a nice look at
 &lt;p&gt;Thanks for reading!&lt;/p&gt;
 </description>
         <pubDate>Wed, 24 Apr 2024 00:00:00 -0400</pubDate>
-        <link>http://localhost:4000/Solar-Eclipse/</link>
-        <guid isPermaLink="true">http://localhost:4000/Solar-Eclipse/</guid>
+        <link>https://limyansky.com/Solar-Eclipse/</link>
+        <guid isPermaLink="true">https://limyansky.com/Solar-Eclipse/</guid>
         
         
         <category>Physics</category>
@@ -339,8 +337,8 @@ This could be further combined with clustering techniques to either remove outli
 
 </description>
         <pubDate>Sun, 23 Apr 2023 00:00:00 -0400</pubDate>
-        <link>http://localhost:4000/Classifying-Personality-with-Machine-Learning/</link>
-        <guid isPermaLink="true">http://localhost:4000/Classifying-Personality-with-Machine-Learning/</guid>
+        <link>https://limyansky.com/Classifying-Personality-with-Machine-Learning/</link>
+        <guid isPermaLink="true">https://limyansky.com/Classifying-Personality-with-Machine-Learning/</guid>
         
         
         <category>Machine Learning</category>
@@ -636,8 +634,8 @@ For the full version history, please refer to &lt;a href=&quot;https://github.co
 &lt;a href=&quot;https://huggingface.co/course/chapter3/&quot;&gt;https://huggingface.co/course/chapter3/&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 23 Mar 2023 00:00:00 -0400</pubDate>
-        <link>http://localhost:4000/A-Guessing-Game-with-GPT2/</link>
-        <guid isPermaLink="true">http://localhost:4000/A-Guessing-Game-with-GPT2/</guid>
+        <link>https://limyansky.com/A-Guessing-Game-with-GPT2/</link>
+        <guid isPermaLink="true">https://limyansky.com/A-Guessing-Game-with-GPT2/</guid>
         
         
         <category>Machine Learning</category>
@@ -651,7 +649,7 @@ For the full version history, please refer to &lt;a href=&quot;https://github.co
       </item>
     
       <item>
-        <title>Building a Website: A Physicist&apos;s Perspective</title>
+        <title>Building a Website: A Physicist's Perspective</title>
         <description>&lt;p&gt;A common piece of advice for those transitioning from academia to industry is to build a personal portfolio of projects to show off your skills and talents.
 One of the first elements to building such a portfolio is deciding how to display it.
 In creating my own website, I sought something cheap and easy to write, but also over which I had a large degree of creative control.
@@ -719,8 +717,8 @@ I hope that by going into detail on what I finally settled on, I can save you so
 Good luck!&lt;/p&gt;
 </description>
         <pubDate>Tue, 27 Sep 2022 00:00:00 -0400</pubDate>
-        <link>http://localhost:4000/Building-A-Website/</link>
-        <guid isPermaLink="true">http://localhost:4000/Building-A-Website/</guid>
+        <link>https://limyansky.com/Building-A-Website/</link>
+        <guid isPermaLink="true">https://limyansky.com/Building-A-Website/</guid>
         
         
         <category>project</category>
